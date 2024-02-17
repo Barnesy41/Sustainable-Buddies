@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- navbar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="friends.html">Friends</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="tasks.html">Tasks</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- login container -->
+    <!-- signup container -->
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-6">
+              <div class="card shadow-2-strong" style="border-radius: 1rem">
+                <div class="card-body p-5 text-center">
+                <h2 class="text-center mb-4">Login</h2>
+                
+                <form id="loginForm" class="row">
+                            <div class="col-md-6">
+                                <!-- username input -->
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="username" placeholder="Enter Username">
+                                </div>
+                                
+                                <!-- password input -->
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" placeholder="Enter Password">
+                                        
+                                        <!-- allows password to be shown if required by the user-->
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="button" id="togglePassword">Show</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- vertical seperator -->
+                            <div class="col-md-1 vertical-separator"></div>
+                            
+                            <div class="col-md-5">
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                <p class="text-center mb1">Don't have an account? 
+                                    <a href="signup.html">Signup</a>  
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- Script to show/hide password if required by the user -->
+    <script>
+        document.getElementById("togglePassword").addEventListener("click", function() {
+            var pwdField = document.getElementById("password");
+            if(pwdField.type == "password"){
+                this.textContent = "Hide";
+                pwdField.type = "text";
+            }
+            else{
+                this.textContent = "Show";
+                pwdField.type = "password";
+            }
+        });
+    </script>
+</body>
+</html>
