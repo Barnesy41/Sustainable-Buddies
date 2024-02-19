@@ -83,3 +83,8 @@ nav ul li a {
 .login-btn:hover, .signup-btn:hover {
     background-color: #4a9f9b;
 }
+
+.label-left{
+    text-align: left;
+    display: block;
+}
