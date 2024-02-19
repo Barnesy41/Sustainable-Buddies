@@ -1,3 +1,3 @@
 # UnderMyScum_Brella
-Welcome to the best code ever
-I am practicing making changes!
+This is the GitHub for Sustainable Pets!
+It is a game based on encouraging sustainable activities around Campus.
