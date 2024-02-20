@@ -119,7 +119,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'global_static')  # A lot of projects have this called staticfiles
+print(STATIC_ROOT)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'under_my_scrum_brella/static'),
+    # os.path.join(BASE_DIR, 'home/static'), # There is meant to be one of these per app. But it does not look like under_my_scrum_brella has been seperated out yet if that is the plan -JB
+    # os.path.join(BASE_DIR, 'tasks/static'),
+    # os.path.join(BASE_DIR, 'users/static'),
+)
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

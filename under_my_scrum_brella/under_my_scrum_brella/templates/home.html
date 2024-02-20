@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sustainable Pets</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'under_my_scrum_brella/styles.css' %}">
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="home.html">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="friends.html">Friends</a></li>
                 <li><a href="shop.html">Shop</a></li>
                 <li><a href="tasks.html">Tasks</a></li>
@@ -20,8 +20,8 @@
     </header>
 
     <main>
-        <img src="greenbinguy.png" class="responsive-image-left">
-        <img src="batteryguy.png" class="responsive-image-right">
+        <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image-left">
+        <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" class="responsive-image-right">
         <h1>Welcome to Sustainable Pets!</h1>
         <section class="hero">
             <h1 id="welcome-message"></h1>
