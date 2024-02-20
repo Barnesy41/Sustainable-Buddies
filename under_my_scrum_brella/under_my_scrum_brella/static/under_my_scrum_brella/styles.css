@@ -2,6 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #83d6d1;
+    padding-top: 60px; /* Adjust according to the height of navbar */
 }
 
 header {
@@ -22,19 +23,28 @@ nav ul {
     margin: 0;
     padding: 0;
     text-align: center;
+    color: #fff;
 }
 
 nav ul li {
     display: inline;
     margin-right: 20px;
+    color: #fff;
     font-weight: bold;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
 nav ul li a {
-    color: #fff;
+    color: #fff !important;
     text-decoration: none;
     font-size: 18px;
+}
+
+nav ul li a:hover{
+    color: #d8d8d8 !important;
+    background-color: #4a9f9b;
+    text-decoration: none;
 }
 
 .responsive-image-left {
@@ -77,11 +87,15 @@ nav ul li a {
     border-radius: 5px;
     margin-right: 10px;
     font-size: 16px;
+    font-weight: bold;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .login-btn:hover, .signup-btn:hover {
     background-color: #4a9f9b;
+    color: #dddddd;
+    text-decoration: none;
+
 }
 
 .label-left{
