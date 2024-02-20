@@ -1,25 +1,6 @@
+{% extends 'index.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sustainable Pets</title>
-    <link rel="stylesheet" href="{% static 'under_my_scrum_brella/styles.css' %}">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'friends' %}">Friends</a></li>
-                <li><a href="{% url 'shop' %}">Shop</a></li>
-                <li><a href="{% url 'tasks' %}">Tasks</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
+{% block content %}
         <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image-left">
         <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" class="responsive-image-right">
         <h1>Welcome to Sustainable Pets!</h1>
@@ -32,6 +13,4 @@
                 <img src="" alt="User's Pet" id="user-pet-image">
             </div>
         </section>
-    </main>
-</body>
-</html>
+{% endblock content %}
