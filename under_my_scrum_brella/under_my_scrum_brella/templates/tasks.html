@@ -14,19 +14,52 @@
             <th scope="col">Coin Reward</th>
             <th scope="col">XP Reward</th>
             <th scope="col">Info</th>
+            <th scope="col">Completed</th>
          </tr>
       </thead>
 
       <tbody>
          {% for task in tasks %}
          <tr>
-            <th scope="col">{{ task.TaskName }}</th>
-            <td scope="col">{{ task.DifficultyLevel }}</td>
-            <td scope="col">{{ task.CoinReward }}</td>
-            <td scope="col">{{ task.XpReward }}</td>
-            <td scope="col"> <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#taskModal" onclick="openTaskDescription('{{ task.TaskName }}', '{{ task.Description }}')">info</button> </td>
+            <form>
+               <th scope="col">{{ task.TaskName }}</th>
+               <td scope="col">{{ task.DifficultyLevel }}</td>
+               <td scope="col">{{ task.CoinReward }}</td>
+               <td scope="col">{{ task.XpReward }}</td>
+               <td scope="col"> <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#taskModal" onclick="openTaskDescription('{{ task.TaskName }}', '{{ task.Description }}')">info</button> </td>
+               
+               <!-- submits a form when a task is checked off - may need more data included for this to be practical -->
+               <!-- TODO: check this is right? might not be task. -->
+               {% if task.CompletionStatus == 1 %}
+                  <!-- button is disabled, so a task cannot be unchecked. -->
+                  <td scope="col"> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
+               {% else %}
+                  <td scope="col"> <button type="submit" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+               {% endif %}
+            </form>
          </tr>
          {% endfor %}
+
+
+
+         <tr>
+            <form>
+               <th scope="col">Task Name</th>
+               <td scope="col">Easy</td>
+               <td scope="col">100</td>
+               <td scope="col">10</td>
+               <td scope="col"> <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#taskModal" onclick="openTaskDescription('Task Name', 'The Task description goes here')">info</button> </td>
+               
+               <!-- submits a form when a task is checked off - may need more data included for this to be practical -->
+               <!-- TODO: check this is right? might not be task. -->
+               {% if task.CompletionStatus == 1 %}
+                  <!-- button is disabled, so a task cannot be unchecked. -->
+                  <td scope="col"> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
+               {% else %}
+                  <td scope="col"> <button type="submit" class="btn btn-danger btn-sm"> X </button> </td>
+               {% endif %}
+            </form>
+         </tr>
       </tbody>
    </table>
  
