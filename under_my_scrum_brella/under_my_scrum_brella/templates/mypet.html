@@ -8,7 +8,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         height: 100vh; /* 100% of viewport height */
+    }
+
+    .pet-title {
+        margin-bottom: 20px;
     }
 
     .centered-container {
@@ -28,9 +33,22 @@
         height: 100%;
         object-fit: cover; /* Maintain image aspect ratio while covering the container */
     }
+
+    .full-width-container {
+            width: 100%;
+            border: 2px solid #333; /* Border style */
+            box-sizing: border-box; /* Include border in total width and height */
+            padding: 20px; /* Optional padding */
+        }
+
 </style>
 
 <body>
+<div>
+    <h1 class="pet-title">My Pet</h1>
+</div>
+
+
 <div class="centered-container">
     <div>
         <img src="{% static 'under_my_scrum_brella/treeguy.png' %}"  alt="Your Pet Image" class="absolute-image">
@@ -38,6 +56,12 @@
         <!-- Add more images as needed -->
     </div>
 </div>
+
+<div class="full-width-container">
+    <p>Div for adding in the items to select items</p>
+    
+</div>
+
 </body>
 
 {% endblock content %}
