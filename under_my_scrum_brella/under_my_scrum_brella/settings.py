@@ -59,7 +59,10 @@ ROOT_URLCONF = 'under_my_scrum_brella.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'under_my_scrum_brella/templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'under_my_scrum_brella/templates'),
+            os.path.join(BASE_DIR, 'tasks/templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

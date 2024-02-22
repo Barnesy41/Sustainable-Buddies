@@ -28,6 +28,8 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('friends/', TemplateView.as_view(template_name='friends.html'), name='friends'),
     path('shop/', TemplateView.as_view(template_name='shop.html'), name='shop'),
+    path('tasks/', include('tasks.urls')),
+    path('tasks/', include('django.contrib.auth.urls')),
     path('tasks/', TemplateView.as_view(template_name='tasks.html'), name='tasks'),
     path('mypet/', TemplateView.as_view(template_name='mypet.html'), name='mypet')
 ]
