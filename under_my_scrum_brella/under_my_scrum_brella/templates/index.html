@@ -13,42 +13,44 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #6bbdb8;">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'mypet' %}">My Pet</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'friends' %}">Friends</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'shop' %}">Shop</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tasks' %}">Tasks</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tasks' %}">{{ user.username }}</a>
-        </li>
-        {% else %}
-        {% endif %}
-      </ul>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light" style="background-color: #6bbdb8 !important;">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'mypet' %}">My Pet</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'friends' %}">Friends</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'shop' %}">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tasks' %}">Tasks</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tasks' %}">{{ user.username }}</a>
+            </li>
+            {% else %}
+            {% endif %}
+          </ul>
     </div>
   </nav>
+
   {% if messages %}
   {% for message in messages %}
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -58,7 +60,7 @@
   {% endfor %}
   {% endif %}
   <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
