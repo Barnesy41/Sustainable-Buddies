@@ -1,121 +1,127 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-    <!-- signup container -->
-    <section class="vh-100">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-md-8">
-                    <div class="card shadow-2-strong" style="border-radius: 1rem">
-                        <div class="card-body p-5 text-center">
+<!-- signup container -->
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card shadow-2-strong" style="border-radius: 1rem">
+                    <div class="card-body p-5 text-center">
 
-                            <h2 class="text-center mb-5">Signup</h2>
+                        <h2 class="text-center mb-5">Signup</h2>
 
-                            <form id="loginForm" class="row">
+                        <form id="loginForm" class="row" action="" method="POST">
+                            {% csrf_token %}
+                            <!-- Left column for username, email, and password -->
+                            <div class="col-md-6">
 
-                                <!-- Left column for username, email, and password -->
-                                <div class="col-md-6">
+                                <!-- username input -->
+                                <div class="form-group">
+                                    <label for="username" class="mb-0 label-left">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username"
+                                        placeholder="Create Username">
+                                </div>
 
-                                    <!-- username input -->
-                                    <div class="form-group">
-                                        <label for="username" class="mb-0 label-left">Username</label>
-                                        <input type="text" class="form-control" id="username" placeholder="Create Username">
+                                <!-- Email input -->
+                                <div class="form-group">
+                                    <label for="email" class="mb-0 label-left">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Enter Email">
+                                </div>
+
+                                <!-- password input -->
+                                <div class="form-group">
+                                    <label for="password" class="mb-0 label-left">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="Create Password">
                                     </div>
+                                </div>
 
-                                    <!-- Email input -->
-                                    <div class="form-group">
-                                        <label for="email" class="mb-0 label-left">Email</label>
-                                        <input type="email" class="form-control" id="email" placeholder="Enter Email">
-                                    </div>
+                                <!-- confirm password -->
+                                <div class="form-group">
+                                    <input type="password" class="form-control" id="confirmPassword"
+                                        placeholder="Confirm Password">
+                                </div>
 
-                                    <!-- password input -->
-                                    <div class="form-group">
-                                        <label for="password" class="mb-0 label-left">Password</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="password" placeholder="Create Password">
-                                        </div>
-                                    </div>
+                            </div> <!-- End of left column -->
 
-                                    <!-- confirm password -->
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
-                                    </div>
+                            <!-- Right column for Your Buddy inputs -->
+                            <div class="col-md-6">
 
-                                </div> <!-- End of left column -->
+                                <div class="form-group">
+                                    <label for="buddyName" class="mb-0 label-left">Your Buddy</label>
+                                    <input type="text" class="form-control" id="buddyName" name="buddyName"
+                                        placeholder="Buddy Name">
+                                </div>
 
-                                <!-- Right column for Your Buddy inputs -->
-                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="buddyType" name="buddyType">
+                                        <option value="" disabled selected>-- Select a Buddy Type --</option>
+                                        <option value="greenbinguy">Green Bin Guy</option>
+                                        <option value="batteryguy">Battery Guy</option>
+                                        <option value="waterbottleguy">Water Bottle Guy</option>
+                                        <option value="treeguy">Tree Guy</option>
+                                    </select>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="buddyName" class="mb-0 label-left">Your Buddy</label>
-                                        <input type="text" class="form-control" id="buddyName" placeholder="Buddy Name">
-                                    </div>
+                            </div> <!-- End of right column -->
 
-                                    <div class="form-group">
-                                        <select class="form-control" id="buddyType">
-                                            <option value="" disabled selected>-- Select a Buddy Type --</option>
-                                            <option value="greenbinguy">Green Bin Guy</option>
-                                            <option value="batteryguy">Battery Guy</option>
-                                            <option value="waterbottleguy">Water Bottle Guy</option>
-                                            <option value="treeguy">Tree Guy</option>
-                                        </select>
-                                    </div>
-
-                                </div> <!-- End of right column -->
-
-                                <button type="submit" class="btn btn-primary btn-block">Signup</button>
-                                <p class="text-center mb-1">Already have an account? <a href="{% url 'login' %}">Login</a></p>
-                            </form>
-                        </div>
+                            <button type="submit" class="btn btn-primary btn-block">Signup</button>
+                            <p class="text-center mb-1">Already have an account? <a href="{% url 'login' %}">Login</a>
+                            </p>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            var username = document.getElementById("username").value;
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            var confirmedPassword = document.getElementById("confirmPassword").value;
-            var buddyName = document.getElementById("buddyName").value;
-            var buddyType = document.getElementById("buddyType").value;
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirmedPassword = document.getElementById("confirmPassword").value;
+        var buddyName = document.getElementById("buddyName").value;
+        var buddyType = document.getElementById("buddyType").value;
 
-            if(!username){
-                alert("Please enter a username!");
-                event.preventDefault(); // Stop form from being submitted
-            }
-            else if(!email){
-                alert("Please enter an email!");
-                event.preventDefault();
-            }
-            else if(!isValidEmail(email)){
-                alert("Please enter a valid email!");
-                event.preventDefault();
-            }
-            else if(!password){
-                alert("Please enter a password!");
-                event.preventDefault();
-            }
-            else if(password != confirmedPassword){
-                alert("Your passwords do not match!");
-                event.preventDefault();
-            }
-            else if(!buddyName){
-                alert("Please enter a buddy name!");
-                event.preventDefault();
-            }
-            else if(!buddyType){
-                alert("please select a buddy type!");
-                event.preventDefault();
-            }
-            
-        });
-
-        function isValidEmail(email){
-            var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
+        if (!username) {
+            alert("Please enter a username!");
+            event.preventDefault(); // Stop form from being submitted
         }
-    </script>
+        else if (!email) {
+            alert("Please enter an email!");
+            event.preventDefault();
+        }
+        else if (!isValidEmail(email)) {
+            alert("Please enter a valid email!");
+            event.preventDefault();
+        }
+        else if (!password) {
+            alert("Please enter a password!");
+            event.preventDefault();
+        }
+        else if (password != confirmedPassword) {
+            alert("Your passwords do not match!");
+            event.preventDefault();
+        }
+        else if (!buddyName) {
+            alert("Please enter a buddy name!");
+            event.preventDefault();
+        }
+        else if (!buddyType) {
+            alert("please select a buddy type!");
+            event.preventDefault();
+        }
+
+    });
+
+    function isValidEmail(email) {
+        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+</script>
 {% endblock content %}
