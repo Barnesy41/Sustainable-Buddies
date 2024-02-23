@@ -9,7 +9,7 @@
                 <div class="card shadow-2-strong" style="border-radius: 1rem">
                     <div class="card-body p-5 text-center">
 
-                        <h2 class="text-center mb-5">Signup</h2>
+                        <h2 class="text-center mb-5" style = "color: black !important;">Signup</h2>
 
                         <form id="loginForm" class="row" action="" method="POST">
                             {% csrf_token %}
@@ -69,7 +69,7 @@
                             </div> <!-- End of right column -->
 
                             <button type="submit" class="btn btn-primary btn-block">Signup</button>
-                            <p class="text-center mb-1">Already have an account? <a href="{% url 'login' %}">Login</a>
+                            <p class="text-center mb-1" style = "color: black !important;">Already have an account? <a href="{% url 'login' %}" >Login</a>
                             </p>
                         </form>
                     </div>
