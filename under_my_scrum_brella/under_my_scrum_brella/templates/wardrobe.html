@@ -1,0 +1,107 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh; /* 100% of viewport height */
+    }
+
+    .pet-title {
+        margin-bottom: 20px;
+    }
+
+    .centered-container {
+        resize: vertical;
+        height: 50%;
+        aspect-ratio: 1/1;
+        position: relative;
+        border: 2px solid #333; /* Border style */
+        box-sizing: border-box; /* Include border in total width and height */
+    }
+
+    .absolute-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Maintain image aspect ratio while covering the container */
+    }
+
+    .full-width-container {
+            width: 100%;
+            border: 2px solid #333; /* Border style */
+            box-sizing: border-box; /* Include border in total width and height */
+            padding: 20px; /* Optional padding */
+        }
+
+    .wardrobe-button {
+            width: 100px;
+            height: 100px;
+            background-color: #6bbdb8;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    .wardrobe-button:hover {
+    background-color: #4a9f9b;
+    color: #dddddd;
+    text-decoration: none;
+    }
+
+</style>
+
+<script>
+    let myValue = 0;
+
+    function setItem(itemNum)
+    {
+        myValue = itemNum;
+        console.log('Value changed to ' + myValue);
+    }
+    
+
+</script>
+
+<body>
+<br>
+<div>
+    <h1 class="pet-title">Your Buddy's Wardrobe</h1>
+</div>
+
+
+<div class="centered-container">
+    <div>
+        <img src="{% static 'under_my_scrum_brella/treeguy.png' %}"  alt="Your Pet Image" class="absolute-image">
+        <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" alt="Overlay Image" class="absolute-image">
+        
+    </div>
+</div>
+
+<div class="full-width-container">
+    <p>Div for adding in the items to select items</p>
+    <button id="item 1" class="wardrobe-button" onclick="setItem(1)">Item 1</button>
+    <button id="item 2" class="wardrobe-button" onclick="setItem(2)">Item 2</button>
+    <button id="item 3" class="wardrobe-button" onclick="setItem(3)">Item 3</button>
+    <button id="item 4" class="wardrobe-button" onclick="setItem(4)">Item 4</button>
+    <button id="item 5" class="wardrobe-button" onclick="setItem(5)">Item 5</button>
+    <button id="item 6" class="wardrobe-button" onclick="setItem(6)">Item 6</button>
+    <button id="item 7" class="wardrobe-button" onclick="setItem(7)">Item 7</button>
+    <button id="item 8" class="wardrobe-button" onclick="setItem(8)">Item 8</button>
+    <button id="item 9" class="wardrobe-button" onclick="setItem(9)">Item 9</button>
+    <button id="item 10" class="wardrobe-button" onclick="setItem(10)">Item 10</button>
+
+</div>
+
+</body>
+
+{% endblock content %}
