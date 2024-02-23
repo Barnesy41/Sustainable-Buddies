@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'tasks.apps.TasksConfig', #TODO Luke: Do we actually need this line? Or can we just include the whole of tasks
     'users',
     'tasks',
 ]
