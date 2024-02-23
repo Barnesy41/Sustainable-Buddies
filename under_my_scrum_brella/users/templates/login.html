@@ -9,7 +9,7 @@
             <div class="col-md-4 login-container">
                 <div class="card shadow-2-strong" style="border-radius: 1rem">
                     <div class="card-body p-5 text-center">
-                        <h2 class="text-center mb-4">Login</h2>
+                        <h2 class="text-center mb-4" style = "color: black !important;">Login</h2>
 
                         <form id="loginForm" action="" method=POST>
                             {% csrf_token %}
@@ -34,7 +34,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
-                            <p class="text-center mb1">Don't have an account?
+                            <p class="text-center mb1" style = "color: black !important;">Don't have an account?
                                 <a href="{% url 'signup' %}">Signup</a>
                             </p>
                         </form>
