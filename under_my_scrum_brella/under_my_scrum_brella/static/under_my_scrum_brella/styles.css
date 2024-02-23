@@ -1,8 +1,9 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     background-color: #83d6d1;
     padding-top: 60px; /* Adjust according to the height of navbar */
+    color: #fff;
 }
 
 header {
@@ -12,6 +13,13 @@ header {
 }
 
 h1 {
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+p {
     text-align: center;
     color: #fff;
     font-weight: bold;

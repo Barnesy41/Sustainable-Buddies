@@ -2,16 +2,19 @@
 {% load static %}
 {% block content %}
         <br>
+        {% if user.is_authenticated %}
         <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
         <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
-        <h1>Welcome to Sustainable Pets!</h1>
+        <h1>Welcome {{ user.username }}!</h1>
+        <p>Thanks for logging in, are you ready for some sustainable fun?!</p>
+        {% else %}
+        <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
+        <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
+        <h1>Welcome to Sustainable Buddies!</h1>
         <section class="hero">
             <h1 id="welcome-message"></h1>
             <div class="buttons" id="login-buttons">
                 <a href="{% url 'login' %}" class="login-btn">Log In / Sign Up</a>
-            <div id="user-info" style="display:none;">
-                <p>Welcome, <span id="username"></span></p>
-                <img src="" alt="User's Pet" id="user-pet-image">
-            </div>
         </section>
+            {% endif %}
 {% endblock content %}
