@@ -1,19 +1,23 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+        <!--Page written by Ellie, excluding lines stating otherwise-->
         <br>
+        <!--This section is displayed when the user is logged in-->
         {% if user.is_authenticated %}
         <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
         <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
         <h1>Welcome {{ user.username }}!</h1>
         <p>Thanks for logging in, are you ready for some sustainable fun?!</p>
-        <div>
-            <h2>{{user.buddy_name}}:</h2>
+        <h2>Your Buddy:</h2>
+        <div style="justify-content: center; display: flex;">
             <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image">
+            <!-- Change this later to access the users actual pet in their outfit-->
         </div>
         <div style="justify-content: center; display: flex;">
             <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
             </div>
+        <h2>Your Coins: 0</h2> <!-- Change this later to access the users actual amount of coins-->
         <h2>Looking for ideas of what to do?</h2>
         <p>Have a look at some of our sustainable tasks to earn EcoCoins, visit your sustainable buddy, or make some friends!</p>
         <div style="justify-content: center; display: flex;">
@@ -24,6 +28,7 @@
         <div style="justify-content: center; display: flex;">
             <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
             </div>
+        <!--This section is displayed when the user is not logged in-->
         {% else %}
         <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
         <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
