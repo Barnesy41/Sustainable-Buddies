@@ -1,0 +1,79 @@
+{% extends 'index.html' %}
+{% load static %}
+<!--Page written by Ellie, excluding lines stating otherwise-->
+{% block content %}
+<h1>Your Friends:</h1>
+<div style="justify-content: center; display: flex;">
+  <button onclick="showFriends()" class="login-btn" style="border: none;">Friends</button>
+  <button onclick="showPending()" class="login-btn" style="border: none;">Pending</button>
+  <button onclick="showAddFriend()" class="login-btn" style="border: none;">Add Friend</button>
+</div>
+<br>
+<div id="friendsList" style="display: block;">
+  <table class="table">
+    <tbody>
+      {% for friend in friends %}
+      <tr>
+        <div class="friend" onclick="goToProfile('{{friend.id}}')">{{ friend.username }}</div>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div id="showPending" style="display: none;">
+  <table class="table">
+    <tbody>
+      {% for friend in friend_requests %}
+      <tr>
+        <div class="friend">
+          <form action="" method=POST>
+            {% csrf_token %}
+            <span>Pending Request from User {{ friend.username }}</span>
+            <input type="hidden" name="id" value="{{ friend.friend_id }}" id="process">
+            <button type="submit" class="accept-btn" name="accept">Accept</button>
+            <button type="submit" class="decline-btn" name="decline">Decline</button>
+          </form>
+        </div>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+<div id="addProfile" style="display: none;">
+  <div style="justify-content: center; display: flex;">
+    <form action="" method=POST>
+      {% csrf_token %}
+      <input type="text" id="friend_username" placeholder="Enter Friend Username" name="friend_username">
+      <button name="add" class="small-btn" style="margin-left: 10px;">Add Friend</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function showFriends() {
+    document.getElementById('friendsList').style.display = "block";
+    document.getElementById('showPending').style.display = "none";
+    document.getElementById('addProfile').style.display = "none";
+  }
+
+  function showPending() {
+    document.getElementById('friendsList').style.display = "none";
+    document.getElementById('showPending').style.display = "block";
+    document.getElementById('addProfile').style.display = "none";
+  }
+
+  function showAddFriend() {
+    document.getElementById('friendsList').style.display = "none";
+    document.getElementById('showPending').style.display = "none";
+    document.getElementById('addProfile').style.display = "block";
+  }
+
+  function goToProfile(user_id) {
+    // Redirect to profile page
+    // Replace 'profile.html' with the actual URL of the profile page
+    window.location.href = `../${user_id}`;
+  }
+</script>
+
+{% endblock content %}
