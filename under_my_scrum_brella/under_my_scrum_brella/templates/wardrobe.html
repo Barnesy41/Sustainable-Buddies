@@ -39,6 +39,12 @@
             border: 2px solid #333; /* Border style */
             box-sizing: border-box; /* Include border in total width and height */
             padding: 20px; /* Optional padding */
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center the buttons horizontally */
+            align-items: center; /* Center the buttons vertically */
+            gap: 20px; /* Add some spacing between buttons */
         }
 
     .wardrobe-button {
@@ -50,6 +56,8 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+
+            margin: 10px;
         }
 
     .wardrobe-button:hover {
@@ -72,23 +80,33 @@
 
 <script>
     let latestValue = 0;
+    let itemList = [];
 
     function setItem(itemNum, itemID)
     {
         latestValue = itemNum;
-        console.log('added item ' + latestValue);
-        toggleImage(itemID);
+        toggleImage(itemNum, itemID);
     }
 
-    function toggleImage(itemID) {
+    function toggleImage(itemNum,itemID) {
 
         const image = document.getElementById(itemID);
         
         if (image.style.display === 'none' || image.style.display === '') {
             image.style.display = 'block';
+            itemList.push(itemNum);
         } else {
             image.style.display = 'none';
+            const index = itemList.indexOf(itemNum);
+            if (index !== -1) {
+            itemList.splice(index, 1);
+            console.log(`Removed ${itemNum} from the array.`);
+            } else {
+            console.log(`${itemNum} not found in the array.`);
+            }
+
         }
+        console.log(itemList);
     }
 
 </script>
@@ -105,25 +123,38 @@
         <!--<img src="{% static 'under_my_scrum_brella/treeguy.png' %}"  alt="Your Pet Image" class="absolute-image">-->
         <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" alt="Overlay Image" class="absolute-image">
         <img id="item-1-image" src="{% static 'items/binhatitem.png' %}" class="item-image">
+        <img id="item-2-image" src="{% static 'items/glassesitem.png' %}" class="item-image">
+        <img id="item-3-image" src="{% static 'items/goldmedalitem.png' %}" class="item-image">
+        <img id="item-4-image" src="{% static 'items/rubiishpickeritem.png' %}" class="item-image">
+        <img id="item-5-image" src="{% static 'items/waterbottleitem.png' %}" class="item-image">
         
     </div>
 </div>
+<div id="itemList">
+    is this going to display?
+    {% for item in items %}
+        test
+        <div>item 1{{ item.item_name }}</div>
+    {% endfor %}
+</div>
+<p>Click items to add or remove them from your Buddy </p>
 
 <div class="full-width-container">
-    <p>Click items to add or remove them from your Buddy </p>
-    <label>
-        <button id="item-1" class="wardrobe-button" onclick="setItem(1, 'item-1-image')">
-            <img src="{% static 'items/binhatitem.png' %}" width="90" height="90"></button>
-    </label>
-    <button id="item 2" class="wardrobe-button" onclick="setItem(2)">Item 2</button>
-    <button id="item 3" class="wardrobe-button" onclick="setItem(3)">Item 3</button>
-    <button id="item 4" class="wardrobe-button" onclick="setItem(4)">Item 4</button>
-    <button id="item 5" class="wardrobe-button" onclick="setItem(5)">Item 5</button>
-    <button id="item 6" class="wardrobe-button" onclick="setItem(6)">Item 6</button>
-    <button id="item 7" class="wardrobe-button" onclick="setItem(7)">Item 7</button>
-    <button id="item 8" class="wardrobe-button" onclick="setItem(8)">Item 8</button>
-    <button id="item 9" class="wardrobe-button" onclick="setItem(9)">Item 9</button>
-    <button id="item 10" class="wardrobe-button" onclick="setItem(10)">Item 10</button>
+    
+    <button id="item-1" class="wardrobe-button" onclick="setItem(1, 'item-1-image')">
+        <img src="{% static 'items/binhatitem.png' %}" width="90" height="90"></button>
+    
+    <button id="item-2" class="wardrobe-button" onclick="setItem(2, 'item-2-image')">
+        <img src="{% static 'items/glassesitem.png' %}" width="90" height="90"></button>
+    
+    <button id="item 3" class="wardrobe-button" onclick="setItem(3, 'item-3-image')">
+        <img src="{% static 'items/goldmedalitem.png' %}" width="90" height="90"></button>
+
+    <button id="item 4" class="wardrobe-button" onclick="setItem(4, 'item-4-image')">
+        <img src="{% static 'items/rubiishpickeritem.png' %}" width="90" height="90"></button>
+
+    <button id="item 5" class="wardrobe-button" onclick="setItem(5, 'item-5-image')">
+        <img src="{% static 'items/waterbottleitem.png' %}" width="90" height="90"></button>
 
 </div>
 
