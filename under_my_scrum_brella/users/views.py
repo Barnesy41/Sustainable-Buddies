@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -17,7 +17,13 @@ def login_user(request):
             messages.success(request, "Error logging in try again")
             return redirect('login')
     else:
-        return render(request, 'login.html', {})
+        user = request.user
+        if user.is_authenticated:
+            user_details = get_object_or_404(UserDetail, pk=user.id)
+            context = {'user_details': user_details}
+            return render(request, 'login.html', context)
+        else:
+            return render(request, 'login.html')
 
 def signup_user(request):
     if request.method == 'POST':
@@ -43,7 +49,13 @@ def signup_user(request):
             messages.success(request, "Error signing up try again")
             return redirect('signup')
     else:
-        return render(request, 'signup.html', {})
+        user = request.user
+        if user.is_authenticated:
+            user_details = get_object_or_404(UserDetail, pk=user.id)
+            context = {'user_details': user_details}
+            return render(request, 'signup.html', context)
+        else:
+            return render(request, 'signup.html')
 
 def logout_user(request):
     logout(request)
