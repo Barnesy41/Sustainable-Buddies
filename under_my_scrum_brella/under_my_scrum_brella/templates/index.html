@@ -25,7 +25,7 @@
               <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'mypet' %}">My Pet</a>
+              <a class="nav-link" href="{% url 'mypet' %}">My Buddy</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'friends' %}">Friends</a>
@@ -44,6 +44,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'tasks' %}">{{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'shop' %}"> EcoCoins: {{ user.total_coins }}</a>
             </li>
             {% else %}
             {% endif %}

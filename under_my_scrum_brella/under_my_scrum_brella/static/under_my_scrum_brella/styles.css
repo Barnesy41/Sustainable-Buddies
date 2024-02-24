@@ -73,6 +73,12 @@ nav ul li a:hover{
     margin-left:5vw;
 }
 
+.responsive-image {
+    width: 15vw;
+    height: auto;
+    display: block;
+}
+
 .responsive-image-right {
     width: 15vw;
     height: auto;
