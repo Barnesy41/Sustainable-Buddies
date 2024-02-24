@@ -20,17 +20,18 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 # from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', views.home, name='home'),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('friends/', TemplateView.as_view(template_name='friends.html'), name='friends'),
-    path('shop/', TemplateView.as_view(template_name='shop.html'), name='shop'),
+    path('shop/', views.shop, name='shop'),
     path('tasks/', include('tasks.urls')),
-    path('mypet/', TemplateView.as_view(template_name='mypet.html'), name='mypet'),
-    path('wardrobe/', TemplateView.as_view(template_name='wardrobe.html'), name='wardrobe')
+    path('mypet/', views.my_pet, name='mypet'),
+    path('wardrobe/', views.wardrobe, name='wardrobe')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
