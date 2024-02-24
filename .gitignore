@@ -5,3 +5,4 @@ __pycache__
 db.sqlite3
 media
 .venv
+under_my_scrum_brella/users/migrations/0005_merge_20240224_2017.py
