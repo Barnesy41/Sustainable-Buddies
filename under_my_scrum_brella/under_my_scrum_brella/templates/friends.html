@@ -1,6 +1,69 @@
 {% extends 'index.html' %}
 {% load static %}
-
+<!--Page written by Ellie, excluding lines stating otherwise-->
 {% block content %}
-   <p>Friends page</p>
+<h1>Your Friends:</h1>
+  <div style="justify-content: center; display: flex;">
+    <button onclick="showFriends()" class="login-btn" style="border: none;">Friends</button>
+    <button onclick="showPending()" class="login-btn" style="border: none;">Pending</button>
+    <button onclick="showAddFriend()" class="login-btn" style="border: none;">Add Friend</button>
+  </div>
+  <br>
+  <div id="friendsList">
+    <!-- Friends list will be displayed here -->
+  </div>
+
+  <script>
+    function showFriends() {
+      // Test code, needs to be changed to load their actual friends
+      document.getElementById('friendsList').innerHTML = `
+        <div class="friend" onclick="goToProfile('friend1')">Friend 1</div>
+        <div class="friend" onclick="goToProfile('friend2')">Friend 2</div>
+        <div class="friend" onclick="goToProfile('friend3')">Friend 3</div>
+        <!-- Add more friends as needed -->
+      `;
+    }
+
+    function showPending() {
+      // Code to display pending friend requests
+      // again this is test code, need to load their actual requests
+      document.getElementById('friendsList').innerHTML = `
+        <div class="friend">
+          <span>Pending Request from User X</span>
+          <button onclick="acceptRequest()" class="accept-btn">Accept</button>
+          <button onclick="declineRequest()" class="decline-btn">Decline</button>
+        </div>
+        <!-- Add more pending requests as needed -->
+      `;
+    }
+
+    function showAddFriend() {
+      // Code to display add friend section
+      document.getElementById('friendsList').innerHTML = `
+      <div style="justify-content: center; display: flex;">
+        <input type="text" id="friendCode" placeholder="Enter Friend Code">
+        <button onclick="submitRequest()" class="small-btn" style="margin-left: 10px;" >Add Friend</button>
+        </div>
+      `;
+    }
+
+    function goToProfile(username) {
+      // Redirect to profile page
+      // Replace 'profile.html' with the actual URL of the profile page
+      window.location.href = `profile.html?user=${username}`;
+    }
+
+    function acceptRequest() {
+      // Code to accept friend request
+    }
+
+    function declineRequest() {
+      // Code to decline friend request
+    }
+
+    function submitRequest() {
+      // Code to submit friend request
+    }
+  </script>
+
 {% endblock content %}
