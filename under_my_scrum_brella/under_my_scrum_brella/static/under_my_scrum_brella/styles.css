@@ -1,3 +1,5 @@
+/*Css file written by Ellie, excluding lines stating otherwise*/
+
 body {
     margin: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
@@ -71,6 +73,12 @@ nav ul li a:hover{
     display: block;
     float:left;
     margin-left:5vw;
+}
+
+.responsive-image {
+    width: 15vw;
+    height: auto;
+    display: block;
 }
 
 .responsive-image-right {

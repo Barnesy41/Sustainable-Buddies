@@ -1,7 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
+<!--Page written by Ellie, excluding lines stating otherwise-->
+<!--This index page contains content which will be displayed on every page on the site-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
 </head>
 
 <body>
-
+<!--Responsive navbar which shrinks depending on page size-->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light" style="background-color: #6bbdb8 !important;">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -25,7 +26,7 @@
               <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'mypet' %}">My Pet</a>
+              <a class="nav-link" href="{% url 'mypet' %}">My Buddy</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'friends' %}">Friends</a>
@@ -38,6 +39,7 @@
             </li>
           </ul>
           <ul class="navbar-nav">
+<!--Code written by Silas-->
             {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -45,12 +47,14 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'tasks' %}">{{ user.username }}</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link"> EcoCoins: 0</a> <!-- Change this later to access the users actual amount of coins-->
+            </li>
             {% else %}
             {% endif %}
           </ul>
     </div>
   </nav>
-
   {% if messages %}
   {% for message in messages %}
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -59,6 +63,8 @@
   </div>
   {% endfor %}
   {% endif %}
+  <!--End of Silas' code-->
+
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -73,6 +79,7 @@
       /* Adjust according to the height of navbar */
     }
   </style>
+  <!--In this section is where the individual content for each page will go-->
   {% block content %}
   {% endblock content %}
 </body>

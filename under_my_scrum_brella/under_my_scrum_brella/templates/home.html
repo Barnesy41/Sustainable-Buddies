@@ -1,12 +1,34 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+        <!--Page written by Ellie, excluding lines stating otherwise-->
         <br>
+        <!--This section is displayed when the user is logged in-->
         {% if user.is_authenticated %}
         <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
         <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
         <h1>Welcome {{ user.username }}!</h1>
         <p>Thanks for logging in, are you ready for some sustainable fun?!</p>
+        <h2>Your Buddy:</h2>
+        <div style="justify-content: center; display: flex;">
+            <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image">
+            <!-- Change this later to access the users actual pet in their outfit-->
+        </div>
+        <div style="justify-content: center; display: flex;">
+            <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+            </div>
+        <h2>Your Coins: 0</h2> <!-- Change this later to access the users actual amount of coins-->
+        <h2>Looking for ideas of what to do?</h2>
+        <p>Have a look at some of our sustainable tasks to earn EcoCoins, visit your sustainable buddy, or make some friends!</p>
+        <div style="justify-content: center; display: flex;">
+        <a href="{% url 'tasks' %}" class="login-btn">Tasks</a>
+        <a href="{% url 'mypet' %}" class="login-btn">My Buddy</a>
+        <a href="{% url 'friends' %}" class="login-btn">Friends</a>
+        </div>
+        <div style="justify-content: center; display: flex;">
+            <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+            </div>
+        <!--This section is displayed when the user is not logged in-->
         {% else %}
         <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
         <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
@@ -20,6 +42,9 @@
             <br>
             <p>At Sustainable Buddies, we believe in the power of collective action to create positive change for our planet. Our platform is designed to empower individuals like you to take meaningful steps towards a more sustainable lifestyle, one task at a time.</p>
             <br>
+            <div style="justify-content: center; display: flex;">
+                <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+                </div>
             <h2>How It Works:</h2>
             <p>Complete Tasks, Earn Coins:
             <br>
@@ -35,6 +60,9 @@
             Your sustainable buddy isn't just a picture – it's a symbol of your commitment to sustainability. As you care for your buddy and complete sustainable tasks, you'll unlock new items in the shop, all while making a tangible impact on the planet.
             <br>
             </p>
+            <div style="justify-content: center; display: flex;">
+                <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+                </div>
             <h2>Why Sustainable Pets?</h2>
             <p>
             Fun and Engaging:
@@ -43,11 +71,14 @@
             <br>
             Community and Support:
             <br>
-            Join a vibrant community of like-minded individuals who share your passion for sustainability. Connect with fellow EcoTaskers, share tips and tricks, and inspire each other to reach new heights.
+            Join a vibrant community of like-minded individuals who share your passion for sustainability. Connect with fellow players, share tips and tricks, and inspire each other to reach new heights.
             <br>
             </p>
             <h2>Join Us Today!
             </h2>
+            <div style="justify-content: center; display: flex;">
+                <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+                </div>
             <br>
             <br>
             <br>
