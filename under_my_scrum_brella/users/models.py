@@ -7,3 +7,10 @@ class UserDetail(models.Model):
     buddy_type = models.CharField(max_length=400)
     total_coins = models.IntegerField(default=0)
     total_xp = models.IntegerField(default=0)
+
+class Item(models.Model):
+    itemID = models.AutoField(primary_key=True)
+    item_name = models.CharField(max_length=255)
+    item_description = models.TextField(max_length=400)
+    item_cost = models.IntegerField(default=100)
+
