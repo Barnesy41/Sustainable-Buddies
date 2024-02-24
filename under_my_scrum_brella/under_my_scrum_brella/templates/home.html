@@ -9,13 +9,16 @@
 <img src="{% static 'under_my_scrum_brella/batteryguyanimated.gif' %}" class="responsive-image-right">
 <h1>Welcome {{ user.username }}!</h1>
 <p>Thanks for logging in, are you ready for some sustainable fun?!</p>
+<div style="justify-content: center; display: flex;">
+    <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
+</div>
 <h2>Your Buddy:</h2>
 <div style="justify-content: center; display: flex;">
     <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image">
     <!-- Change this later to access the users actual pet in their outfit-->
 </div>
 <div style="justify-content: center; display: flex;">
-    <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+    <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>
 <h2>Your Coins: {{user_details.total_coins}}</h2> <!-- Change this later to access the users actual amount of coins-->
 <h2>Looking for ideas of what to do?</h2>
@@ -27,8 +30,10 @@
     <a href="{% url 'friends' %}" class="login-btn">Friends</a>
 </div>
 <div style="justify-content: center; display: flex;">
-    <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+    <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>
+
+
 <!--This section is displayed when the user is not logged in-->
 {% else %}
 <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
@@ -46,7 +51,7 @@
         lifestyle, one task at a time.</p>
     <br>
     <div style="justify-content: center; display: flex;">
-        <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+        <img src="{% static 'assets/leafvine.png' %}" style="width:50%; height:auto;">
     </div>
     <h2>How It Works:</h2>
     <p>Complete Tasks, Earn Coins:
@@ -69,7 +74,7 @@
         <br>
     </p>
     <div style="justify-content: center; display: flex;">
-        <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+        <img src="{% static 'assets/leafvine.png' %}" style="width:50%; height:auto;">
     </div>
     <h2>Why Sustainable Pets?</h2>
     <p>
@@ -87,7 +92,7 @@
     <h2>Join Us Today!
     </h2>
     <div style="justify-content: center; display: flex;">
-        <img src="{% static 'assets/vineline.png' %}" style="width:50%; height:auto;">
+        <img src="{% static 'assets/leafvine.png' %}" style="width:50%; height:auto;">
     </div>
     <br>
     <br>
