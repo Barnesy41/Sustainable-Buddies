@@ -35,10 +35,11 @@ def task_complete(request):
         
         #Add coins & XP to the user's account
         user = UserDetail.objects.get(user=request.user)    
-        task_object = Task.objects.get(task_id=task_id)
+        task_object = Task.objects.get(id=task_id)
 
         user.total_coins = user.total_coins + task_object.CoinReward
         user.total_xp = user.total_xp + task_object.XpReward
+        user.save()
         
     return redirect('tasks')
 
