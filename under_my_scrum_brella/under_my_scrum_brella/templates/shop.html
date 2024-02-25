@@ -1,6 +1,98 @@
 {% extends 'index.html' %}
 {% load static %}
-
+<!--Page written by Ellie, excluding lines stating otherwise-->
 {% block content %}
-   <p>Shop page</p>
+<style>
+   .shop-button {
+      width: 100px;
+      height: 100px;
+      background-color: #6bbdb8;
+      color: #fff;
+      border-color: #6bbdb8;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      border-width: 3px;
+      margin: 10px;
+   }
+
+   .shop-button:hover {
+      background-color: #4a9f9b;
+      color: #dddddd;
+      text-decoration: none;
+   }
+
+   .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid #ccc;
+      padding: 20px;
+      background-color: #6bbdb8;
+      z-index: 9999;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+   }
+
+   /* Style for the overlay */
+   .overlay {
+      display: none;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+   }
+</style>
+
+<h1>Welcome to the shop!</h1>
+<p>Interested in an item? Click to see more about it and purchase it!</p>
+<!-- Popup box -->
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+    <h2>Item Details</h2>
+    <p>Name: <span id="itemName"></span></p>
+    <p>Description: <span id="itemDescription"></span></p>
+    <p>Price: $<span id="itemPrice"></span></p>
+    <div style="justify-content: center; display: flex; gap: 20px;">
+    <button onclick="purchaseItem()" class="btn btn-primary btn-block loginpage-btn">Purchase Item</button>
+    <button onclick="closePopup()" class="btn btn-primary btn-block loginpage-btn">Close</button>
+    </div>
+</div>
+
+<div style="justify-content: center; display: flex;">
+   <!--Code to load all items from the database-->
+   <div id="itemList">
+      {% for item in all_items %}
+      <button id="item" title="item" class="shop-button" onclick="openPopup()">
+         <img src="{% static 'items/' %}{{ item.item_name }}" width="90" height="90"></button>
+      {% endfor %}
+   </div>
+</div>
+
+<script>
+   function openPopup() {
+       document.getElementById("overlay").style.display = "block";
+       document.getElementById("popup").style.display = "block";
+       // Need to change the code below so that it fetches the correct details for the selected item
+       document.getElementById("itemName").innerText = "Sample Item";
+       document.getElementById("itemDescription").innerText = "This is a sample item description.";
+       document.getElementById("itemPrice").innerText = "20.00";
+       //also may need code for if the item is already purchased
+   }
+
+   function closePopup() {
+       document.getElementById("overlay").style.display = "none";
+       document.getElementById("popup").style.display = "none";
+   }
+
+   function purchaseItem() {
+       // Add logic here to handle the purchase
+       alert("Item purchased!");
+       closePopup();
+   }
+</script>
 {% endblock content %}
