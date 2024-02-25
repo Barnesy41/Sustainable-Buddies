@@ -52,11 +52,11 @@
             height: 100px;
             background-color: #6bbdb8;
             color: #fff;
-            border: none;
+            border-color: #6bbdb8;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-
+            border-width: 3px;
             margin: 10px;
         }
 
@@ -82,19 +82,21 @@
     let latestValue = 0;
     let itemList = [];
 
-    function setItem(itemNum, itemID)
+    function setItem(itemNum, itemID, buttonID)
     {
         latestValue = itemNum;
-        toggleImage(itemNum, itemID);
+        toggleImage(itemNum, itemID,buttonID);
     }
 
-    function toggleImage(itemNum,itemID) {
+    function toggleImage(itemNum,itemID, buttonID) {
 
         const image = document.getElementById(itemID);
+        var buttonToChange = document.getElementById(buttonID);
         
         if (image.style.display === 'none' || image.style.display === '') {
             image.style.display = 'block';
             itemList.push(itemNum);
+            buttonToChange.style.borderColor = "#ffbf00";
         } else {
             image.style.display = 'none';
             const index = itemList.indexOf(itemNum);
@@ -104,7 +106,7 @@
             } else {
             console.log(`${itemNum} not found in the array.`);
             }
-
+            buttonToChange.style.borderColor = "#6bbdb8";
         }
         console.log(itemList);
     }
@@ -131,29 +133,27 @@
     </div>
 </div>
 <div id="itemList">
-    is this going to display?
-    {% for item in items %}
-        test
-        <div>item 1{{ item.item_name }}</div>
-    {% endfor %}
+        {% for item in all_items %}
+                Item: {{ item.item_name }}
+        {% endfor %}
 </div>
 <p>Click items to add or remove them from your Buddy </p>
 
 <div class="full-width-container">
     
-    <button id="item-1" class="wardrobe-button" onclick="setItem(1, 'item-1-image')">
+    <button id="item-1" class="wardrobe-button" onclick="setItem(1, 'item-1-image', 'item-1')">
         <img src="{% static 'items/binhatitem.png' %}" width="90" height="90"></button>
     
-    <button id="item-2" class="wardrobe-button" onclick="setItem(2, 'item-2-image')">
+    <button id="item-2" class="wardrobe-button" onclick="setItem(2, 'item-2-image', 'item-2')">
         <img src="{% static 'items/glassesitem.png' %}" width="90" height="90"></button>
     
-    <button id="item 3" class="wardrobe-button" onclick="setItem(3, 'item-3-image')">
+    <button id="item-3" class="wardrobe-button" onclick="setItem(3, 'item-3-image','item-3')">
         <img src="{% static 'items/goldmedalitem.png' %}" width="90" height="90"></button>
 
-    <button id="item 4" class="wardrobe-button" onclick="setItem(4, 'item-4-image')">
+    <button id="item-4" class="wardrobe-button" onclick="setItem(4, 'item-4-image','item-4')">
         <img src="{% static 'items/rubiishpickeritem.png' %}" width="90" height="90"></button>
 
-    <button id="item 5" class="wardrobe-button" onclick="setItem(5, 'item-5-image')">
+    <button id="item-5" class="wardrobe-button" onclick="setItem(5, 'item-5-image','item-5')">
         <img src="{% static 'items/waterbottleitem.png' %}" width="90" height="90"></button>
 
 </div>
