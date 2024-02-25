@@ -23,7 +23,7 @@
    <tbody>
       {% for task in assigned_tasks %}
          <tr>
-            <form action="" method="POST">
+            <form action="" method=POST>
                {% csrf_token %}
                <th scope="col">{{ task.task_id.TaskName }}</th>
                <td scope="col">{{ task.task_id.DifficultyLevel }}</td>
@@ -41,9 +41,10 @@
                {% else %}
                <td scope="col">
                   <!-- create a form which allows details to be passed to the database on submission -->
-                  <form action="/task-complete/" method="POST" name="task-submission">
-                  <input type="hidden" name="task_id" value="{{ task.task_id }}" />
-                  <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+                  <form action="" method="POST">
+                     {% csrf_token %}
+                     <input type="hidden" name="task_id" value="{{ task.task_id }}" />
+                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
                   </form>
                   {% endif %}
             </form>

@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Task, UserTask
 from users.models import UserDetail
-from django.http import HttpResponseRedirect, JsonResponse
     
 # This is a list of all tasks, NOT a specific user's tasks  #
 # if you want a user's tasks, please use user_tasks instead #
@@ -26,16 +25,20 @@ def task_list(request):
 
 # The below is written by Ollie Barnes
 def task_complete(request):
-    print(1)
     if request.method == 'POST':
-        print('tid:', task_id)
-        task_id = request.POST.get('task_id')
-        print('tid:', task_id)
+        task_id = request.POST["task_id"]
         
         #Update the completion status of the task
         task_object = UserTask.objects.get(task_id=task_id)
-        task_object.attribute_to_update = 1     #update the completion status from 0 (incomplete) to 1 (complete)
+        task_object.completion_status = 1     #update the completion status from 0 (incomplete) to 1 (complete)
         task_object.save()
-        return HttpResponseRedirect('/home/') #Test code
-    else:
-        return render(request, 'test.html', {}) # test code
+        
+        #Add coins & XP to the user's account
+        user = UserDetail.objects.get(user=request.user)    
+        task_object = Task.objects.get(task_id=task_id)
+
+        user.total_coins = user.total_coins + task_object.CoinReward
+        user.total_xp = user.total_xp + task_object.XpReward
+        
+    return redirect('tasks')
+
