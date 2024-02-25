@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tasks.models import Task   #Written by Ollie Barnes
 
 class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -22,4 +23,9 @@ class Item(models.Model):
     item_name = models.CharField(max_length=255)
     item_description = models.TextField(max_length=400)
     item_cost = models.IntegerField(default=100)
-    
+   
+# The below was written by Ollie Barnes #
+class UserTasks(models.Model):
+    completion_status = models.IntegerField(default=0)
+    TaskID = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

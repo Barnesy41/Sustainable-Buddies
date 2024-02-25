@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<h1>Tasks Page</h1>
+<h1>{{ user_details.user.username }}'s tasks</h1>
 
 <!-- create a table of tasks, allow clickable descriptions to pop-up in modal boxes & allow users to tick off tasks 
         tasks should be auto-ticked if already completed & DB updated if they click they have done a task. -->
@@ -19,7 +19,7 @@
    </thead>
 
    <tbody>
-      {% for task in tasks %}
+      {% for task in assigned_tasks %}
       <tr>
          <form>
             <th scope="col">{{ task.TaskName }}</th>
