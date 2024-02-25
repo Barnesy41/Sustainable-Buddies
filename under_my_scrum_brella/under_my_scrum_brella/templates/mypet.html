@@ -10,6 +10,7 @@
         justify-content: center;
         flex-direction: column;
         height: 100vh; /* 100% of viewport height */
+        padding-top: 60px;
     }
 
     .pet-title {
@@ -45,7 +46,7 @@
 
 <body>
 <div>
-    <h1 class="pet-title">My Buddy</h1>
+    <h1 class="pet-title">{{ user.username }}'s Buddy</h1>
 </div>
 
 <div style="justify-content: center; display: flex;">
