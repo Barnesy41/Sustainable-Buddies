@@ -4,9 +4,8 @@ from django.db import migrations, models
 
 def populate_items(apps, schema_editor):
     Item = apps.get_model('users', 'Item')
-    Item.objects.create(item_name="binhatitem", item_description="Hat straight from a bin!", item_cost=100)
-
-
+    Item.objects.create(item_name="binhatitem.png", item_description="Hat straight from a bin!", item_cost=300)
+    
 class Migration(migrations.Migration):
 
     dependencies = [

@@ -132,30 +132,31 @@
         
     </div>
 </div>
-<div id="itemList">
-        {% for item in all_items %}
-                Item: {{ item.item_name }}
-        {% endfor %}
-</div>
-<p>Click items to add or remove them from your Buddy </p>
-
+<p>Click items to add or remove them from your Buddy. Hover over a button to see the name of the item</p>
 <div class="full-width-container">
     
-    <button id="item-1" class="wardrobe-button" onclick="setItem(1, 'item-1-image', 'item-1')">
+    <button id="item-1" title="Bin Hat" class="wardrobe-button" onclick="setItem(1, 'item-1-image', 'item-1')">
         <img src="{% static 'items/binhatitem.png' %}" width="90" height="90"></button>
     
-    <button id="item-2" class="wardrobe-button" onclick="setItem(2, 'item-2-image', 'item-2')">
+    <button id="item-2" title="Glasses" class="wardrobe-button" onclick="setItem(2, 'item-2-image', 'item-2')">
         <img src="{% static 'items/glassesitem.png' %}" width="90" height="90"></button>
     
-    <button id="item-3" class="wardrobe-button" onclick="setItem(3, 'item-3-image','item-3')">
+    <button id="item-3" title="Gold Medal" class="wardrobe-button" onclick="setItem(3, 'item-3-image','item-3')">
         <img src="{% static 'items/goldmedalitem.png' %}" width="90" height="90"></button>
 
-    <button id="item-4" class="wardrobe-button" onclick="setItem(4, 'item-4-image','item-4')">
+    <button id="item-4" title="Litter Picker" class="wardrobe-button" onclick="setItem(4, 'item-4-image','item-4')">
         <img src="{% static 'items/rubiishpickeritem.png' %}" width="90" height="90"></button>
 
-    <button id="item-5" class="wardrobe-button" onclick="setItem(5, 'item-5-image','item-5')">
+    <button id="item-5" title="Water Bottle" class="wardrobe-button" onclick="setItem(5, 'item-5-image','item-5')">
         <img src="{% static 'items/waterbottleitem.png' %}" width="90" height="90"></button>
 
+</div>
+
+<div id="itemList">
+    Test for getting items from the database
+    {% for item in all_items %}
+            Item: {{ item.item_name }}
+    {% endfor %}
 </div>
 
 </body>
