@@ -9,7 +9,8 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        height: 100vh; /* 100% of viewport height */
+       
+        padding-top: 60px;
     }
 
     .pet-title {
@@ -18,10 +19,10 @@
 
     .centered-container {
         resize: vertical;
-        height: 50%;
+        height: 50vh;
         aspect-ratio: 1/1;
         position: relative;
-        border: 2px solid #333; /* Border style */
+        /* border: 2px solid #333; */
         box-sizing: border-box; /* Include border in total width and height */
     }
 
@@ -36,9 +37,9 @@
 
     .full-width-container {
             width: 100%;
-            border: 2px solid #333; /* Border style */
+            /* border: 2px solid #333;  */
             box-sizing: border-box; /* Include border in total width and height */
-            padding: 20px; /* Optional padding */
+            padding: 20px; 
 
             display: flex;
             flex-wrap: wrap;
@@ -76,11 +77,17 @@
         object-fit: cover;
     }
 
+    #imageContainer {
+    min-height: 50vh; /* Set a minimum height for scrolling */
+}
+
+
 </style>
 
 <script>
     let latestValue = 0;
     let itemList = [];
+    //add an array of the item buttons so that they can be iterated through 
 
     function setItem(itemNum, itemID, buttonID)
     {
@@ -111,19 +118,69 @@
         console.log(itemList);
     }
 
+    // Call the function to display images based on the array
+    function saveItems(divID)
+    {
+        displayBuddyWithItems(itemList)
+    }
+
+    function displayBuddyWithItems(integers) {
+        const imageContainer = document.getElementById('imageContainer');
+
+        // Loop through the array of integers
+        for (const integer of integers) {
+            // Create an image element
+            const image = document.createElement('img');
+            
+            // Set the source of the image based on the integer
+            switch (integer) {
+                case 1:
+                    image.src = "{% static 'items/binhatitem.png' %}";
+                    break;
+                case 2:
+                    image.src = "{% static 'items/glassesitem.png' %}";
+                    break;
+                case 3:
+                    image.src = "{% static 'items/goldmedalitem.png' %}";
+                    break;
+                case 4:
+                    image.src = "{% static 'items/rubiishpickeritem.png' %}";
+                    break;
+                case 5:
+                    image.src = "{% static 'items/waterbottleitem.png' %}";
+                    break;
+
+                default:
+                   break;
+            }
+
+            image.classList.add('absolute-image');
+
+            // Append the image to the container
+            imageContainer.appendChild(image);
+        }
+    }
+
+    function clearBuddyWithItems() {
+            //change imageContainer to be any id given 
+            const imageContainer = document.getElementById('imageContainer');
+            // Remove all child elements (images) from the container
+            imageContainer.innerHTML = '';
+        }
+
 </script>
 
 <body>
 <br>
 <div>
-    <h1 class="pet-title">Your Buddy's Wardrobe</h1>
+    <h1 class="pet-title">{{user_details.buddy_name}}'s Wardrobe</h1>
 </div>
 
 
 <div class="centered-container">
     <div>
-        <!--<img src="{% static 'under_my_scrum_brella/treeguy.png' %}"  alt="Your Pet Image" class="absolute-image">-->
-        <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" alt="Overlay Image" class="absolute-image">
+        
+        <img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
         <img id="item-1-image" src="{% static 'items/binhatitem.png' %}" class="item-image">
         <img id="item-2-image" src="{% static 'items/glassesitem.png' %}" class="item-image">
         <img id="item-3-image" src="{% static 'items/goldmedalitem.png' %}" class="item-image">
@@ -152,11 +209,25 @@
 
 </div>
 
-<div id="itemList">
+<button id="Save changes" title="Save changes" class="wardrobe-button" onclick="saveItems()">
+    Submit </button>
+
+<button id="Clear Items" title="Clear Items" class="wardrobe-button" onclick="clearBuddyWithItems()">
+    Clear </button>
+
+<!--
+<div id="testItemList">
     Test for getting items from the database
     {% for item in all_items %}
             Item: {{ item.item_name }}
     {% endfor %}
+</div>
+-->
+
+<div class="centered-container">
+    <div id="imageContainer">
+        <img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
+    </div>
 </div>
 
 </body>
