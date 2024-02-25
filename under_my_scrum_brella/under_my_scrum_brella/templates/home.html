@@ -14,13 +14,17 @@
 </div>
 <h2>Your Buddy:</h2>
 <div style="justify-content: center; display: flex;">
-    <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image">
+    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="responsive-image">
     <!-- Change this later to access the users actual pet in their outfit-->
 </div>
 <div style="justify-content: center; display: flex;">
     <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>
-<h2>Your Coins: {{user_details.total_coins}}</h2> <!-- Change this later to access the users actual amount of coins-->
+<h2>Your EcoCoins: {{user_details.total_coins}}</h2>
+<h2>Your XP: {{user_details.total_xp}}</h2>
+<div style="justify-content: center; display: flex;">
+    <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
+</div>
 <h2>Looking for ideas of what to do?</h2>
 <p>Have a look at some of our sustainable tasks to earn EcoCoins, visit your sustainable buddy, or make some friends!
 </p>

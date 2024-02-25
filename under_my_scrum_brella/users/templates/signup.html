@@ -1,10 +1,20 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+
 <!-- signup container -->
 <section class="vh-100">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
+            <div>
+                <h1>Buddy choices:</h1>
+                <div style="justify-content: center; display: flex;">
+                    <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" class="responsive-image">
+                    <img src="{% static 'under_my_scrum_brella/treeguy.png' %}" class="responsive-image">
+                    <img src="{% static 'under_my_scrum_brella/waterbottleguy.png' %}" class="responsive-image">
+                    <img src="{% static 'under_my_scrum_brella/greenbinguy.png' %}" class="responsive-image">
+                </div>
+            </div>
             <div class="col-md-8">
                 <div class="card shadow-2-strong" style="border-radius: 1rem">
                     <div class="card-body p-5 text-center">
@@ -74,6 +84,8 @@
                         </form>
                     </div>
                 </div>
+                <br>
+                <br>
             </div>
         </div>
     </div>

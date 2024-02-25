@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
-from users.models import UserDetail
+from users.models import UserDetail, Item
 
 def home(request):
     user = request.user
@@ -24,7 +24,12 @@ def shop(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
-        context = {'user_details': user_details}
+        # ellie - added access to items for shop
+        all_items = Item.objects.all()
+        context = {
+            'user_details': user_details,
+            'all_items': all_items,
+            }
         return render(request, 'shop.html', context)
     else:
         return render(request, 'shop.html')
@@ -33,7 +38,12 @@ def wardrobe(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
-        context = {'user_details': user_details}
+        # ollie f - added access to items for wardrobe
+        all_items = Item.objects.all()
+        context = {
+            'user_details': user_details,
+            'all_items': all_items,
+            }
         return render(request, 'wardrobe.html', context)
     else:
         return render(request, 'wardrobe.html')
