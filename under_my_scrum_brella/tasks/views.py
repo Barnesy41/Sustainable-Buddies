@@ -1,15 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Task, UserTask
 from users.models import UserDetail
+from django.http import HttpResponseRedirect, JsonResponse
     
 # This is a list of all tasks, NOT a specific user's tasks  #
 # if you want a user's tasks, please use user_tasks instead #
 def task_list(request):
     user = request.user
     
+    #Get the list of all tasks
+    #TODO: currently redundant
     tasks = Task.objects.all()
     context = {'tasks': tasks}
     
+    #Get all tasks assigned to the given user
     assigned_tasks = UserTask.objects.filter(user_id=user)
     context['assigned_tasks'] = assigned_tasks
     
@@ -19,3 +23,19 @@ def task_list(request):
         return render(request, 'tasks.html', context)
     else:
         return render(request, 'tasks.html', context)
+
+# The below is written by Ollie Barnes
+def task_complete(request):
+    print(1)
+    if request.method == 'POST':
+        print('tid:', task_id)
+        task_id = request.POST.get('task_id')
+        print('tid:', task_id)
+        
+        #Update the completion status of the task
+        task_object = UserTask.objects.get(task_id=task_id)
+        task_object.attribute_to_update = 1     #update the completion status from 0 (incomplete) to 1 (complete)
+        task_object.save()
+        return HttpResponseRedirect('/home/') #Test code
+    else:
+        return render(request, 'test.html', {}) # test code
