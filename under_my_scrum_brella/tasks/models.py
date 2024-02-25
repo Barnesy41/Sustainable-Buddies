@@ -1,5 +1,6 @@
 from django.db import models
-
+from users.models import UserDetail
+from users.models import User
 
 class Task(models.Model):
     TaskName = models.CharField(max_length=200)
@@ -10,3 +11,9 @@ class Task(models.Model):
 
     def __str__(self):
         return self.TaskName
+
+# The below was written by Ollie Barnes #
+class UserTask(models.Model):
+    completion_status = models.IntegerField(default=0)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
