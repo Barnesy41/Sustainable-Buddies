@@ -128,6 +128,7 @@ def friends(request):
         else:
             return render(request, 'friends.html', context)
 
+# Made by jack
 def account(request):
     if not request.user.is_authenticated:
         messages.success(request, "You must be logged in to view this page!")
