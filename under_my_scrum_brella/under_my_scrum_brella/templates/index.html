@@ -46,7 +46,7 @@
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'tasks' %}">{{ user.username }}</a>
+            <a class="nav-link" href="{% url 'account' %}">{{ user.username }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"> EcoCoins: {{user_details.total_coins}}</a>
