@@ -5,16 +5,16 @@
 <h1>Leaderboard:</h1>
 <div style="justify-content: center; display: flex;">
   <button onclick="showFriends()" class="login-btn" style="border: none;">Friends Leaderboard</button>
-  <button onclick="showPending()" class="login-btn" style="border: none;">All Players Leaderboard</button>
+  <button onclick="showAll()" class="login-btn" style="border: none;">All Players Leaderboard</button>
 </div>
 <br>
 <div id="friendsLeader" style="display: block;">
   <table class="table">
     <tbody>
+      <!-- output each friend in order of their total xp -->
       {% for friend in friends %}
       <tr>
-        <!-- this section will need to sort their friends in order of xp -->
-        <div class="friend">{{ friend.username }}: {{friend.total_xp}}</div>
+        <div class="friend">{{ friend.username }}: {{friend.total_xp}}XP</div>
       </tr>
       {% endfor %}
     </tbody>
@@ -23,11 +23,11 @@
 <div id="allLeader" style="display: none;">
   <table class="table">
     <tbody>
-      <!-- change this line to access all from the leaderboard: {% for player in leaderboard %} -->
+      {% for user in all_users %}
       <tr>
-        <!-- display users within here sorted by their score -->
+        <div class="friend">{{ user.user }}: {{user.total_xp}}XP</div>
       </tr>
-      <!-- {% endfor %} -->
+      {% endfor %}
     </tbody>
   </table>
 

@@ -130,11 +130,37 @@ def friends(request):
         else:
             return render(request, 'friends.html', context)
         
+# The below code is written by Ollie Barnes & Ellie Andrews
+#TODO: ensure admins arent included in the list of users?
 def leaderboard(request):
-    user = request.user
-    if user.is_authenticated:
-        user_details = get_object_or_404(UserDetail, pk=user.id)
-        context = {'user_details': user_details}
-        return render(request, 'leaderboard.html', context)
-    else:
-        return render(request, 'leaderboard.html')
+    #Redirect the user to the login page if they are not signed in
+    currentUser = request.user
+    if not currentUser.is_authenticated:
+        messages.success(request, "Please login first")
+        return redirect('login')
+
+    # Get all of the friends of a user
+    friends1 = Friend.objects.select_related("user2").filter(user1=currentUser).filter(friends=True)
+    friends2 = Friend.objects.select_related("user1").filter(user2=currentUser).filter(friends=True)
+    
+    friends = []
+    for friend in friends1:
+        friends.append(friend.user2)
+    for friend in friends2:
+        friends.append(friend.user1)
+    friends.append(User.objects.get(id=currentUser.id))   #Add the current user to the list
+    
+    #Calculate the total xp for each friend
+    for friend in friends:
+        friend.total_xp = UserDetail.objects.get(user=friend).total_xp
+    
+    # Sort the friend list by total xp
+    friends.sort(key=lambda x: x.total_xp, reverse=True)
+    context = {'friends': friends}
+    
+    #Get a list of all the Users signed up to the website & sort by XP level
+    all_users = UserDetail.objects.all()
+    sorted_xp_all_users = all_users.order_by('-total_xp')
+    context['all_users'] = sorted_xp_all_users
+
+    return render(request, 'leaderboard.html', context)
