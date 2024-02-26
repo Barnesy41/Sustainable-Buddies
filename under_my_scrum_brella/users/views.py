@@ -167,7 +167,11 @@ def leaderboard(request):
     
     #Get a list of all the Users signed up to the website & sort by XP level
     all_users = UserDetail.objects.all()
-    sorted_xp_all_users = all_users.order_by('-total_xp')
+    sorted_xp_all_users = all_users.order_by('-total_xp')   #Order by descending XP level
     context['all_users'] = sorted_xp_all_users
 
+    #Return all the details of the user, allowing their coins to show on the nav bar
+    user_details = get_object_or_404(UserDetail, pk=currentUser.id)
+    context['user_details'] = user_details
+    
     return render(request, 'leaderboard.html', context)
