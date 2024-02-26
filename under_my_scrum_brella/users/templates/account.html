@@ -50,14 +50,13 @@ function checkPassMatch() {
     };
 }
 
-
 document.getElementById("new_pass").addEventListener("keyup", () => {
     clearTimeout(timer);
-    timer=setTimeout(checkPassMatch, 500)
+    timer=setTimeout(checkPassMatch, 500); // Stops it from appearing as soon as you type
 });
 document.getElementById("new_pass_repeat").addEventListener("keyup", () => {
     clearTimeout(timer);
-    timer=setTimeout(checkPassMatch, 500)
+    timer=setTimeout(checkPassMatch, 500);
 });
 
 
