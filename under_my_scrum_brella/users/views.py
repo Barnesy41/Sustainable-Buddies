@@ -129,3 +129,12 @@ def friends(request):
             return render(request, 'friends.html', context)
         else:
             return render(request, 'friends.html', context)
+        
+def leaderboard(request):
+    user = request.user
+    if user.is_authenticated:
+        user_details = get_object_or_404(UserDetail, pk=user.id)
+        context = {'user_details': user_details}
+        return render(request, 'leaderboard.html', context)
+    else:
+        return render(request, 'leaderboard.html')
