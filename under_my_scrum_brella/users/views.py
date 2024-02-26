@@ -1,3 +1,10 @@
+###########################################################################
+#   Author: Silas Turner
+#   Contributors: Ollie Barnes, Ellie Andrews
+#
+#   The author has written all code in this file unless stated otherwise.
+###########################################################################
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -130,7 +137,7 @@ def friends(request):
         else:
             return render(request, 'friends.html', context)
         
-# The below code is written by Ollie Barnes & Ellie Andrews
+# The leaderboard function below was written by Ollie Barnes & Ellie Andrews
 #TODO: ensure admins arent included in the list of users?
 def leaderboard(request):
     #Redirect the user to the login page if they are not signed in
@@ -148,7 +155,7 @@ def leaderboard(request):
         friends.append(friend.user2)
     for friend in friends2:
         friends.append(friend.user1)
-    friends.append(User.objects.get(id=currentUser.id))   #Add the current user to the list
+    friends.append(User.objects.get(id=currentUser.id))   #Add the current user to the list to ensure they show in the friends leaderboard
     
     #Calculate the total xp for each friend
     for friend in friends:
