@@ -53,46 +53,47 @@
 <!-- Popup box -->
 <div class="overlay" id="overlay"></div>
 <div class="popup" id="popup">
-    <h2>Item Details</h2>
-    <p>Name: <span id="itemName"></span></p>
-    <p>Description: <span id="itemDescription"></span></p>
-    <p>Price: $<span id="itemPrice"></span></p>
-    <div style="justify-content: center; display: flex; gap: 20px;">
-    <button onclick="purchaseItem()" class="btn btn-primary btn-block loginpage-btn">Purchase Item</button>
-    <button onclick="closePopup()" class="btn btn-primary btn-block loginpage-btn">Close</button>
-    </div>
+   <h2>Item Details</h2>
+   <p>Name: <span id="itemName"></span></p>
+   <p>Description: <span id="itemDescription"></span></p>
+   <p>Price: $<span id="itemPrice"></span></p>
+   <div style="justify-content: center; display: flex; gap: 20px;">
+      <form action="" method=POST>
+         {% csrf_token %}
+         <input type="hidden" name="id" id="idInput" value="">
+         <button type="submit" class="btn btn-primary btn-block loginpage-btn">Purchase Item</button>
+      </form>
+      <button onclick="closePopup()" class="btn btn-primary btn-block loginpage-btn">Close</button>
+   </div>
 </div>
 
 <div style="justify-content: center; display: flex;">
    <!--Code to load all items from the database-->
    <div id="itemList">
       {% for item in all_items %}
-      <button id="item" title="item" class="shop-button" onclick="openPopup()">
-         <img src="{% static 'items/' %}{{ item.item_name }}" width="90" height="90"></button>
+      <button id="item" title="item" class="shop-button" onclick="openPopup('{{item.itemID}}')">
+         <span id="i{{ item.itemID }}" style="display: hidden;" data-item-name="{{item.item_name}}"
+            data-item-description="{{item.item_description}}" data-item-cost="{{item.item_cost}}"></span>
+         <img src="{% static 'items/' %}{{ item.item_location }}" width="90" height="90"></button>
       {% endfor %}
    </div>
 </div>
 
 <script>
-   function openPopup() {
-       document.getElementById("overlay").style.display = "block";
-       document.getElementById("popup").style.display = "block";
-       // Need to change the code below so that it fetches the correct details for the selected item
-       document.getElementById("itemName").innerText = "Sample Item";
-       document.getElementById("itemDescription").innerText = "This is a sample item description.";
-       document.getElementById("itemPrice").innerText = "20.00";
-       //also may need code for if the item is already purchased
+   function openPopup(id) {
+      const data = document.querySelector("#i" + id);
+      document.getElementById("overlay").style.display = "block";
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("itemName").innerText = data.dataset.itemName;
+      document.getElementById("itemDescription").innerText = data.dataset.itemDescription;
+      document.getElementById("itemPrice").innerText = data.dataset.itemCost;
+      document.getElementById("idInput").value = id;
+      //also may need code for if the item is already purchased
    }
 
    function closePopup() {
-       document.getElementById("overlay").style.display = "none";
-       document.getElementById("popup").style.display = "none";
-   }
-
-   function purchaseItem() {
-       // Add logic here to handle the purchase
-       alert("Item purchased!");
-       closePopup();
+      document.getElementById("overlay").style.display = "none";
+      document.getElementById("popup").style.display = "none";
    }
 </script>
 {% endblock content %}

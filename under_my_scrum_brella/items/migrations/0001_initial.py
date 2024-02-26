@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('item_name', models.CharField(max_length=255)),
                 ('item_description', models.TextField(max_length=400)),
                 ('item_cost', models.IntegerField(default=100)),
+                ('item_location', models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
