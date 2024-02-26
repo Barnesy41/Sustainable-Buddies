@@ -134,8 +134,7 @@ def account(request):
         messages.success(request, "You must be logged in to view this page!")
         return redirect('login')
 
-    print(request)
-    user_details = get_object_or_404(UserDetail, pk=user.id)
+    user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
     if request.method == "POST" and "change_pass" in request.POST:
         if authenticate(request, username=user_details.username, password=password) is not None:
