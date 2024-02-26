@@ -1,10 +1,15 @@
-<!-- This file was written by Ollie Barnes unless stated otherwise -->
+<!-- 
+   Author: Ollie Barnes
+   Contributors: Ellie Andrews
+
+   The author has written all code in this file unless stated otherwise.
+-->
 
 {% extends 'index.html' %}
 {% load static %}
 
 {% block content %}
-<!-- the below style tag was written by Ellie Andrews -->
+<!-- the below styling was written by Ellie Andrews -->
 <style>
 .popup {
    display: none;
@@ -33,7 +38,7 @@
 </style>
 <!-- end of Ellie Andrews styling -->
 
-<!-- styling to alter the table dependant on device width -->
+<!-- styling to alter the table dependant on device width, this allows for mobile compatibility -->
 <style>
    /* Default the mobile version of the table as hidden */
    .mobile-table-container, .desktop-table-container{
@@ -62,11 +67,12 @@
 
 <h1>{{ user.username }}'s tasks</h1>
 
-<!-- create a table of tasks, allow clickable descriptions to pop-up in modal boxes & allow users to tick off tasks 
-        tasks should be auto-ticked if already completed & DB updated if they click they have done a task. -->
-<!-- this is the code used if the user is on desktop -->
-<div class="table-responsive desktop-table-container">
+<!--  create a table of tasks, allow clickable descriptions to pop-up in modal boxes & allow users to complete tasks. 
+      tasks should be auto-ticked if already completed on page load & the database updated if they complete a task. -->
+<div class="table-responsive desktop-table-container">   <!-- this is the code used if the user is on desktop -->
    <table class="table table-hover table-bordered table-striped align-middle">
+
+      <!-- display the table headers -->
       <thead class="table-dark">
          <tr>
             <th scope="col">Task</th>
@@ -78,25 +84,34 @@
       </thead>
 
       <tbody class="table-group-divider">
+         <!-- create a row entry in the table for each task assigned to the current user -->
          {% for task in assigned_tasks %}
             <tr class="align-middle">
-               <th scope="row"> <a href="#" onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}', '{{ task.task_id.CoinReward }}', '{{ task.task_id.XpReward }}')"> 
-                  {{ task.task_id.TaskName }} </a></th>
+
+               <th scope="row">
+                  <!-- display the popup function containing the task description if the task is clicked -->
+                  <a href="#" onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}', '{{ task.task_id.CoinReward }}', '{{ task.task_id.XpReward }}')"> 
+                  {{ task.task_id.TaskName }} </a>
+               </th>
                <td> {{ task.task_id.DifficultyLevel }}</td>
                <td> {{ task.task_id.CoinReward }} coins</td>
                <td> {{ task.task_id.XpReward }} XP</td>
 
+               <!-- if the task is complete, display a tick to show the task is completed & disable the button from being used -->
                {% if task.completion_status == 1 %}
-               <!-- button is disabled, so a task cannot be unchecked. -->
-               <td> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
+               <td> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>    <!-- button is disabled, ensuring a task cannot be unchecked. -->
+               
+               <!--  if task is not complete, create a hidden form that submits the task id when the task completion button is pressed,
+                     allowing the database to be updated upon completion -->
                {% else %}
                <td>
-                  <!-- create a form which allows details to be passed to the database on submission -->
                   <form action="" method='POST'>
                      {% csrf_token %}
                      <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
-                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button>
                   </form>
+               </td>
+               
                {% endif %}
             </tr>
          {% endfor %}
@@ -108,6 +123,7 @@
 <div class="table-responsive mobile-table-container">
    <table class="table table-hover table-bordered table-striped align-middle">
       <thead class="table-dark">
+         <!-- display a reduced set of table headers -->
          <tr>
             <th scope="col">Task</th>
             <th scope="col">Difficulty</th>
@@ -116,23 +132,29 @@
       </thead>
 
       <tbody class="table-group-divider">
+         <!-- create a row entry in the table for each task assigned to the current user -->
          {% for task in assigned_tasks %}
             <tr class="align-middle">
                <th scope="row"> <a href="#" onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}', '{{ task.task_id.CoinReward }}', '{{ task.task_id.XpReward }}')"> 
                   {{ task.task_id.TaskName }} </a></th>
                <td> {{ task.task_id.DifficultyLevel }}</td>
 
+               <!-- if the task is complete, display a tick to show the task is completed & disable the button from being used -->
                {% if task.completion_status == 1 %}
-               <!-- button is disabled, so a task cannot be unchecked. -->
-               <td> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
+               <td> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>    <!-- button is disabled, so a task cannot be unchecked. -->
+               
+               <!--  if task is not complete, create a hidden form that submits the task id when the task completion button is pressed,
+                     allowing the database to be updated upon completion -->
                {% else %}
                <td>
                   <!-- create a form which allows details to be passed to the database on submission -->
                   <form action="" method='POST'>
                      {% csrf_token %}
                      <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
-                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button>
                   </form>
+               </td>
+
                {% endif %}
             </tr>
          {% endfor %}
@@ -141,28 +163,42 @@
 </div>
 
 <!-- the below was written by Ellie Andrews, altered by Ollie Barnes for re-use -->
+<!-- A popup which displays the task name, task description, & task rewards to the user -->
 <div class="overlay" id="overlay"></div>
 <div class="popup" id="popup">
-    <h2 id="taskModalTitle"> <!-- the task title goes here --> </h2>
-    <p><span id="modal-body"> <!-- the task description goes here --> </span></p>
+    <h2 id="taskModalTitle"> <!-- the task title goes here via javascript --> </h2>
+    <p><span id="modal-body"> <!-- the task description goes here via javascript --> </span></p>
     <div style="justify-content: center; display: flex; gap: 20px;">
     <button onclick="closePopup()" class="btn btn-primary btn-block loginpage-btn">Close</button>
     </div>
 </div>
 
 <script>
+   /**
+      This function allows the details of a task to be shown to the user when a HTML element is clicked by
+      updating the text held by the modal-body and taskModalTitle elements of the popup window
+
+      @param taskName the name of the task
+      @param taskDescription the description of the task
+      @param taskXp the amount of XP the user gains from completing the task
+      @param taskCoins the number of coins the user gains from completing the task
+
+   **/
    function openPopup(taskName, taskDescription, taskXp, taskCoins) {
       // Display the modal
       document.getElementById("overlay").style.display = "block";
        document.getElementById("popup").style.display = "block";
 
       //include taskXp & taskCoins in the description
-      taskDescription = 
+      taskDescription = taskDescription + "<br><br> Rewards: <br> +" + taskXp + "XP <br> +" + taskCoins + "Coins";
       // Update the contents of the modal
-      document.getElementById("modal-body").innerHTML = taskDescription + "<br><br> Rewards: <br> +" + taskXp + "XP <br> +" + taskCoins + "Coins";
+      document.getElementById("modal-body").innerHTML = taskDescription;
       document.getElementById("taskModalTitle").innerText = taskName;
    }
 
+   /**
+      This function closes the popup window
+   **/
    function closePopup() {
        document.getElementById("overlay").style.display = "none";
        document.getElementById("popup").style.display = "none";
