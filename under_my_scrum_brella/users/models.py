@@ -16,15 +16,3 @@ class Friend(models.Model):
     friends = models.BooleanField(default=False)
     class Meta:
         unique_together = ["user1", "user2"]
-
-class Item(models.Model):
-    itemID = models.AutoField(primary_key=True)
-    item_name = models.CharField(max_length=255)
-    item_description = models.TextField(max_length=400)
-    item_cost = models.IntegerField(default=100)
-
-#to be added 
-#class UserBuddyItems(models.Model):
-    #user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    #is_worn = models.BooleanField(default=False)

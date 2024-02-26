@@ -27,10 +27,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
-    path('shop/', views.shop, name='shop'),
     path('tasks/', include('tasks.urls')),
     path('mypet/', views.my_pet, name='mypet'),
-    path('wardrobe/', views.wardrobe, name='wardrobe')
+    path('items/', include('items.urls'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

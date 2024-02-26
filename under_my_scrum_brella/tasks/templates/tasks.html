@@ -1,8 +1,40 @@
+<!-- This file was written by Ollie Barnes unless stated otherwise -->
+
 {% extends 'index.html' %}
 {% load static %}
 
 {% block content %}
-<h1>Tasks Page</h1>
+<!-- the below style tag was written by Ellie Andrews -->
+<style>
+.popup {
+   display: none;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   border: 1px solid #ccc;
+   padding: 20px;
+   background-color: #6bbdb8;
+   z-index: 9999;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Style for the overlay */
+.overlay {
+   display: none;
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.5);
+   z-index: 9998;
+}
+</style>
+
+
+
+<h1>{{ user.username }}'s tasks</h1>
 
 <!-- create a table of tasks, allow clickable descriptions to pop-up in modal boxes & allow users to tick off tasks 
         tasks should be auto-ticked if already completed & DB updated if they click they have done a task. -->
@@ -19,62 +51,59 @@
    </thead>
 
    <tbody>
-      {% for task in tasks %}
-      <tr>
-         <form>
-            <th scope="col">{{ task.TaskName }}</th>
-            <td scope="col">{{ task.DifficultyLevel }}</td>
-            <td scope="col">{{ task.CoinReward }}</td>
-            <td scope="col">{{ task.XpReward }}</td>
+      {% for task in assigned_tasks %}
+         <tr>
+            <th scope="col">{{ task.task_id.TaskName }}</th>
+            <td scope="col">{{ task.task_id.DifficultyLevel }}</td>
+            <td scope="col">{{ task.task_id.CoinReward }}</td>
+            <td scope="col">{{ task.task_id.XpReward }}</td>
             <td scope="col"> <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
                   data-target="#taskModal"
-                  onclick="openTaskDescription('{{ task.TaskName }}', '{{ task.Description }}')">info</button> </td>
+                  onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}')">info</button> </td>
 
-            <!-- submits a form when a task is checked off - may need more data included for this to be practical -->
-            <!-- TODO: check this is right? might not be task. -->
-            {% if task.CompletionStatus == 1 %}
+            {% if task.completion_status == 1 %}
             <!-- button is disabled, so a task cannot be unchecked. -->
             <td scope="col"> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
             {% else %}
-            <td scope="col"> <button type="submit" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+            <td scope="col">
+               <!-- create a form which allows details to be passed to the database on submission -->
+               <form action="" method='POST'>
+                  {% csrf_token %}
+                  <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
+                  <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+               </form>
             {% endif %}
-         </form>
-      </tr>
+         </tr>
       {% endfor %}
    </tbody>
 </table>
 
-<!-- Modal -->
-<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalTitle" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-         <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="taskModalTitle">Task Description</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body" id="modal-body">
-            <!-- this is where the java script changes the task description -->
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
+<!-- the below was written by Ellie Andrews, altered by Ollie Barnes for re-use -->
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+    <h2 id="taskModalTitle"> <!-- the task title goes here --> </h2>
+    <p><span id="modal-body"> <!-- the task description goes here --> </span></p>
+    <div style="justify-content: center; display: flex; gap: 20px;">
+    <button onclick="closePopup()" class="btn btn-primary btn-block loginpage-btn">Close</button>
+    </div>
 </div>
 
-
-
-
-<!-- this may need to move before endblock, not sure -->
-<!-- TODO: create a scripts directory? -->
 <script>
-   function openTaskDescription(taskName, taskDescription) {
+   function openPopup(taskName, taskDescription) {
+      // Display the modal
+      document.getElementById("overlay").style.display = "block";
+       document.getElementById("popup").style.display = "block";
+
+      // Update the contents of the modal
       document.getElementById("modal-body").innerText = taskDescription;
       document.getElementById("taskModalTitle").innerText = taskName;
-      $('#taskModal').modal("show");
+   }
+
+   function closePopup() {
+       document.getElementById("overlay").style.display = "none";
+       document.getElementById("popup").style.display = "none";
    }
 </script>
+<!-- end of Ellie Andrews' code-->
 
 {% endblock content %}
