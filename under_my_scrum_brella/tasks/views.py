@@ -7,21 +7,22 @@ from django.contrib import messages
 # This is a list of all tasks, NOT a specific user's tasks  #
 # if you want a user's tasks, please use user_tasks instead #
 def task_list(request):
-    if not request.user.is_authenticated:
+    current_user = request.user
+    if not current_user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
-    if request.user.is_superuser:
+    if current_user.is_superuser:
         return redirect('/admin/')
     if request.method == 'POST':
         task_id = request.POST["task_id"]
         
         #Update the completion status of the task
-        task_object = UserTask.objects.get(task_id=task_id)
+        task_object = UserTask.objects.get(task_id=task_id, user_id=current_user)
         task_object.completion_status = 1     #update the completion status from 0 (incomplete) to 1 (complete)
         task_object.save()
         
         #Add coins & XP to the user's account
-        user = UserDetail.objects.get(user=request.user)    
+        user = UserDetail.objects.get(user=current_user)    
         task_object = Task.objects.get(id=task_id)
 
         user.total_coins = user.total_coins + task_object.CoinReward
@@ -29,19 +30,17 @@ def task_list(request):
         user.save()
         return redirect('tasks')
     
-    user = request.user
-    
     #Get the list of all tasks
     #TODO: currently redundant
     tasks = Task.objects.all()
     context = {'tasks': tasks}
     
     #Get all tasks assigned to the given user
-    assigned_tasks = UserTask.objects.filter(user_id=user)
+    assigned_tasks = UserTask.objects.filter(user_id=current_user)
     context['assigned_tasks'] = assigned_tasks
     
-    if user.is_authenticated:
-        user_details = get_object_or_404(UserDetail, pk=user.id)
+    if current_user.is_authenticated:
+        user_details = get_object_or_404(UserDetail, pk=current_user.id)
         context['user_details'] = user_details
         return render(request, 'tasks.html', context)
     else:
