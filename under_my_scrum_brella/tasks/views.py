@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .models import Task, UserTask
 from users.models import UserDetail
 from django.contrib.auth import authenticate
+from django.contrib import messages
 
 # This is a list of all tasks, NOT a specific user's tasks  #
 # if you want a user's tasks, please use user_tasks instead #
