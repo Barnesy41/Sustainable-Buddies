@@ -12,22 +12,46 @@
             <div class="col-md-4 login-container" >
                 <div class="card shadow-2-strong" style="border-radius: 1rem" >
                     <div class="card-body p-5 text-center">
-                        <h2 class="text-center mb-4" style = "color: #2c7774 !important;">Change password</h2>
 
-                        <form action="" method=POST id="changePass">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary btn-block loginpage-btn" data-bs-toggle="modal" data-bs-target="#changePassModal">
+                        Change password
+                    </button>
+  
+                    <!-- Modal -->
+                    <form action="" method=POST id="changePass">
+                        <div class="modal fade" id="changePassModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="text-center mb-4" style = "color: #2c7774 !important;">Change password</h2>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass">
+                                                <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat">
+                                            </div>
+                                            <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
+                                                Passwords do not match!
+                                            </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button name="changePass" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass">
-                                <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat">
-                            </div>
-                            <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
-                                Passwords do not match!
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
-                        </form>
+                        </div>
+                    </form>
 
                     </div>
                 </div>
@@ -78,7 +102,7 @@ document.getElementById("changePass").addEventListener("submit", function (event
         event.preventDefault();
     } else if (pass === old_pass) {
         alert("New password can not be the same as the old!");
-        event.preventDefault;
+        event.preventDefault();
     }
 });
 </script>

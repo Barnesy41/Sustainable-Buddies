@@ -130,17 +130,25 @@ def friends(request):
 
 def account(request):
     if not request.user.is_authenticated:
-        print(request)
         messages.success(request, "You must be logged in to view this page!")
         return redirect('login')
 
     user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
     if request.method == "POST" and "changePass" in request.POST:
-        if authenticate(request, username=user_details.username, password=password) is not None:
-            user_details.set_password(request["new_pass"])
-            user_details.save()
-            messages.success(request, "Password changed")
+        old_pass = request.POST["old_pass"]
+        new_pass = request.POST["new_pass"]
+        repeat_pass = request.POST["new_pass_repeat"]
+
+        if authenticate(request, username=user_details.user.username, password=old_pass) is not None:
+            if new_pass == repeat_pass:
+                user_details.user.set_password(new_pass)
+                user_details.user.save()
+                messages.success(request, "Password changed")
+                # Password changes log out
+                login(request, authenticate(request, username=user_details.user.username, password=new_pass))
+            else:
+                messages.success(request, "Passwords did not match")
         else:
             messages.success(request, "Incorrect password")
 
