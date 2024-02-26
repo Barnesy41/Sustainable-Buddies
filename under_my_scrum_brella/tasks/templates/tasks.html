@@ -39,7 +39,7 @@
             {% else %}
             <td scope="col">
                <!-- create a form which allows details to be passed to the database on submission -->
-               <form action="{% url 'complete-task' %}" method='post'>
+               <form action="{% url 'complete-task' %}" method='POST'>
                   {% csrf_token %}
                   <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
                   <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
