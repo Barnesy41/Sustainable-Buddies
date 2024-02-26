@@ -30,7 +30,9 @@ urlpatterns = [
     path('shop/', views.shop, name='shop'),
     path('tasks/', include('tasks.urls')),
     path('mypet/', views.my_pet, name='mypet'),
-    path('wardrobe/', views.wardrobe, name='wardrobe')
+    path('wardrobe/', views.wardrobe, name='wardrobe'),
+    path('Games/noughtsAndCrosses/', views.noughtsCrosses ,name='noughtsAndCrosses'),
+    path('games/', views.games, name='games'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
