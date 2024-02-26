@@ -68,6 +68,8 @@ def friends(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     if request.method == 'POST':
         if "accept" in request.POST:
             Friend.objects.filter(id=request.POST["id"]).update(pending_first_second = False, pending_second_first = False, friends = True)

@@ -10,6 +10,8 @@ def task_list(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     if request.method == 'POST':
         task_id = request.POST["task_id"]
         

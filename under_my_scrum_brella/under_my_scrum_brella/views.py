@@ -1,8 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from users.models import UserDetail
 
 def home(request):
+    if request.user.is_superuser:
+        return redirect('/admin/')
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
@@ -12,6 +14,8 @@ def home(request):
         return render(request, 'home.html')
     
 def my_pet(request):
+    if request.user.is_superuser:
+        return redirect('/admin/')
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)

@@ -9,6 +9,8 @@ def shop(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     if request.method == 'POST':
         itemId = request.POST["id"]
         currentUser = request.user
@@ -45,6 +47,8 @@ def wardrobe(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
