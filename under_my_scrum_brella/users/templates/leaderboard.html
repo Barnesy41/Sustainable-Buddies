@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% load static %}
+<!--Page written by Ellie, excluding lines stating otherwise-->
+{% block content %}
+<h1>Leaderboard:</h1>
+<div style="justify-content: center; display: flex;">
+  <button onclick="showFriends()" class="login-btn" style="border: none;">Friends Leaderboard</button>
+  <button onclick="showPending()" class="login-btn" style="border: none;">All Players Leaderboard</button>
+</div>
+<br>
+<div id="friendsLeader" style="display: block;">
+  <table class="table">
+    <tbody>
+      {% for friend in friends %}
+      <tr>
+        <!-- this section will need to sort their friends in order of xp -->
+        <div class="friend">{{ friend.username }}: {{friend.total_xp}}</div>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div id="allLeader" style="display: none;">
+  <table class="table">
+    <tbody>
+      <!-- change this line to access all from the leaderboard: {% for player in leaderboard %} -->
+      <tr>
+        <!-- display users within here sorted by their score -->
+      </tr>
+      <!-- {% endfor %} -->
+    </tbody>
+  </table>
+
+</div>
+
+<script>
+  function showFriends() {
+    document.getElementById('friendsLeader').style.display = "block";
+    document.getElementById('allLeader').style.display = "none";
+  }
+
+  function showAll() {
+    document.getElementById('friendsLeader').style.display = "none";
+    document.getElementById('allLeader').style.display = "block";
+  }
+</script>
+
+{% endblock content %}
