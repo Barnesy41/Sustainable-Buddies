@@ -135,22 +135,29 @@ def account(request):
 
     user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
-    if request.method == "POST" and "changePass" in request.POST:
-        old_pass = request.POST["old_pass"]
-        new_pass = request.POST["new_pass"]
-        repeat_pass = request.POST["new_pass_repeat"]
+    if request.method == "POST":
+        print(request.POST)
+        if "changePass" in request.POST:
+            old_pass = request.POST["old_pass"]
+            new_pass = request.POST["new_pass"]
+            repeat_pass = request.POST["new_pass_repeat"]
 
-        if authenticate(request, username=user_details.user.username, password=old_pass) is not None:
-            if new_pass == repeat_pass:
-                user_details.user.set_password(new_pass)
-                user_details.user.save()
-                messages.success(request, "Password changed")
-                # Password changes log out
-                login(request, authenticate(request, username=user_details.user.username, password=new_pass))
+            if authenticate(request, username=user_details.user.username, password=old_pass) is not None:
+                if new_pass == repeat_pass:
+                    user_details.user.set_password(new_pass)
+                    user_details.user.save()
+                    messages.success(request, "Password changed")
+                    # Password changes log out
+                    login(request, authenticate(request, username=user_details.user.username, password=new_pass))
+                else:
+                    messages.success(request, "Passwords did not match")
             else:
-                messages.success(request, "Passwords did not match")
-        else:
-            messages.success(request, "Incorrect password")
+                messages.success(request, "Incorrect password")
+
+        elif "changeMail" in request.POST:
+            user_details.user.email = request.POST["new_email"]
+            user_details.user.save()
+            user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
 
     context = {'user_details': user_details}

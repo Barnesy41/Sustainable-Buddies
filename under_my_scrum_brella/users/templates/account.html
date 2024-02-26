@@ -9,7 +9,7 @@
             <div>
                 <h1>Currently logged in as {{ user.username }}</h1>
             </div>
-            <div class="col-md-4 login-container" >
+            <div class="col-md-6" >
                 <div class="card shadow-2-strong" style="border-radius: 1rem" >
                     <div class="card-body p-5 text-center">
 
@@ -35,8 +35,8 @@
                                                 <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass">
-                                                <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat">
+                                                <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" required >
+                                                <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" required >
                                             </div>
                                             <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
                                                 Passwords do not match!
@@ -53,6 +53,27 @@
                         </div>
                     </form>
 
+
+
+                    <br>
+                    <form action="" method=POST id="changeMail">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <span id="old_email">{{ user.email }}</span>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <input type="email"class="form-control" id="new_email" placeholder="Enter new email" name="new_email" required >
+                                <div class="input-group-append">
+                                    <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
+                                    <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+  
                     </div>
                 </div>
             </div>
@@ -105,5 +126,28 @@ document.getElementById("changePass").addEventListener("submit", function (event
         event.preventDefault();
     }
 });
+
+
+document.getElementById("changeMail").addEventListener("submit", ()=> {
+    old_email = document.getElementById("old_email").textContent;
+    new_email = document.getElementById("new_email").value;
+
+    if (old_email === new_email) {
+        alert("New email can not be the same as old!")
+        event.preventDefault();
+    }
+    if (!isValidEmail(new_email)){
+        alert("Enter a correct email")
+        event.preventDefault();
+    }
+    if (!new_email) {
+        event.preventDefault();
+    }
+})
+
+function isValidEmail(email) {
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
 </script>
 {% endblock content %}
