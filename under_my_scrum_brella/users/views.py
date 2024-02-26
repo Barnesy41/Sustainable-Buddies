@@ -127,3 +127,24 @@ def friends(request):
             return render(request, 'friends.html', context)
         else:
             return render(request, 'friends.html', context)
+
+def account(request):
+    if not request.user.is_authenticated:
+        print(request)
+        messages.success(request, "You must be logged in to view this page!")
+        return redirect('login')
+
+    print(request)
+    user_details = get_object_or_404(UserDetail, pk=user.id)
+
+    if request.method == "POST" and "change_pass" in request.POST:
+        if authenticate(request, username=user_details.username, password=password) is not None:
+            user_details.set_password(request["new_pass"])
+            user_details.save()
+            messages.success(request, "Password changed")
+        else:
+            messages.success(request, "Incorrect password")
+
+
+    context = {'user_details': user_details}
+    return render(request, 'account.html', context)

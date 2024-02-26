@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!-- signup container -->
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100" >
+            <div>
+                <h1>Currently logged in as {{ user.username }}</h1>
+            </div>
+            <div class="col-md-4 login-container" >
+                <div class="card shadow-2-strong" style="border-radius: 1rem" >
+                    <div class="card-body p-5 text-center">
+                        <h2 class="text-center mb-4" style = "color: #2c7774 !important;">Change password</h2>
+
+                        <form action="" method=POST id="changePass">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"id="new_pass" placeholder="New password" name="new_pass">
+                                <input type="text" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById("changePass").addEventListener("submit", function (event) {
+    var old_pass = document.getElementById("old_pass").value;
+    var pass = document.getElementById("new_pass").value;
+    var pass_repeat = document.getElementById("new_pass_repeat").value;
+
+    console.log(old_pass, pass, pass_repeat);
+
+    if (!old_pass) {
+        alert("Please enter the original password!");
+        event.preventDefault(); // Stop form from being submitted
+    }
+    else if (!pass && !pass_repeat ) {
+        alert("Please enter passwords!");
+        event.preventDefault();
+    } else if (pass != pass_repeat) {
+        alert("Passwords do not match!");
+        event.preventDefault();
+    } else if (pass === old_pass) {
+        alert("New password can not be the same as the old!");
+        event.preventDefault;
+    }
+});
+</script>
+{% endblock content %}
