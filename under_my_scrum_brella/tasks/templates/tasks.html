@@ -31,52 +31,114 @@
    z-index: 9998;
 }
 </style>
+<!-- end of Ellie Andrews styling -->
 
+<!-- styling to alter the table dependant on device width -->
+<style>
+   /* Default the mobile version of the table as hidden */
+   .mobile-table-container, .desktop-table-container{
+      display: block;
+   }
 
+   /* Alter the table size dependant on the device width */
+   @media screen and (max-width: 767px){
+      .desktop-table-container{
+         display: none;
+      }
+      .mobile-table-container{
+         display: block;
+      }
+   }
+
+   @media screen and (min-width: 768px){
+      .desktop-table-container{
+         display: block;
+      }
+      .mobile-table-container{
+         display: none;
+      }
+   }
+</style>
 
 <h1>{{ user.username }}'s tasks</h1>
 
 <!-- create a table of tasks, allow clickable descriptions to pop-up in modal boxes & allow users to tick off tasks 
         tasks should be auto-ticked if already completed & DB updated if they click they have done a task. -->
-<table class="table">
-   <thead>
-      <tr>
-         <th scope="col">Task Name</th>
-         <th scope="col">Difficulty Level</th>
-         <th scope="col">Coin Reward</th>
-         <th scope="col">XP Reward</th>
-         <th scope="col">Info</th>
-         <th scope="col">Completed</th>
-      </tr>
-   </thead>
-
-   <tbody>
-      {% for task in assigned_tasks %}
+<!-- this is the code used if the user is on desktop -->
+<div class="table-responsive desktop-table-container">
+   <table class="table table-hover table-bordered table-striped align-middle">
+      <thead class="table-dark">
          <tr>
-            <th scope="col">{{ task.task_id.TaskName }}</th>
-            <td scope="col">{{ task.task_id.DifficultyLevel }}</td>
-            <td scope="col">{{ task.task_id.CoinReward }}</td>
-            <td scope="col">{{ task.task_id.XpReward }}</td>
-            <td scope="col"> <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                  data-target="#taskModal"
-                  onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}')">info</button> </td>
-
-            {% if task.completion_status == 1 %}
-            <!-- button is disabled, so a task cannot be unchecked. -->
-            <td scope="col"> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
-            {% else %}
-            <td scope="col">
-               <!-- create a form which allows details to be passed to the database on submission -->
-               <form action="" method='POST'>
-                  {% csrf_token %}
-                  <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
-                  <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
-               </form>
-            {% endif %}
+            <th scope="col">Task</th>
+            <th scope="col">Difficulty</th>
+            <th scope="col">Coin Reward</th>
+            <th scope="col">XP Reward</th>
+            <th scope="col">Status</th>
          </tr>
-      {% endfor %}
-   </tbody>
-</table>
+      </thead>
+
+      <tbody class="table-group-divider">
+         {% for task in assigned_tasks %}
+            <tr class="align-middle">
+               <th scope="row"> <a href="#" onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}', '{{ task.task_id.CoinReward }}', '{{ task.task_id.XpReward }}')"> 
+                  {{ task.task_id.TaskName }} </a></th>
+               <td> {{ task.task_id.DifficultyLevel }}</td>
+               <td> {{ task.task_id.CoinReward }} coins</td>
+               <td> {{ task.task_id.XpReward }} XP</td>
+
+               {% if task.completion_status == 1 %}
+               <!-- button is disabled, so a task cannot be unchecked. -->
+               <td> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
+               {% else %}
+               <td>
+                  <!-- create a form which allows details to be passed to the database on submission -->
+                  <form action="" method='POST'>
+                     {% csrf_token %}
+                     <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
+                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+                  </form>
+               {% endif %}
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</div>
+
+<!-- this is the code used if the user is on mobile -->
+<div class="table-responsive mobile-table-container">
+   <table class="table table-hover table-bordered table-striped align-middle">
+      <thead class="table-dark">
+         <tr>
+            <th scope="col">Task</th>
+            <th scope="col">Difficulty</th>
+            <th scope="col">Status</th>
+         </tr>
+      </thead>
+
+      <tbody class="table-group-divider">
+         {% for task in assigned_tasks %}
+            <tr class="align-middle">
+               <th scope="row"> <a href="#" onclick="openPopup('{{ task.task_id.TaskName }}', '{{ task.task_id.Description }}', '{{ task.task_id.CoinReward }}', '{{ task.task_id.XpReward }}')"> 
+                  {{ task.task_id.TaskName }} </a></th>
+               <td> {{ task.task_id.DifficultyLevel }}</td>
+
+               {% if task.completion_status == 1 %}
+               <!-- button is disabled, so a task cannot be unchecked. -->
+               <td> <button type="button" class="btn btn-success btn-sm" disabled> ✅ </button> </td>
+               {% else %}
+               <td>
+                  <!-- create a form which allows details to be passed to the database on submission -->
+                  <form action="" method='POST'>
+                     {% csrf_token %}
+                     <input type="hidden" name="task_id" value="{{ task.task_id.id }}" />
+                     <button type="submit" name="task-complete" class="btn btn-danger btn-sm"> ✖️ </button> </td>
+                  </form>
+               {% endif %}
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</div>
 
 <!-- the below was written by Ellie Andrews, altered by Ollie Barnes for re-use -->
 <div class="overlay" id="overlay"></div>
@@ -89,13 +151,15 @@
 </div>
 
 <script>
-   function openPopup(taskName, taskDescription) {
+   function openPopup(taskName, taskDescription, taskXp, taskCoins) {
       // Display the modal
       document.getElementById("overlay").style.display = "block";
        document.getElementById("popup").style.display = "block";
 
+      //include taskXp & taskCoins in the description
+      taskDescription = 
       // Update the contents of the modal
-      document.getElementById("modal-body").innerText = taskDescription;
+      document.getElementById("modal-body").innerHTML = taskDescription + "<br><br> Rewards: <br> +" + taskXp + "XP <br> +" + taskCoins + "Coins";
       document.getElementById("taskModalTitle").innerText = taskName;
    }
 
