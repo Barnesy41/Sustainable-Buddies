@@ -53,7 +53,10 @@ def wardrobe(request):
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # ollie f - added access to items for wardrobe
-        all_items = Item.objects.all()
+        all_items = []
+        user_items = UserItem.objects.filter(user=user)
+        for user_item in user_items:
+            all_items.append(user_item.item)
         context = {
             'user_details': user_details,
             'all_items': all_items,
