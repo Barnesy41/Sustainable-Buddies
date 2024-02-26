@@ -136,7 +136,7 @@ def account(request):
 
     user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
-    if request.method == "POST" and "change_pass" in request.POST:
+    if request.method == "POST" and "changePass" in request.POST:
         if authenticate(request, username=user_details.username, password=password) is not None:
             user_details.set_password(request["new_pass"])
             user_details.save()
