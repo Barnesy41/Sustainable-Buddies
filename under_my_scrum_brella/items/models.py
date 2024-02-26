@@ -7,8 +7,11 @@ class Item(models.Model):
     item_name = models.CharField(max_length=255)
     item_description = models.TextField(max_length=400)
     item_cost = models.IntegerField(default=100)
+    item_location = models.CharField(max_length=255)
 
-class UserBItems(models.Model):
+class UserItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     is_worn = models.BooleanField(default=False)
+    class Meta:
+        unique_together = ["user", "item"]
