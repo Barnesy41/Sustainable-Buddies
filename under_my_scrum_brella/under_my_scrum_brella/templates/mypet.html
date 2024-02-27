@@ -85,9 +85,10 @@ window.onload = displayImages;
     <div id="imageContainer">
         <div id="wardrobe-container"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
         </div>
+    </div>
 </div>
 <br>
-<div class="full-width-container" style="margin-top: 260px">
+<div class="full-width-container">
 <div class="buttons">
     <a href="{% url 'wardrobe' %}" class="login-btn">Wardrobe</a>
     <a href="{% url 'games' %}" class="login-btn">Games</a>
