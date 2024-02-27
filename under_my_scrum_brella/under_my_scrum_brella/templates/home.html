@@ -10,6 +10,31 @@
   ###########################################################################
   -->
 <br>
+
+<script>        
+    const wardrobeItems = [
+    "{% static 'items/binhatitem.png' %}",
+    "{% static 'items/glassesitem.png' %}",
+    "{% static 'items/goldmedalitem.png' %}",
+    "{% static 'items/rubiishpickeritem.png' %}",
+    "{% static 'items/waterbottleitem.png' %}"
+    ];
+    // Function to display images on the page
+    function displayImages() {
+        const index_array = JSON.parse('{{ index_array|escapejs }}');
+        console.log("items that should be worn "+index_array);
+        const container = document.getElementById('buddy-container');
+        index_array.forEach((item, index) => {
+        const img = document.createElement('img');
+        img.src = wardrobeItems[item];
+        img.alt = `Wardrobe Item ${index + 1}`;
+        img.classList.add('absolute-image');
+        container.appendChild(img);
+    });
+}
+window.onload = displayImages;
+</script>
+
 <!--This section is displayed when the user is logged in-->
 {% if user.is_authenticated %}
 <img src="{% static 'under_my_scrum_brella/waterbottleguyanimated.gif' %}" class="responsive-image-left">
@@ -20,10 +45,17 @@
     <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>
 <h2>Your Buddy:</h2>
-<div style="justify-content: center; display: flex;">
-    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="responsive-image">
-    <!-- Change this later to access the users actual pet in their outfit-->
+
+
+<div class="outer-buddy-containter">
+<div class="centered-container" style="height: 150px; ">
+<div id="buddy-container">
+    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="absolute-image">
 </div>
+</div>
+</div>
+
+
 <div style="justify-content: center; display: flex;">
     <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>

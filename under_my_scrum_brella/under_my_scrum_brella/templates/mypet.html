@@ -63,7 +63,7 @@
     function displayImages() {
         const index_array = JSON.parse('{{ index_array|escapejs }}');
         console.log("items that should be worn "+index_array);
-        const container = document.getElementById('wardrobe-container');
+        const container = document.getElementById('buddy-container');
         index_array.forEach((item, index) => {
         const img = document.createElement('img');
         img.src = wardrobeItems[item];
@@ -73,7 +73,6 @@
     });
 }
 window.onload = displayImages;
-
 </script>
 
 <body>
@@ -83,11 +82,12 @@ window.onload = displayImages;
 
 <div class="centered-container" style="height: 40vh;">
     <div id="imageContainer">
-        <div id="wardrobe-container"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
+        <div id="buddy-container"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
         </div>
     </div>
 </div>
 <br>
+
 <div class="full-width-container">
 <div class="buttons">
     <a href="{% url 'wardrobe' %}" class="login-btn">Wardrobe</a>
