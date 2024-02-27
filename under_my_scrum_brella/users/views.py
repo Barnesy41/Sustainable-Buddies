@@ -1,3 +1,10 @@
+###########################################################################
+#   Author: Silas Turner
+#   Contributors: Ollie Barnes, Ellie Andrews
+#
+#   The author has written all code in this file unless stated otherwise.
+###########################################################################
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -68,6 +75,8 @@ def friends(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     if request.method == 'POST':
         if "accept" in request.POST:
             Friend.objects.filter(id=request.POST["id"]).update(pending_first_second = False, pending_second_first = False, friends = True)
@@ -163,3 +172,42 @@ def account(request):
 
     context = {'user_details': user_details}
     return render(request, 'account.html', context)
+        
+# The leaderboard function below was written by Ollie Barnes & Ellie Andrews
+#TODO: ensure admins arent included in the list of users?
+def leaderboard(request):
+    #Redirect the user to the login page if they are not signed in
+    currentUser = request.user
+    if not currentUser.is_authenticated:
+        messages.success(request, "Please login first")
+        return redirect('login')
+
+    # Get all of the friends of a user
+    friends1 = Friend.objects.select_related("user2").filter(user1=currentUser).filter(friends=True)
+    friends2 = Friend.objects.select_related("user1").filter(user2=currentUser).filter(friends=True)
+    
+    friends = []
+    for friend in friends1:
+        friends.append(friend.user2)
+    for friend in friends2:
+        friends.append(friend.user1)
+    friends.append(User.objects.get(id=currentUser.id))   #Add the current user to the list to ensure they show in the friends leaderboard
+    
+    #Calculate the total xp for each friend
+    for friend in friends:
+        friend.total_xp = UserDetail.objects.get(user=friend).total_xp
+    
+    # Sort the friend list by total xp
+    friends.sort(key=lambda x: x.total_xp, reverse=True)
+    context = {'friends': friends}
+    
+    #Get a list of all the Users signed up to the website & sort by XP level
+    all_users = UserDetail.objects.all()
+    sorted_xp_all_users = all_users.order_by('-total_xp')   #Order by descending XP level
+    context['all_users'] = sorted_xp_all_users
+
+    #Return all the details of the user, allowing their coins to show on the nav bar
+    user_details = get_object_or_404(UserDetail, pk=currentUser.id)
+    context['user_details'] = user_details
+    
+    return render(request, 'leaderboard.html', context)
