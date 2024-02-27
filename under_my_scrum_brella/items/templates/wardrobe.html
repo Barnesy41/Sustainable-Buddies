@@ -122,10 +122,13 @@
         console.log(itemList);
     }
 
+
     // Call the function to display images based on the array
-    function saveItems(divID) {
-        displayBuddyWithItems(itemList)
-    }
+    function saveItems(divID)
+    {
+        document.getElementById('input-value').value = itemList.join(',');
+        //displayBuddyWithItems(itemList)
+
 
     function displayBuddyWithItems(integers) {
         const imageContainer = document.getElementById('imageContainer');
@@ -171,6 +174,38 @@
         imageContainer.innerHTML = '';
     }
 
+    // Assuming you have an array of image paths corresponding to wardrobe items
+    const wardrobeItems = [
+            "{% static 'items/binhatitem.png' %}",
+            "{% static 'items/glassesitem.png' %}",
+            "{% static 'items/goldmedalitem.png' %}",
+            "{% static 'items/rubiishpickeritem.png' %}",
+            "{% static 'items/waterbottleitem.png' %}"
+        ];
+
+        
+
+        // Function to display images on the page
+        function displayImages() {
+            const item_array = JSON.parse('{{ item_array|escapejs }}');
+            const index_test = JSON.parse('{{ index_array|escapejs }}');
+            console.log("items that should be worn "+index_test);
+            console.log("new item " + item_array);
+            
+            const container = document.getElementById('wardrobe-container');
+
+            index_test.forEach((item, index) => {
+                const img = document.createElement('img');
+                img.src = wardrobeItems[item];
+                img.alt = `Wardrobe Item ${index + 1}`;
+                img.classList.add('absolute-image');
+                container.appendChild(img);
+            });
+        }
+
+        // Call the displayImages function when the page loads
+        window.onload = displayImages;
+
 </script>
 
 <body>
@@ -192,31 +227,33 @@
 
         </div>
     </div>
-    <p>Click items to add or remove them from your Buddy. Hover over a button to see the name of the item</p>
-    <div class="full-width-container">
 
-        <button id="item-1" title="Bin Hat" class="wardrobe-button" onclick="setItem(1, 'item-1-image', 'item-1')">
-            <img src="{% static 'items/binhatitem.png' %}" width="90" height="90"></button>
+</div>
+<p>Click items to add or remove them from your Buddy. Hover over a button to see the name of the item</p>
+<div class="full-width-container">
+    
+    <button id="item-1" title="Bin Hat" class="wardrobe-button" onclick="setItem(0, 'item-1-image', 'item-1')">
+        <img src="{% static 'items/binhatitem.png' %}" width="90" height="90"></button>
+    
+    <button id="item-2" title="Glasses" class="wardrobe-button" onclick="setItem(1, 'item-2-image', 'item-2')">
+        <img src="{% static 'items/glassesitem.png' %}" width="90" height="90"></button>
+    
+    <button id="item-3" title="Gold Medal" class="wardrobe-button" onclick="setItem(2, 'item-3-image','item-3')">
+        <img src="{% static 'items/goldmedalitem.png' %}" width="90" height="90"></button>
 
-        <button id="item-2" title="Glasses" class="wardrobe-button" onclick="setItem(2, 'item-2-image', 'item-2')">
-            <img src="{% static 'items/glassesitem.png' %}" width="90" height="90"></button>
+    <button id="item-4" title="Litter Picker" class="wardrobe-button" onclick="setItem(3, 'item-4-image','item-4')">
+        <img src="{% static 'items/rubiishpickeritem.png' %}" width="90" height="90"></button>
 
-        <button id="item-3" title="Gold Medal" class="wardrobe-button" onclick="setItem(3, 'item-3-image','item-3')">
-            <img src="{% static 'items/goldmedalitem.png' %}" width="90" height="90"></button>
+    <button id="item-5" title="Water Bottle" class="wardrobe-button" onclick="setItem(4, 'item-5-image','item-5')">
+        <img src="{% static 'items/waterbottleitem.png' %}" width="90" height="90"></button>
 
-        <button id="item-4" title="Litter Picker" class="wardrobe-button" onclick="setItem(4, 'item-4-image','item-4')">
-            <img src="{% static 'items/rubiishpickeritem.png' %}" width="90" height="90"></button>
 
-        <button id="item-5" title="Water Bottle" class="wardrobe-button" onclick="setItem(5, 'item-5-image','item-5')">
-            <img src="{% static 'items/waterbottleitem.png' %}" width="90" height="90"></button>
+<button id="Clear Items" title="Clear Items" class="wardrobe-button" onclick="clearBuddyWithItems()">
+    Clear </button>
+ 
+<button id="Save changes" title="Save changes" class="wardrobe-button" onclick="saveItems()">
+    Save Changes </button>
 
-    </div>
-
-    <button id="Save changes" title="Save changes" class="wardrobe-button" onclick="saveItems()">
-        Submit </button>
-
-    <button id="Clear Items" title="Clear Items" class="wardrobe-button" onclick="clearBuddyWithItems()">
-        Clear </button>
 
     <!--
 <div id="testItemList">
@@ -227,11 +264,22 @@
 </div>
 -->
 
-    <div class="centered-container">
-        <div id="imageContainer">
-            <img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
-        </div>
+
+
+<form method="post" action="{% url 'wardrobe' %}">
+    {% csrf_token %}
+    
+    <!-- Example: Passing an array of integers [1, 2, 3] -->
+    <input id="input-value" type="hidden" name="selected_indices" value="3,4">
+    <button type="submit" class="wardrobe-button">Confirm</button>
+</form>
+
+<div class="centered-container">
+    <div id="imageContainer">
+        <div id="wardrobe-container"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image"></div>
+
     </div>
+
 
 </body>
 
