@@ -85,8 +85,8 @@
                             <li class="list-group-item">{{user_details.user.email}}</li>
                             {% endif %}
                             <li class="list-group-item">
-                                Buddy : {{user_details.buddy_name}}
-                                image?
+                                Buddy : <bold>{{user_details.buddy_name}}</bold>
+                                <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
                                 <!-- TODO -->
                             </li>
                             <li class="list-group-item">Coins : {{user_details.total_coins}}</li>
