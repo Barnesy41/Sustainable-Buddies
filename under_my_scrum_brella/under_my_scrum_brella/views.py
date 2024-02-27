@@ -45,7 +45,12 @@ def games(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
-        context = {'user_details': user_details}
+        worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
+        index_array = [user_item.item.item_index for user_item in worn_user_items]
+        context = {
+            'user_details': user_details,
+            'index_array':index_array,
+            }
         return render(request, 'games.html', context)
     else:
         return render(request, 'games.html')

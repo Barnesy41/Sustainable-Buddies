@@ -16,9 +16,11 @@
     <h2 class="coins">EcoCoins: {{ user_details.total_coins }}</h2>
 </div>
 
-<div style="justify-content: center; display: flex;">
-    <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" class="responsive-image">
-</div>
+<div class="outer-buddy-containter">
+    <div class="centered-container" style="height: 300px; ">
+    <div id="buddy-container">
+        <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="absolute-image">
+</div></div></div>
 
 <div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
     <a href="{% url 'noughtsAndCrosses' %}" class="login-btn">Noughts and Crosses</a>
@@ -31,5 +33,29 @@
 <div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
     <a href="{% url 'games' %}" class="login-btn">21</a>
 </div>
+
+<script>        
+    const wardrobeItems = [
+    "{% static 'items/binhatitem.png' %}",
+    "{% static 'items/glassesitem.png' %}",
+    "{% static 'items/goldmedalitem.png' %}",
+    "{% static 'items/rubiishpickeritem.png' %}",
+    "{% static 'items/waterbottleitem.png' %}"
+    ];
+    // Function to display buddy with items on the page
+    function displayImages() {
+        const index_array = JSON.parse('{{ index_array|escapejs }}');
+        console.log("items that should be worn "+index_array);
+        const container = document.getElementById('buddy-container');
+        index_array.forEach((item, index) => {
+        const img = document.createElement('img');
+        img.src = wardrobeItems[item];
+        img.alt = `Wardrobe Item ${index + 1}`;
+        img.classList.add('absolute-image');
+        container.appendChild(img);
+    });
+}
+window.onload = displayImages;
+</script>
 
 {% endblock content %}
