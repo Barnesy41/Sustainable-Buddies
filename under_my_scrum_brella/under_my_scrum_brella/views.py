@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 
 from users.models import UserDetail
+from items.models import UserItem, Item
 
 def home(request):
     if request.user.is_superuser:
@@ -19,40 +21,22 @@ def my_pet(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
+        worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
+        index_array = [user_item.item.item_index for user_item in worn_user_items]
         context = {
             'user_details': user_details,
-            'current_user_id': request.user.id
-        }
+            'index_array':index_array,
+            }
         return render(request, 'mypet.html', context)
     else:
         return render(request, 'mypet.html')
-    
-def shop(request):
-    user = request.user
-    if user.is_authenticated:
-        user_details = get_object_or_404(UserDetail, pk=user.id)
-        # ellie - added access to items for shop
-        all_items = Item.objects.all()
-        context = {'user_details': user_details}
-        return render(request, 'shop.html', context)
-    else:
-        return render(request, 'shop.html')
-    
-def wardrobe(request):
-    user = request.user
-    if user.is_authenticated:
-        user_details = get_object_or_404(UserDetail, pk=user.id)
-        # ollie f - added access to items for wardrobe
-        all_items = Item.objects.all()
-        context = {
-            'user_details': user_details,
-            'all_items': all_items,
-            }
-        return render(request, 'wardrobe.html', context)
-    else:
-        return render(request, 'wardrobe.html')
 
 def games(request):
+    if not request.user.is_authenticated:
+        messages.success(request, "Please login first")
+        return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
@@ -62,23 +46,27 @@ def games(request):
         return render(request, 'games.html')
 
 def noughtsCrosses(request):
-    gameCost = -1
+    if not request.user.is_authenticated:
+        messages.success(request, "Please login first")
+        return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
 
+    gameCost = -1
     user = request.user
-    if user.is_authenticated:
-        user_details = get_object_or_404(UserDetail, pk=user.id)
-        context = {'user_details': user_details}
-        #luke - charges user when they play game
-        updateCoins(user, gameCost)
-        return render(request, 'Games/noughtsAndCrosses.html', context)
-    else:
-        return render(request, 'Games/noughtsAndCrosses.html')
+    user_details = get_object_or_404(UserDetail, pk=user.id)
+    
+    if user_details.total_coins + gameCost < 0:
+        messages.success(request, "Insufficient Funds")
+        return redirect('games')
+    updateCoins(user, gameCost)
+    user_details_updated = get_object_or_404(UserDetail, pk=user.id)
+    context = {'user_details': user_details_updated}
+    return render(request, 'Games/noughtsAndCrosses.html', context)
 
 #luke - used to add/subtract coins
 def updateCoins(user, coinsToAdd):
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
         user_details.total_coins = user_details.total_coins + coinsToAdd
-        user_details.save() 
-    #TODO: Add branch for if user not authenticated
-        return render(request, 'mypet.html')
+        user_details.save()

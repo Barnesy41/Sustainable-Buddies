@@ -14,6 +14,8 @@ class UserDetail(models.Model):
     buddy_type = models.CharField(max_length=400)
     total_coins = models.IntegerField(default=0)
     total_xp = models.IntegerField(default=0)
+    #possibly needed to add image to user 
+    #initial_image_path = models.CharField(max_length=255)
 
 class Friend(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='first_user')

@@ -8,6 +8,8 @@ class Item(models.Model):
     item_description = models.TextField(max_length=400)
     item_cost = models.IntegerField(default=100)
     item_location = models.CharField(max_length=255)
+    # index used for displaying item 
+    item_index = models.IntegerField(default=0)
 
 class UserItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

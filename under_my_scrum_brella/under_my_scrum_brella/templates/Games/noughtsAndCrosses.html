@@ -1,7 +1,14 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-<!--Page written by Luke-->
+  <!--
+  ###########################################################################
+  #   Author: Luke Clarke
+  #   Contributors: Ellie Andrews
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+  -->
 <style>
     .grid div {
         width: 300px;
@@ -33,6 +40,16 @@
 
 <h1>Noughts and Crosses</h1>
 
+<!--Code written by Ellie Andrews-->
+<div style="justify-content: center; display: flex; align-items: center;">
+    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" style="height:300px;width:auto;">
+    <div class="speech-bubble-container">
+        <img src="{% static 'assets/speech bubble.png' %}" class = "speech-bubble">
+        <div class="text-on-speech-bubble" id="speech-text">Let's play a game!</div>
+    </div>
+</div>
+<!--End of Ellie Andrews code-->
+
 <div class="grid">
     <div class="row">
       <div id="[-1,1]" onclick="place(this)"></div>
@@ -52,6 +69,9 @@
 </div>
 
 <h2 id="winBanner">Congratulations! Game has been won!</h2>
+<br>
+<br>
+<br>
 
 <script>
     //TODO: Randomly choose which player starts first
@@ -117,6 +137,11 @@
         var winBanner = document.getElementById("winBanner");
         winBanner.innerHTML = "Game Over!";
         winBanner.style.display = "block";
+
+        //Ellie Andrews code
+        var speechText = document.getElementById("speech-text");
+        speechText.innerHTML = "A draw!";
+        //End of Ellie Andrews code
     }
 
     //Used to check if the game has been won
@@ -209,9 +234,17 @@
         //If the user wins
         if (player == "O") {
             winBanner.innerHTML = "Congratulations! Game has been won!";
+            //Ellie Andrews code
+            var speechText = document.getElementById("speech-text");
+            speechText.innerHTML = "Aww you win!";
+            //End of Ellie Andrews code
         } 
         else { //If the computer wins
             winBanner.innerHTML = "Sorry! You lost!";
+            //Ellie Andrews code
+            var speechText = document.getElementById("speech-text");
+            speechText.innerHTML = "Yay I win!";
+            //End of Ellie Andrews code
         }
         winBanner.style.display = "block";
     }
