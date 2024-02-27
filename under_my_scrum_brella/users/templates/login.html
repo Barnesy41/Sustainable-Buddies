@@ -10,6 +10,14 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+
+<!-- display error message if required - hidden by default -->
+<div id="error_box" class="alert alert-warning alert-dismissible fade" role="alert">
+    <strong id="error_msg"> <!-- error msg input here via javascript --> </strong>
+    <span id="error_fix_msg"> <!-- error description input here via javascript --> </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <!-- login container -->
 <section class="vh-100">
     <div class="container py-5 h-100">
@@ -49,33 +57,71 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Script to show/hide password if required by the user -->
-            <script>
-                document.getElementById("togglePassword").addEventListener("click", function () {
-                    var pwdField = document.getElementById("password");
-                    if (pwdField.type == "password") {
-                        this.textContent = "Hide";
-                        pwdField.type = "text";
-                    }
-                    else {
-                        this.textContent = "Show";
-                        pwdField.type = "password";
-                    }
-                });
 
-                document.getElementById("loginForm").addEventListener("submit", function (event) {
-                    var username = document.getElementById("username").value;
-                    var password = document.getElementById("password").value;
+<script>
+    /**
+        This event listener waits for the hide/show button to be clicked next to the password input field.
+        If clicked and the password is obscured, it shows the password in plaintext
+        If clicked and the password is shown in plain text, it is obscured.
+    **/
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        var pwdField = document.getElementById("password");
+        if (pwdField.type == "password") {
+            this.textContent = "Hide";
+            pwdField.type = "text";
+        }
+        else {
+            this.textContent = "Show";
+            pwdField.type = "password";
+        }
+    });
 
-                    if (!username) {
-                        alert("Please enter a username!");
-                        event.preventDefault(); // Stop form from being submitted
-                    }
-                    else if (!password) {
-                        alert("Please enter a password!");
-                        event.preventDefault();
-                    }
-                });
-            </script>
-            {% endblock content %}
+
+    /**
+        This event listener waits for the login form to be submitted, then does some client-side error checking
+        prior to sending the data off to the server for further checking.
+        If an error is found, the displayError function is called with the respective error message.
+    **/
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        if (!username) {
+            displayError("No username in input field!", "Please input a username below.");
+            event.preventDefault(); // Stop form from being submitted
+        }
+        else if (!password) {
+            displayError("No password in input field!", "Please input a password below.");
+            event.preventDefault();
+        }
+    });
+
+
+    /**
+        This function is called to display a user-friendly error message to the user.
+        It displays the error in a yellow rectangular box at the top of the screen.
+        The main error message is displayed in a bold text.
+        The extra fix directions are displayed in a non-bold text.
+
+        @param errorMsg The main error message to display
+        @param errorFixMsg Directions as to how the user can fix the given error
+    **/
+    function displayError(errorMsg, errorFixMsg) {
+        // Display the main error message
+        errorMsgField = document.getElementById("error_msg");
+        errorMsgField.innerText = errorMsg;
+
+        //Display a fix for the error message
+        errorFixMsgField = document.getElementById("error_fix_msg");
+        errorFixMsgField.innerText = errorFixMsg;
+
+        //Show the alert box
+        document.getElementById("error_box").classList.add("show");
+    }
+</script>
+
+{% endblock content %}
