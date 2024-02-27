@@ -79,6 +79,4 @@ def updateCoins(user, coinsToAdd):
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
         user_details.total_coins = user_details.total_coins + coinsToAdd
-        user_details.save() 
-    #TODO: Add branch for if user not authenticated
-        return render(request, 'mypet.html')
+        user_details.save()
