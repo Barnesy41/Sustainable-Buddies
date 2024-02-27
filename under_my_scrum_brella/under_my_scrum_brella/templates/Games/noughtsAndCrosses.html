@@ -4,7 +4,7 @@
   <!--
   ###########################################################################
   #   Author: Luke Clarke
-  #   Contributors: Ellie Andrews
+  #   Contributors: Ellie Andrews, Ollie Barnes
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
@@ -38,14 +38,53 @@
     }
 </style>
 
+<!-- the below style tag was written by Ollie Barnes -->
+<!-- styling to alter the table dependant on device width, this allows for mobile compatibility -->
+<style>
+    /* Default the mobile version of the table as hidden */
+    .mobile-responsive-container, .desktop-responsive-container{
+       display: flex !important;
+    }
+ 
+    /* Alter the table size dependant on the device width */
+    @media screen and (max-width: 570px){
+       .desktop-responsive-container{
+          display: none !important;
+       }
+       .mobile-responsive-container{
+          display: flex !important;
+       }
+    }
+ 
+    @media screen and (min-width: 569px){
+       .desktop-responsive-container{
+          display: flex !important;
+       }
+       .mobile-responsive-container{
+          display: none !important;
+       }
+    }
+ </style>
+<!-- end of Ollie Barnes styling -->
+
+
 <h1>Noughts and Crosses</h1>
 
-<!--Code written by Ellie Andrews-->
-<div style="justify-content: center; display: flex; align-items: center;">
+<!--Code written by Ellie Andrews, Ollie Barnes - minor CSS changes-->
+<div class="desktop-responsive-container" style="justify-content: center; display: flex; align-items: center;">
     <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" style="height:300px;width:auto;">
     <div class="speech-bubble-container">
         <img src="{% static 'assets/speech bubble.png' %}" class = "speech-bubble">
         <div class="text-on-speech-bubble" id="speech-text">Let's play a game!</div>
+    </div>
+</div>
+
+
+<div class="mobile-responsive-container" style="justify-content: center; display: flex; align-items: center;">
+    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" style="height:auto;width:30vw;">
+    <div class="speech-bubble-container">
+        <img src="{% static 'assets/speech bubble.png' %}" class = "speech-bubble">
+        <div class="text-on-speech-bubble" id="speech-text" style="font-size: 3vw">Let's play a game!</div>
     </div>
 </div>
 <!--End of Ellie Andrews code-->
