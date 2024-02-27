@@ -52,7 +52,6 @@ def wardrobe(request):
         return redirect('/admin/')
 
     user = request.user
- 
     if request.method == 'POST':
         UserItem.objects.filter(user=user).update(is_worn=False)
         selected_indices_str = request.POST.get('selected_indices', '')
@@ -64,10 +63,7 @@ def wardrobe(request):
             user_item.is_worn = True
             user_item.save()
 
-
-   
     if user.is_authenticated:
-
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # ollie f - added access to items for wardrobe
         all_items = Item.objects.all()

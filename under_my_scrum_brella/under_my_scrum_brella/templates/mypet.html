@@ -10,7 +10,7 @@
         justify-content: center;
         flex-direction: column;
         height: 100vh; /* 100% of viewport height */
-        padding-top: 60px;
+        /*padding-top: 60px;*/
     }
 
     .pet-title {
@@ -19,11 +19,12 @@
 
     .centered-container {
         resize: vertical;
-        height: 50%;
+        height: 50vh;
         aspect-ratio: 1/1;
         position: relative;
-        border: 2px solid #333; /* Border style */
-        box-sizing: border-box; /* Include border in total width and height */
+        border: 2px solid #333; 
+        box-sizing: border-box;
+        /* Include border in total width and height */
     }
 
     .absolute-image {
@@ -32,33 +33,65 @@
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Maintain image aspect ratio while covering the container */
+        object-fit: cover;
+        /* Maintain image aspect ratio while covering the container */
     }
 
+
     .full-width-container {
-            width: 100%;
-            border: 2px solid #333; /* Border style */
-            box-sizing: border-box; /* Include border in total width and height */
-            padding: 20px; /* Optional padding */
-        }
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
 
 </style>
+
+<script>
+        const wardrobeItems = [
+            "{% static 'items/binhatitem.png' %}",
+            "{% static 'items/glassesitem.png' %}",
+            "{% static 'items/goldmedalitem.png' %}",
+            "{% static 'items/rubiishpickeritem.png' %}",
+            "{% static 'items/waterbottleitem.png' %}"
+        ];
+        // Function to display images on the page
+        function displayImages() {
+            const index_array = JSON.parse('{{ index_array|escapejs }}');
+            console.log("items that should be worn "+index_array);
+            const container = document.getElementById('wardrobe-container');
+            index_array.forEach((item, index) => {
+                const img = document.createElement('img');
+                img.src = wardrobeItems[item];
+                img.alt = `Wardrobe Item ${index + 1}`;
+                img.classList.add('absolute-image');
+                container.appendChild(img);
+            });
+        }
+        window.onload = displayImages;
+
+</script>
 
 <body>
 <div>
     <h1 class="pet-title">{{ user.username }}'s Buddy</h1>
 </div>
 
-<div style="justify-content: center; display: flex;">
-    <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" class="responsive-image">
+<div class="centered-container" style="height: 40vh;">
+    <div id="imageContainer">
+        <div id="wardrobe-container"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image">
+        </div>
 </div>
-
-<div class="buttons" id="login-buttons">
+<br>
+<div class="full-width-container" style="margin-top: 260px">
+<div class="buttons">
     <a href="{% url 'wardrobe' %}" class="login-btn">Wardrobe</a>
-</div>
-
-<div class="buttons" id="login-buttons">
     <a href="{% url 'games' %}" class="login-btn">Games</a>
+</div>
 </div>
 
 </body>
