@@ -1,7 +1,7 @@
 /*
 ###########################################################################
 #   Author: Ellie Andrews
-#   Contributors:
+#   Contributors: Oliver Fitzerald
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -210,6 +210,8 @@ nav ul li a:hover{
     /* Add more styling as needed */
 }
 
+
+/* add by Oliver Fitzgerald */
 .centered-container {
     resize: vertical;
     height: 50vh;
