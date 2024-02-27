@@ -209,3 +209,35 @@ nav ul li a:hover{
     text-align: center;
     /* Add more styling as needed */
 }
+
+.centered-container {
+    resize: vertical;
+    height: 50vh;
+    aspect-ratio: 1/1;
+    position: relative;
+    /*border: 2px solid #333; */
+    box-sizing: border-box;
+    /* Include border in total width and height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.absolute-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Maintain image aspect ratio while covering the container */
+}
+
+.outer-buddy-containter{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
