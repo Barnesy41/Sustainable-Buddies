@@ -1,3 +1,11 @@
+  ###########################################################################
+  #   Author: Silas Turner 
+  #   Contributors: Oliver Fitzgerald
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -11,6 +19,7 @@ class Item(models.Model):
     # index used for displaying item 
     item_index = models.IntegerField(default=0)
 
+# Oliver Fitzgerald 
 class UserItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

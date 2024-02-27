@@ -4,14 +4,16 @@
   <!--
   ###########################################################################
   #   Author: Ellie Andrews
-  #   Contributors:
+  #   Contributors: Oliver Fitzgerald
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
   -->
 <br>
 
-<script>        
+
+<script>    
+    //Oliver Fitzgerald    
     const wardrobeItems = [
     "{% static 'items/binhatitem.png' %}",
     "{% static 'items/glassesitem.png' %}",
@@ -45,16 +47,12 @@ window.onload = displayImages;
     <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>
 <h2>Your Buddy:</h2>
-
-
+<!--Oliver Fitzgerald - div below-->
 <div class="outer-buddy-containter">
 <div class="centered-container" style="height: 150px; ">
 <div id="buddy-container">
     <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="absolute-image">
-</div>
-</div>
-</div>
-
+</div></div></div>
 
 <div style="justify-content: center; display: flex;">
     <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">

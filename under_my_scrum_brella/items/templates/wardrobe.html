@@ -1,6 +1,17 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+
+ <!--
+  ###########################################################################
+  #   Author: Oliver Fitzgerald
+  #   Contributors: 
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+  -->
+  <!-- TODO: add css to style sheet -->
+
 <style>
     body {
         margin: 0;
@@ -252,17 +263,6 @@
  
 <button id="Save changes" title="Save changes" class="wardrobe-button" onclick="saveItems()">
     Save Changes </button>
-
-
-    <!--
-<div id="testItemList">
-    Test for getting items from the database
-    {% for item in all_items %}
-            Item: {{ item.item_name }}
-    {% endfor %}
-</div>
--->
-
 
 
 <form method="post" action="{% url 'wardrobe' %}">

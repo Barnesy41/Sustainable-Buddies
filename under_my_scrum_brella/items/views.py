@@ -1,3 +1,11 @@
+  ###########################################################################
+  #   Author: Silas Turner 
+  #   Contributors: Oliver Fitzgerald, Ellie Andrews 
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+
+
 from django.shortcuts import get_object_or_404, render, redirect
 
 from users.models import UserDetail
@@ -33,7 +41,7 @@ def shop(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
-        # ellie - added access to items for shop
+        # Ellie Andrews 
         all_items = Item.objects.all()
         context = {
             'user_details': user_details,
@@ -52,6 +60,7 @@ def wardrobe(request):
         return redirect('/admin/')
 
     user = request.user
+    # Oliver Fitzgerald
     if request.method == 'POST':
         UserItem.objects.filter(user=user).update(is_worn=False)
         selected_indices_str = request.POST.get('selected_indices', '')
@@ -59,20 +68,19 @@ def wardrobe(request):
         for number in item_array:   
             item_to_update = Item.objects.get(item_index=number)
             user_item, created = UserItem.objects.get_or_create(user=user, item=item_to_update)
-            # Set is_worn to True
             user_item.is_worn = True
             user_item.save()
         return redirect('mypet')
 
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
-        # ollie f - added access to items for wardrobe
+        # Oliver Fitzgerald
         all_items = Item.objects.all()
         # Get all UserItem instances where is_worn is True
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
-        # Extract item_index values and store in an array
         index_array = [user_item.item.item_index for user_item in worn_user_items]
         item_array = []
+        # removed for now as this will be used to dynamically load items later on  
         #all_items = []
         #user_items = UserItem.objects.filter(user=user)
         #for user_item in user_items:

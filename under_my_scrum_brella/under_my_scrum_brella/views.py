@@ -1,3 +1,11 @@
+ ###########################################################################
+  #   Author: Silas Turner 
+  #   Contributors: Oliver Fitzgerald, Luke Clarke
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 
@@ -26,6 +34,7 @@ def my_pet(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
+        # Oliver Fitzgerald
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
         context = {
@@ -45,6 +54,7 @@ def games(request):
     user = request.user
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
+        # Oliver Fitzgerald
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
         context = {
