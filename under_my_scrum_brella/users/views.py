@@ -146,9 +146,9 @@ def account(request):
 
     user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
-    # Even if this were called when on another users page it would change
-    # the request users stuff not the page "subject"
-    # It would also take them to their version
+    # If they try to edit a pass/emal:
+    # ^^ Even if activated when from someone elses it would only change their own
+    # Even though you should not be able to anyway
     if request.method == "POST":
         if "changePass" in request.POST:
             old_pass = request.POST["old_pass"]
@@ -160,7 +160,7 @@ def account(request):
                     user_details.user.set_password(new_pass)
                     user_details.user.save()
                     messages.success(request, "Password changed")
-                    # Password changes log out
+                    # Password changes log out, hence re-auth
                     login(request, authenticate(request, username=user_details.user.username, password=new_pass))
                 else:
                     messages.success(request, "Passwords did not match")
@@ -181,7 +181,7 @@ def account(request):
     # It is a regular page view of the account owner
     context = {
         'user_details': user_details, 
-        'current_user_id': request.user.id
+        'current_user_id': request.user.id # Did not seem to be a more "elegant" way
     }
     return render(request, 'account.html', context)
     

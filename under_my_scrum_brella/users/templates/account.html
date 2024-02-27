@@ -18,12 +18,11 @@
 
                     <div class="text-center">
                         <ul class="list-group list-group-flush">
-                            <!-- Button trigger modal -->
-                            <!-- {{ current_user_id }}
-                            {{ user_details.user.id }} 
-                            {{ user.id }}-->
                             {% if user_details.user.id == user.id %}
+                            <!-- If they are looking at their own page allow for email/pass change-->
+
                             <li class="list-group-item">
+                                <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-primary btn-block loginpage-btn" data-bs-toggle="modal" data-bs-target="#changePassModal">
                                     Change password
                                 </button>
@@ -88,6 +87,7 @@
                             <li class="list-group-item">
                                 Buddy : {{user_details.buddy_name}}
                                 image?
+                                <!-- TODO -->
                             </li>
                             <li class="list-group-item">Coins : {{user_details.total_coins}}</li>
                             <li class="list-group-item">XP : {{user_details.total_xp}}</li>
@@ -116,7 +116,9 @@ function checkPassMatch() {
 
 document.getElementById("new_pass").addEventListener("keyup", () => {
     clearTimeout(timer);
-    timer=setTimeout(checkPassMatch, 500); // Stops it from appearing as soon as you type
+    timer=setTimeout(checkPassMatch, 500); 
+    // Stops it from appearing as soon as you type
+    // It resets the timer with every keyup
 });
 document.getElementById("new_pass_repeat").addEventListener("keyup", () => {
     clearTimeout(timer);
@@ -164,6 +166,7 @@ document.getElementById("changeMail").addEventListener("submit", ()=> {
     }
 })
 
+// Taken from another file. Ideally these should be grouped sometime?
 function isValidEmail(email) {
     var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
