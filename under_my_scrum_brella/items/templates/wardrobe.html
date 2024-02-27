@@ -103,7 +103,8 @@
 <script>
     let latestValue = 0;
     let itemList = [];
-    //add an array of the item buttons so that they can be iterated through 
+    const allImages = ['item-1-image','item-2-image','item-3-image','item-4-image','item-5-image']
+    const allButtons = ['item-1','item-2','item-3','item-4','item-5']
 
     function setItem(itemNum, itemID, buttonID) {
         latestValue = itemNum;
@@ -179,10 +180,14 @@
     }
 
     function clearBuddyWithItems() {
-        //change imageContainer to be any id given 
-        const imageContainer = document.getElementById('imageContainer');
-        // Remove all child elements (images) from the container
-        imageContainer.innerHTML = '';
+        itemList.length = 0;
+        for (let i = 0; i < allImages.length; i++) {
+            var image = document.getElementById(allImages[i]);
+            var button = document.getElementById(allButtons[i]);
+            image.style.display = 'none';
+            button.style.borderColor = "#6bbdb8";
+        }
+        console.log(itemList);
     }
 
     // Assuming you have an array of image paths corresponding to wardrobe items
@@ -202,6 +207,7 @@
             console.log("items that should be worn "+index_test);
             console.log("new item " + item_array);
             
+            
             const container = document.getElementById('wardrobe-container');
 
             index_test.forEach((item, index) => {
@@ -214,7 +220,8 @@
         }
 
         // Call the displayImages function when the page loads
-        window.onload = displayImages;
+        // currently do not want to run this 
+        //window.onload = displayImages;
 
 </script>
 
@@ -272,6 +279,7 @@
     <input id="input-value" type="hidden" name="selected_indices" value="0">
     <button type="submit" class="wardrobe-button">Confirm</button>
 </form>
+
 
 <!-- test to display the buddy with items 
 <div class="centered-container">
