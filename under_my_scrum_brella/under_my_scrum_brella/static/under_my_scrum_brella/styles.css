@@ -211,7 +211,7 @@ nav ul li a:hover{
 }
 
 
-/* add by Oliver Fitzgerald */
+/* added by Oliver Fitzgerald */
 .centered-container {
     resize: vertical;
     height: 50vh;
@@ -242,4 +242,10 @@ nav ul li a:hover{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+/*end of Ollie Fitzgerald*/
+
+.task-style{
+    background-color: #6bbdb8 !important;
+    border: 3px solid #27706e !important;
 }
