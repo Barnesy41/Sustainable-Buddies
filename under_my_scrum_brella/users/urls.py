@@ -1,3 +1,10 @@
+###########################################################################
+#   Author: Silas Turner
+#   Contributors: Ollie Barnes, Ellie Andrews
+#
+#   The author has written all code in this file unless stated otherwise.
+###########################################################################
+
 from django.urls import path
 from . import views
 
@@ -6,4 +13,5 @@ urlpatterns = [
     path('signup/', views.signup_user, name='signup'),
     path('logout/', views.logout_user, name='logout'),
     path('friends/', views.friends, name='friends'),
+    path('leaderboard/', views.leaderboard, name='leaderboard')  #Written by Ellie Andrews & Ollie Barnes
 ]

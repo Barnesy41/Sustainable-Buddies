@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'tasks',
+    'items',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,9 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'under_my_scrum_brella/templates'),
-            os.path.join(BASE_DIR, 'tasks/templates')
+            os.path.join(BASE_DIR, 'tasks/templates'),
+            os.path.join(BASE_DIR, 'users/templates'),
+            os.path.join(BASE_DIR, 'items/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
