@@ -9,6 +9,8 @@ def shop(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    if request.user.is_superuser:
+        return redirect('/admin/')
     if request.method == 'POST':
         itemId = request.POST["id"]
         currentUser = request.user
@@ -45,7 +47,10 @@ def wardrobe(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
-    
+
+    if request.user.is_superuser:
+        return redirect('/admin/')
+
     user = request.user
  
     if request.method == 'POST':
@@ -65,15 +70,15 @@ def wardrobe(request):
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # ollie f - added access to items for wardrobe
         all_items = Item.objects.all()
-
-
-
         # Get all UserItem instances where is_worn is True
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         # Extract item_index values and store in an array
         index_array = [user_item.item.item_index for user_item in worn_user_items]
 
-
+        #all_items = []
+        #user_items = UserItem.objects.filter(user=user)
+        #for user_item in user_items:
+            #all_items.append(user_item.item)
         context = {
             'user_details': user_details,
             'all_items': all_items,

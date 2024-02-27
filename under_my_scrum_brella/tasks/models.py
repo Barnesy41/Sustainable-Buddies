@@ -1,3 +1,10 @@
+###########################################################################
+#   Author: Luke Clarke
+#   Contributors: Ollie Barnes
+#
+#   The author has written all code in this file unless stated otherwise.
+###########################################################################
+
 from django.db import models
 from users.models import UserDetail
 from users.models import User
