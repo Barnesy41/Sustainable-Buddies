@@ -1,4 +1,11 @@
-/*Css file written by Ellie, excluding lines stating otherwise*/
+/*
+###########################################################################
+#   Author: Ellie Andrews
+#   Contributors:
+#
+#   The author has written all code in this file unless stated otherwise.
+###########################################################################
+*/
 
 body {
     margin: 0;
@@ -176,4 +183,29 @@ nav ul li a:hover{
     background-color:#27706e;
     font-weight: bold;
     border: none;
+}
+
+.speech-bubble-container {
+    position: relative;
+    width: 300px; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    margin: 0px; /* Adjust margin as needed */
+}
+
+.speech-bubble {
+    display: block !important;
+    max-width: 100%;
+    height: auto;
+}
+
+.text-on-speech-bubble {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    /* Add more styling as needed */
 }
