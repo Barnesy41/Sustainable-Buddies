@@ -67,6 +67,7 @@ def wardrobe(request):
 
    
     if user.is_authenticated:
+
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # ollie f - added access to items for wardrobe
         all_items = Item.objects.all()
@@ -74,7 +75,7 @@ def wardrobe(request):
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         # Extract item_index values and store in an array
         index_array = [user_item.item.item_index for user_item in worn_user_items]
-
+        item_array = []
         #all_items = []
         #user_items = UserItem.objects.filter(user=user)
         #for user_item in user_items:

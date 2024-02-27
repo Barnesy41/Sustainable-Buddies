@@ -128,7 +128,7 @@
     {
         document.getElementById('input-value').value = itemList.join(',');
         //displayBuddyWithItems(itemList)
-
+    }
 
     function displayBuddyWithItems(integers) {
         const imageContainer = document.getElementById('imageContainer');
@@ -270,7 +270,7 @@
     {% csrf_token %}
     
     <!-- Example: Passing an array of integers [1, 2, 3] -->
-    <input id="input-value" type="hidden" name="selected_indices" value="3,4">
+    <input id="input-value" type="hidden" name="selected_indices" value="0">
     <button type="submit" class="wardrobe-button">Confirm</button>
 </form>
 
