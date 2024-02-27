@@ -62,6 +62,7 @@ def wardrobe(request):
             # Set is_worn to True
             user_item.is_worn = True
             user_item.save()
+        return redirect('mypet')
 
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
