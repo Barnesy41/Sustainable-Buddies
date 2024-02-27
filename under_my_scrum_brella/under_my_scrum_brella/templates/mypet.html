@@ -22,7 +22,7 @@
         height: 50vh;
         aspect-ratio: 1/1;
         position: relative;
-        border: 2px solid #333; 
+        /*border: 2px solid #333; */
         box-sizing: border-box;
         /* Include border in total width and height */
     }
@@ -51,28 +51,28 @@
 
 </style>
 
-<script>
-        const wardrobeItems = [
-            "{% static 'items/binhatitem.png' %}",
-            "{% static 'items/glassesitem.png' %}",
-            "{% static 'items/goldmedalitem.png' %}",
-            "{% static 'items/rubiishpickeritem.png' %}",
-            "{% static 'items/waterbottleitem.png' %}"
-        ];
-        // Function to display images on the page
-        function displayImages() {
-            const index_array = JSON.parse('{{ index_array|escapejs }}');
-            console.log("items that should be worn "+index_array);
-            const container = document.getElementById('wardrobe-container');
-            index_array.forEach((item, index) => {
-                const img = document.createElement('img');
-                img.src = wardrobeItems[item];
-                img.alt = `Wardrobe Item ${index + 1}`;
-                img.classList.add('absolute-image');
-                container.appendChild(img);
-            });
-        }
-        window.onload = displayImages;
+<script>        
+    const wardrobeItems = [
+    "{% static 'items/binhatitem.png' %}",
+    "{% static 'items/glassesitem.png' %}",
+    "{% static 'items/goldmedalitem.png' %}",
+    "{% static 'items/rubiishpickeritem.png' %}",
+    "{% static 'items/waterbottleitem.png' %}"
+    ];
+    // Function to display images on the page
+    function displayImages() {
+        const index_array = JSON.parse('{{ index_array|escapejs }}');
+        console.log("items that should be worn "+index_array);
+        const container = document.getElementById('wardrobe-container');
+        index_array.forEach((item, index) => {
+        const img = document.createElement('img');
+        img.src = wardrobeItems[item];
+        img.alt = `Wardrobe Item ${index + 1}`;
+        img.classList.add('absolute-image');
+        container.appendChild(img);
+    });
+}
+window.onload = displayImages;
 
 </script>
 
