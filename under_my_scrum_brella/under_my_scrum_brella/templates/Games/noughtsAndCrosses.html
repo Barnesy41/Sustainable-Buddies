@@ -1,0 +1,222 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<!--Page written by Luke-->
+<style>
+    .grid div {
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .row div {
+        padding: 10px;
+        border: 1px solid black;
+        height: 100px;
+        width: 100px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 75px;
+    }
+
+    h1 {
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        margin-top: 25px;
+    }
+</style>
+
+<h1>Noughts and Crosses</h1>
+
+<div class="grid">
+    <div class="row">
+      <div id="[-1,1]" onclick="place(this)"></div>
+      <div id="[0,1]" onclick="place(this)"></div>
+      <div id="[1,1]" onclick="place(this)"></div>
+    </div>
+    <div class="row">
+      <div id="[-1,0]" onclick="place(this)"></div>
+      <div id="[0,0]" onclick="place(this)"></div>
+      <div id="[1,0]" onclick="place(this)"></div>
+    </div>
+    <div class="row">
+      <div id="[-1,-1]" onclick="place(this)"></div>
+      <div id="[0,-1]" onclick="place(this)"></div>
+      <div id="[1,-1]" onclick="place(this)"></div>
+    </div>
+</div>
+
+<h2 id="winBanner">Congratulations! Game has been won!</h2>
+
+<script>
+    //TODO: Randomly choose which player starts first
+    //TODO: Wait a second before computer takes turn
+    //TODO: Refine checking for diagonals
+    //TODO: Add option to restart game
+    //TODO: Make computer not random
+
+    var player = "O";
+    var status = "start"; //start, playing, or end
+
+    //Used to start the game and reset the board
+    function startGame() {
+        //Hides the congratulations message
+        var winBanner = document.getElementById("winBanner");
+        winBanner.style.display = "none";
+
+        status = "playing";
+    }
+
+    function place(box) {
+        //Players can only place if there is no letter already in box
+        //And if the game is in progress
+        if (box.innerText == "" && status == "playing") {
+            box.innerText = player; //Places the icon
+
+            //Checks whether to continue the game
+            checkWin();
+
+            if (status == "playing") {
+                checkFull();
+
+                //Switches to the next player
+                if (player == "O" && status == "playing") {
+                    player = "X";
+                    computerTurn();
+                }
+                else if (player == "X" && status == "playing") {
+                    player = "O";
+                }
+            }
+            
+        }
+    }
+
+    //Checks whether the grid is full
+    function checkFull() {
+        //Checks whether there are any empty boxes
+        for (let row = -1; row <= 1; row++) {
+            for (let col = -1; col <= 1; col++) {
+                box = document.getElementById(`[${row},${col}]`);
+                //If there is an empty box, there is room
+                if (box.innerText == "") {
+                    return;
+                }
+            }
+        }
+
+        //If there are no empty boxes, the grid must be full
+        status = "end";
+
+        //Alerts player that the grid is full
+        var winBanner = document.getElementById("winBanner");
+        winBanner.innerHTML = "Game Over!";
+        winBanner.style.display = "block";
+    }
+
+    //Used to check if the game has been won
+    function checkWin() {
+        checkWinRow();
+        checkWinCol();
+        checkWinDiagonal();
+    }
+
+    //Checks for a win in each row
+    function checkWinRow() {
+        row: for (let row = -1; row <= 1; row++) {
+            for (let col = -1; col <= 1; col++) {
+                box = document.getElementById(`[${row},${col}]`);
+                if (box.innerText != player) {
+                    continue row;
+                }
+            }
+            gameWon();
+        }
+    }
+
+    //Checks for a win in each column
+    function checkWinCol() {
+        col: for (let col = -1; col <= 1; col++) {
+            for (let row = -1; row <= 1; row++) {
+                box = document.getElementById(`[${row},${col}]`);
+                if (box.innerText != player) {
+                    continue col;
+                }
+            }
+            gameWon();
+        }
+    }
+
+    //Checks for a win on the diagonals
+    function checkWinDiagonal() {
+        let win = true;
+
+        //loops through each box in one diagonal
+        for (let i = -1; i <= 1; i++) {
+            box = document.getElementById(`[${i},${i}]`);
+            if (box.innerText != player) {
+                win = false;
+                break;
+            }
+        }
+
+        if (win) {
+            gameWon();
+            return; //only need to check for win 
+        }
+        win = true;
+        //loops through each square in the other diagonal
+        
+        for (let i = -1; i <= 1; i++) {
+            box = document.getElementById(`[${-i},${i}]`);
+            if (box.innerText != player) {
+                win = false;
+                break;
+            }
+        }
+
+        if (win) {
+            gameWon();
+        }
+    }
+
+    function computerTurn() {
+        let isSet = false;
+
+        //Keeps choosing boxes until it finds unoccupied one
+        while(!isSet) {
+            //Chooses random row and column
+            row = Math.floor(Math.random() * 3 - 1);
+            col = Math.floor(Math.random() * 3 - 1);
+
+            box = document.getElementById(`[${row},${col}]`);
+            if (box.innerText == "") {
+                place(box);
+                isSet = true;
+            }
+        }
+    }
+
+    function gameWon() {
+        status = "end";
+
+        var winBanner = document.getElementById("winBanner");
+        //If the user wins
+        if (player == "O") {
+            winBanner.innerHTML = "Congratulations! Game has been won!";
+        } 
+        else { //If the computer wins
+            winBanner.innerHTML = "Sorry! You lost!";
+        }
+        winBanner.style.display = "block";
+    }
+
+    startGame();
+
+</script>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<!--Page written by Luke-->
+<!--TODO: Maybe add popup description of each game when clicking?-->
+<!--TODO: Show cost of each game-->
+<div>
+    <h1 class="title">{{ user.username }}'s Games</h1>
+    <h2 class="coins">EcoCoins: {{ user_details.total_coins }}</h2>
+</div>
+
+<div style="justify-content: center; display: flex;">
+    <img src="{% static 'under_my_scrum_brella/batteryguy.png' %}" class="responsive-image">
+</div>
+
+<div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
+    <a href="{% url 'noughtsAndCrosses' %}" class="login-btn">Noughts and Crosses</a>
+</div>
+
+<div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
+    <a href="{% url 'games' %}" class="login-btn">Pong</a>
+</div>
+
+<div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
+    <a href="{% url 'games' %}" class="login-btn">21</a>
+</div>
+
+{% endblock content %}
