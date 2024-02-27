@@ -143,10 +143,13 @@ def account(request):
         messages.success(request, "You must be logged in to view this page!")
         return redirect('login')
 
+
     user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
+    # Even if this were called when on another users page it would change
+    # the request users stuff not the page "subject"
+    # It would also take them to their version
     if request.method == "POST":
-        print(request.POST)
         if "changePass" in request.POST:
             old_pass = request.POST["old_pass"]
             new_pass = request.POST["new_pass"]
@@ -167,11 +170,21 @@ def account(request):
         elif "changeMail" in request.POST:
             user_details.user.email = request.POST["new_email"]
             user_details.user.save()
-            user_details = get_object_or_404(UserDetail, pk=request.user.id)
+        
+        user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
+    # View of someone elses account
+    elif request.method == "GET" and 'userId' in request.GET:
+        user_details = get_object_or_404(UserDetail, pk=request.GET["userId"])
+        # Overrides the default from above
 
-    context = {'user_details': user_details}
+    # It is a regular page view of the account owner
+    context = {
+        'user_details': user_details, 
+        'current_user_id': request.user.id
+    }
     return render(request, 'account.html', context)
+    
         
 # The leaderboard function below was written by Ollie Barnes & Ellie Andrews
 #TODO: ensure admins arent included in the list of users?

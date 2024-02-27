@@ -8,73 +8,91 @@
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-10" >
             <div>
-                <h1>Currently logged in as {{ user.username }}</h1>
+                <h1 class="display-1">{{ user.username }}</h1>
             </div>
             <div class="col-md-6" >
                 <div class="card shadow-2-strong" style="border-radius: 1rem" >
                     <div class="card-body p-5 text-center">
 
 
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary btn-block loginpage-btn" data-bs-toggle="modal" data-bs-target="#changePassModal">
-                        Change password
-                    </button>
+
+                    <div class="text-center">
+                        <ul class="list-group list-group-flush">
+                            <!-- Button trigger modal -->
+                            <!-- {{ current_user_id }}
+                            {{ user_details.user.id }} 
+                            {{ user.id }}-->
+                            {% if user_details.user.id == user.id %}
+                            <li class="list-group-item">
+                                <button type="button" class="btn btn-primary btn-block loginpage-btn" data-bs-toggle="modal" data-bs-target="#changePassModal">
+                                    Change password
+                                </button>
   
-                    <!-- Modal -->
-                    <form action="" method=POST id="changePass">
-                        <div class="modal fade" id="changePassModal" tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2 class="text-center mb-4" style = "color: #2c7774 !important;">Change password</h2>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
+                                <!-- Modal -->
+                                <form action="" method=POST id="changePass">
+                                    <div class="modal fade" id="changePassModal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2 class="text-center mb-4" style = "color: #2c7774 !important;">Change password</h2>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
 
-                                            {% csrf_token %}
-                                            <div class="form-group">
-                                                <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" required >
+                                                            <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" required >
+                                                        </div>
+                                                        <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
+                                                            Passwords do not match!
+                                                        </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button name="changePass" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" required >
-                                                <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" required >
-                                            </div>
-                                            <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
-                                                Passwords do not match!
-                                            </div>
-
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button name="changePass" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
-                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                </form>
+
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <form action="" method=POST id="changeMail">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user.email }}" name="new_email" required >
+                                            <div class="input-group-append">
+                                                <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
+                                                <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                                            </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-
-
-                    <br>
-                    <form action="" method=POST id="changeMail">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col">
-                                <span id="old_email">{{ user.email }}</span>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="email"class="form-control" id="new_email" placeholder="Enter new email" name="new_email" required >
-                                <div class="input-group-append">
-                                    <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
-                                    <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                                </form>
+                            </li>
   
+                            {% else %}
+                            <li class="list-group-item">{{user_details.user.email}}</li>
+                            {% endif %}
+                            <li class="list-group-item">
+                                Buddy : {{user_details.buddy_name}}
+                                image?
+                            </li>
+                            <li class="list-group-item">Coins : {{user_details.total_coins}}</li>
+                            <li class="list-group-item">XP : {{user_details.total_xp}}</li>
+                        </ul>
+                    </div>
                     </div>
                 </div>
             </div>
