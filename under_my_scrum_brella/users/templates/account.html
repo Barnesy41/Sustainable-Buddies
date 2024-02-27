@@ -1,0 +1,175 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!-- signup container -->
+<!-- Made by Jack -->
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-10" >
+            <div>
+                <h1 class="display-1">{{ user_details.user.username }}</h1>
+            </div>
+            <div class="col-md-6" >
+                <div class="card shadow-2-strong" style="border-radius: 1rem" >
+                    <div class="card-body p-5 text-center">
+
+
+
+                    <div class="text-center">
+                        <ul class="list-group list-group-flush">
+                            {% if user_details.user.id == user.id %}
+                            <!-- If they are looking at their own page allow for email/pass change-->
+
+                            <li class="list-group-item">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary btn-block loginpage-btn" data-bs-toggle="modal" data-bs-target="#changePassModal">
+                                    Change password
+                                </button>
+  
+                                <!-- Modal -->
+                                <form action="" method=POST id="changePass">
+                                    <div class="modal fade" id="changePassModal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2 class="text-center mb-4" style = "color: #2c7774 !important;">Change password</h2>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" required >
+                                                            <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" required >
+                                                        </div>
+                                                        <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
+                                                            Passwords do not match!
+                                                        </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button name="changePass" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <form action="" method=POST id="changeMail">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user.email }}" name="new_email" required >
+                                            <div class="input-group-append">
+                                                <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
+                                                <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+  
+                            {% else %}
+                            <li class="list-group-item">{{user_details.user.email}}</li>
+                            {% endif %}
+                            <li class="list-group-item">
+                                Buddy : <bold>{{user_details.buddy_name}}</bold>
+                                <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
+                                <!-- TODO -->
+                            </li>
+                            <li class="list-group-item">Coins : {{user_details.total_coins}}</li>
+                            <li class="list-group-item">XP : {{user_details.total_xp}}</li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+let timer;
+
+function checkPassMatch() {
+    pass = document.getElementById("new_pass").value;
+    pass_repeat = document.getElementById("new_pass_repeat").value;
+    
+    if (pass !== pass_repeat && pass && pass_repeat) {
+        document.getElementById("passMatchAlert").removeAttribute("hidden");
+    } else {
+        document.getElementById("passMatchAlert").setAttribute("hidden", true);
+    };
+}
+
+document.getElementById("new_pass").addEventListener("keyup", () => {
+    clearTimeout(timer);
+    timer=setTimeout(checkPassMatch, 500); 
+    // Stops it from appearing as soon as you type
+    // It resets the timer with every keyup
+});
+document.getElementById("new_pass_repeat").addEventListener("keyup", () => {
+    clearTimeout(timer);
+    timer=setTimeout(checkPassMatch, 500);
+});
+
+
+document.getElementById("changePass").addEventListener("submit", function (event) {
+    var old_pass = document.getElementById("old_pass").value;
+    var pass = document.getElementById("new_pass").value;
+    var pass_repeat = document.getElementById("new_pass_repeat").value;
+
+
+    if (!old_pass) {
+        alert("Please enter the original password!");
+        event.preventDefault(); // Stop form from being submitted
+    }
+    else if (!pass && !pass_repeat ) {
+        alert("Please enter passwords!");
+        event.preventDefault();
+    } else if (pass != pass_repeat) {
+        alert("Passwords do not match!");
+        event.preventDefault();
+    } else if (pass === old_pass) {
+        alert("New password can not be the same as the old!");
+        event.preventDefault();
+    }
+});
+
+
+document.getElementById("changeMail").addEventListener("submit", ()=> {
+    old_email = document.getElementById("old_email").textContent;
+    new_email = document.getElementById("new_email").value;
+
+    if (old_email === new_email) {
+        alert("New email can not be the same as old!")
+        event.preventDefault();
+    }
+    if (!isValidEmail(new_email)){
+        alert("Enter a correct email")
+        event.preventDefault();
+    }
+    if (!new_email) {
+        event.preventDefault();
+    }
+})
+
+// Taken from another file. Ideally these should be grouped sometime?
+function isValidEmail(email) {
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+</script>
+{% endblock content %}

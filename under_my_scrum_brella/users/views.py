@@ -136,6 +136,55 @@ def friends(request):
             return render(request, 'friends.html', context)
         else:
             return render(request, 'friends.html', context)
+
+# Made by jack
+def account(request):
+    if not request.user.is_authenticated:
+        messages.success(request, "You must be logged in to view this page!")
+        return redirect('login')
+
+
+    user_details = get_object_or_404(UserDetail, pk=request.user.id)
+
+    # If they try to edit a pass/emal:
+    # ^^ Even if activated when from someone elses it would only change their own
+    # Even though you should not be able to anyway
+    if request.method == "POST":
+        if "changePass" in request.POST:
+            old_pass = request.POST["old_pass"]
+            new_pass = request.POST["new_pass"]
+            repeat_pass = request.POST["new_pass_repeat"]
+
+            if authenticate(request, username=user_details.user.username, password=old_pass) is not None:
+                if new_pass == repeat_pass:
+                    user_details.user.set_password(new_pass)
+                    user_details.user.save()
+                    messages.success(request, "Password changed")
+                    # Password changes log out, hence re-auth
+                    login(request, authenticate(request, username=user_details.user.username, password=new_pass))
+                else:
+                    messages.success(request, "Passwords did not match")
+            else:
+                messages.success(request, "Incorrect password")
+
+        elif "changeMail" in request.POST:
+            user_details.user.email = request.POST["new_email"]
+            user_details.user.save()
+        
+        user_details = get_object_or_404(UserDetail, pk=request.user.id)
+
+    # View of someone elses account
+    elif request.method == "GET" and 'userId' in request.GET:
+        user_details = get_object_or_404(UserDetail, pk=request.GET["userId"])
+        # Overrides the default from above
+
+    # It is a regular page view of the account owner
+    context = {
+        'user_details': user_details, 
+        'current_user_id': request.user.id # Did not seem to be a more "elegant" way
+    }
+    return render(request, 'account.html', context)
+    
         
 # The leaderboard function below was written by Ollie Barnes & Ellie Andrews
 #TODO: ensure admins arent included in the list of users?
