@@ -1,3 +1,3 @@
-# UnderMyScum_Brella
+# UnderMyScrum_Brella
 This is the GitHub for Sustainable Pets!
 It is a game based on encouraging sustainable activities around Campus.
