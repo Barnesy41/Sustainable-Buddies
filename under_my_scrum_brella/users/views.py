@@ -146,7 +146,7 @@ def account(request):
 
     user_details = get_object_or_404(UserDetail, pk=request.user.id)
 
-    # If they try to edit a pass/emal:
+    # If they try to edit a pass/email:
     # ^^ Even if activated when from someone elses it would only change their own
     # Even though you should not be able to anyway
     if request.method == "POST":

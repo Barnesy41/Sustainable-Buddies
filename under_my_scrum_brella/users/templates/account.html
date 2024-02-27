@@ -1,23 +1,29 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+  <!--
+  ###########################################################################
+  #   Author: Jack Bundy
+  #   Contributors: Ellie Andrews
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+  -->
 
-<!-- signup container -->
-<!-- Made by Jack -->
+<!--Page styled by Ellie Andrews-->
 <section class="vh-100">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-10" >
             <div>
-                <h1 class="display-1">{{ user_details.user.username }}</h1>
+                <h1>{{ user_details.user.username }}</h1>
             </div>
             <div class="col-md-6" >
                 <div class="card shadow-2-strong" style="border-radius: 1rem" >
+
                     <div class="card-body p-5 text-center">
 
-
-
                     <div class="text-center">
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush" >
                             {% if user_details.user.id == user.id %}
                             <!-- If they are looking at their own page allow for email/pass change-->
 
@@ -87,18 +93,18 @@
                                 <form action="../friends/" method=POST>
                                 {% csrf_token %}
                                 <input type="text" id="friend_username" value="{{user_details.user.username}}" name="friend_username" hidden>
-                                <button name="add" class="latge-btn" style="margin-left: 10px;">Add Friend</button>
+                                <button name="add" class="btn btn-primary btn-block loginpage-btn">Add Friend</button>
                                 </form>
                             </li>
-                            <li class="list-group-item">{{user_details.user.email}}</li>
+
                             {% endif %}
                             <li class="list-group-item">
-                                Buddy : <bold>{{user_details.buddy_name}}</bold>
+                                <p style="color: #2c7774;">Buddy : {{user_details.buddy_name}}</p>
                                 <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
                                 <!-- TODO -->
                             </li>
-                            <li class="list-group-item">Coins : {{user_details.total_coins}}</li>
-                            <li class="list-group-item">XP : {{user_details.total_xp}}</li>
+                            <li class="list-group-item"><p style="color: #2c7774;">Coins : {{user_details.total_coins}}</p></li>
+                            <li class="list-group-item"><p style="color: #2c7774;">XP : {{user_details.total_xp}}</p></li>
                         </ul>
                     </div>
                     </div>
