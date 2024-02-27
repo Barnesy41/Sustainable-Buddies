@@ -82,6 +82,14 @@
                             </li>
   
                             {% else %}
+
+                            <li class="list-group-item">
+                                <form action="../friends/" method=POST>
+                                {% csrf_token %}
+                                <input type="text" id="friend_username" value="{{user_details.user.username}}" name="friend_username" hidden>
+                                <button name="add" class="latge-btn" style="margin-left: 10px;">Add Friend</button>
+                                </form>
+                            </li>
                             <li class="list-group-item">{{user_details.user.email}}</li>
                             {% endif %}
                             <li class="list-group-item">
