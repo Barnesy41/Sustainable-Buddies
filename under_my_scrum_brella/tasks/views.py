@@ -5,21 +5,30 @@
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
  
+ 
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Task, UserTask
 from users.models import UserDetail
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
-# This is a list of all tasks, NOT a specific user's tasks  #
-# if you want a user's tasks, please use user_tasks instead #
-def task_list(request):     #Written by Luke Clarke
+
+###########################################################################
+#   This function is used to render the tasks.html page, 
+#   and provide tasks.html with the required information from the database
+###########################################################################
+def task_list(request):
+    #Redirect the user if not authenticated
     current_user = request.user
     if not current_user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
-    if current_user.is_superuser:   #Written by Silas Turner
-        return redirect('/admin/')  #Written by Silas Turner
+    
+    #Redirect the user if they're the admin account type
+    if current_user.is_superuser:
+        return redirect('/admin/')
+    
+    #If authenticated, render the tasks.html web page with the required data
     if request.method == 'POST':
         task_id = request.POST["task_id"]
         
@@ -35,11 +44,11 @@ def task_list(request):     #Written by Luke Clarke
         user.total_coins = user.total_coins + task_object.CoinReward
         user.total_xp = user.total_xp + task_object.XpReward
         user.save()
+        
         return redirect('tasks')
     
-    #Get the list of all tasks
-    #TODO: now redundant
     # Written by Luke Clarke
+    #Get the list of all tasks
     tasks = Task.objects.all()
     context = {'tasks': tasks}
     #Written by Luke Clarke End
@@ -51,4 +60,5 @@ def task_list(request):     #Written by Luke Clarke
     #Get the details for the current user
     user_details = get_object_or_404(UserDetail, pk=current_user.id)
     context['user_details'] = user_details
+    
     return render(request, 'tasks.html', context)
