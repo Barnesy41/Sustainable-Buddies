@@ -62,12 +62,14 @@ def wardrobe(request):
     user = request.user
     # Oliver Fitzgerald
     if request.method == 'POST':
+        # sets all UserItems to false 
         UserItem.objects.filter(user=user).update(is_worn=False)
         selected_indices_str = request.POST.get('selected_indices', '')
         item_array = [int(index) for index in selected_indices_str.split(',') if index.isdigit()]
         for number in item_array:   
             item_to_update = Item.objects.get(item_index=number)
             user_item, created = UserItem.objects.get_or_create(user=user, item=item_to_update)
+            # change above from get or create when making dynamic 
             user_item.is_worn = True
             user_item.save()
         return redirect('mypet')
@@ -79,8 +81,9 @@ def wardrobe(request):
         # Get all UserItem instances where is_worn is True
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
+        # below sets the new items - no new items without a post 
         item_array = []
-        # removed for now as this will be used to dynamically load items later on  
+        # below removed for now as this will be used to dynamically load items later on  
         #all_items = []
         #user_items = UserItem.objects.filter(user=user)
         #for user_item in user_items:
