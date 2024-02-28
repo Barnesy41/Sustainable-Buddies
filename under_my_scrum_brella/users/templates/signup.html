@@ -11,6 +11,13 @@
 {% load static %}
 {% block content %}
 
+<!-- display error message if required - hidden by default -->
+<div id="error_box" class="alert alert-warning alert-dismissible fade" role="alert">
+    <strong id="error_msg"> <!-- error msg input here via javascript --> </strong>
+    <span id="error_fix_msg"> <!-- error description input here via javascript --> </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <!-- signup container -->
 <section class="vh-100">
     <div class="container py-5 h-100">
@@ -102,7 +109,13 @@
     </div>
 </section>
 
+
 <script>
+    /**
+        This event listener waits for the signup form to be submitted, then does some client-side error checking
+        prior to sending the data off to the server for further checking.
+        If an error is found, the displayError function is called with the respective error message.
+    **/
     document.getElementById("loginForm").addEventListener("submit", function (event) {
         var username = document.getElementById("username").value;
         var email = document.getElementById("email").value;
@@ -112,39 +125,67 @@
         var buddyType = document.getElementById("buddyType").value;
 
         if (!username) {
-            alert("Please enter a username!");
+            displayError("No username input!", "Please input a username in the input field below");
             event.preventDefault(); // Stop form from being submitted
         }
         else if (!email) {
-            alert("Please enter an email!");
+            displayError("No email input!", "Please input an email in the input field below.");
             event.preventDefault();
         }
         else if (!isValidEmail(email)) {
-            alert("Please enter a valid email!");
+            displayError("Invalid email!", "Please input a valid email in the input field below. e.g. john@emailProvider.com");
             event.preventDefault();
         }
         else if (!password) {
-            alert("Please enter a password!");
+            displayError("No password input!", "Please input a password in the input field below.");
             event.preventDefault();
         }
         else if (password != confirmedPassword) {
-            alert("Your passwords do not match!");
+            displayError("Passwords don't match!", "Please ensure that your password & confirmed password are the same.");
             event.preventDefault();
         }
         else if (!buddyName) {
-            alert("Please enter a buddy name!");
+            displayError("No buddy name input!", "Please give your sustainable buddy a name in the input field below.");
             event.preventDefault();
         }
         else if (!buddyType) {
-            alert("please select a buddy type!");
+            displayError("No buddy type selected!", "Please select a buddy type from the drop-down list below.");
             event.preventDefault();
         }
 
     });
 
+    /**
+        This function performs basic email validation, and returns whether the email is valid or not
+
+        @return true if the email is valid, false otherwise
+    **/
     function isValidEmail(email) {
         var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
+    }
+
+    
+    /**
+        This function is called to display a user-friendly error message to the user.
+        It displays the error in a yellow rectangular box at the top of the screen.
+        The main error message is displayed in a bold text.
+        The extra fix directions are displayed in a non-bold text.
+
+        @param errorMsg The main error message to display
+        @param errorFixMsg Directions as to how the user can fix the given error
+    **/
+    function displayError(errorMsg, errorFixMsg) {
+        // Display the main error message
+        errorMsgField = document.getElementById("error_msg");
+        errorMsgField.innerText = errorMsg;
+
+        //Display a fix for the error message
+        errorFixMsgField = document.getElementById("error_fix_msg");
+        errorFixMsgField.innerText = errorFixMsg;
+
+        //Show the alert box
+        document.getElementById("error_box").classList.add("show");
     }
 </script>
 {% endblock content %}

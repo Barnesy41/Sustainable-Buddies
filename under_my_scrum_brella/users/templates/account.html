@@ -4,11 +4,20 @@
   <!--
   ###########################################################################
   #   Author: Jack Bundy
-  #   Contributors: Ellie Andrews
+  #   Contributors: Ellie Andrews, Ollie Barnes
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
   -->
+
+<!-- The below code is written by Ollie Barnes -->
+<!-- display error message if required - hidden by default -->
+<div id="error_box_email" class="alert alert-warning alert-dismissible fade" role="alert">
+    <strong id="error_msg_email"> <!-- error msg input here via javascript --> </strong>
+    <span id="error_fix_msg_email"> <!-- error description input here via javascript --> </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<!-- end of code written by Ollie Barnes -->
 
 <!--Page styled by Ellie Andrews-->
 <section class="vh-100">
@@ -46,14 +55,16 @@
 
                                                         {% csrf_token %}
                                                         <div class="form-group">
-                                                            <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass" required>
+                                                            <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" required >
-                                                            <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" required >
+                                                            <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" >
+                                                            <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" >
                                                         </div>
-                                                        <div id="passMatchAlert" class="alert alert-warning" role="alert" hidden>
-                                                            Passwords do not match!
+                                                        <div id="error_box_pwd" class="alert alert-warning alert-dismissible fade" role="alert">
+                                                            <strong id="error_msg_pwd"> <!-- error msg input here via javascript --> </strong>
+                                                            <span id="error_fix_msg_pwd"> <!-- error description input here via javascript --> </span>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                                         </div>
 
                                                 </div>
@@ -76,7 +87,10 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user_details.user.email }}" name="new_email" required >
+
+                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user_details.user.email }}" name="new_email" >
+                                                <input type="email" value="{{user.email}}" id="old_email" hidden>
+
                                             <div class="input-group-append">
                                                 <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
                                                 <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
@@ -147,43 +161,75 @@ document.getElementById("changePass").addEventListener("submit", function (event
 
 
     if (!old_pass) {
-        alert("Please enter the original password!");
+        displayError("Current password not input!", "Please enter your current password below.","pwd");
         event.preventDefault(); // Stop form from being submitted
     }
     else if (!pass && !pass_repeat ) {
-        alert("Please enter passwords!");
+        displayError("No new password entered!", "Please enter your new password in the new password fields below.", "pwd");
         event.preventDefault();
     } else if (pass != pass_repeat) {
-        alert("Passwords do not match!");
+        displayError("Confirmed password does not match!", "Please ensure your new password matches your confirmed password.", "pwd");
         event.preventDefault();
     } else if (pass === old_pass) {
-        alert("New password can not be the same as the old!");
+        displayError("New password cannot be the same as old password!", "Please enter a unique password in the new password field.", "pwd");
         event.preventDefault();
     }
 });
 
 
 document.getElementById("changeMail").addEventListener("submit", ()=> {
-    old_email = document.getElementById("old_email").textContent;
+    old_email = document.getElementById("old_email").value;
     new_email = document.getElementById("new_email").value;
 
     if (old_email === new_email) {
-        alert("New email can not be the same as old!")
+        displayError("New email is not unique!", "Please enter a new email different to your current email in the field below.", "email");
         event.preventDefault();
     }
     if (!isValidEmail(new_email)){
-        alert("Enter a correct email")
+        displayError("Invalid email input!","Please enter a valid email address below. e.g. john@YourProvider.com", "email");
         event.preventDefault();
     }
     if (!new_email) {
+        displayError("No new email input!", "Please enter an email in the 'new email' input field below.", "email");
         event.preventDefault();
     }
 })
 
-// Taken from another file. Ideally these should be grouped sometime?
+/**
+    This function performs basic email validation, and returns whether the email is valid or not
+
+    @return true if the email is valid, false otherwise
+
+    Author: Ollie Barnes
+**/
 function isValidEmail(email) {
     var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
+}
+
+/**
+    This function is called to display a user-friendly error message to the user.
+    It displays the error in a yellow rectangular box at the top of the screen.
+    The main error message is displayed in a bold text.
+    The extra fix directions are displayed in a non-bold text.
+
+    @param errorMsg The main error message to display
+    @param errorFixMsg Directions as to how the user can fix the given error
+    @param name The name of the given error box
+
+    Author: Ollie Barnes
+**/
+function displayError(errorMsg, errorFixMsg, name) {
+    // Display the main error message
+    errorMsgField = document.getElementById("error_msg_"+ name);
+    errorMsgField.innerText = errorMsg;
+
+    //Display a fix for the error message
+    errorFixMsgField = document.getElementById("error_fix_msg_" + name);
+    errorFixMsgField.innerText = errorFixMsg;
+
+    //Show the alert box
+    document.getElementById("error_box_" + name).classList.add("show");
 }
 </script>
 {% endblock content %}
