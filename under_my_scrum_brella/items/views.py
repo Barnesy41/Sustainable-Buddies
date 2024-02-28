@@ -14,32 +14,32 @@ from django.contrib import messages
 
 # Create your views here.
 def shop(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated: #Check if user is logged in
         messages.success(request, "Please login first")
         return redirect('login')
-    if request.user.is_superuser:
+    if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
-    if request.method == 'POST':
+    if request.method == 'POST': #Branch for post
         itemId = request.POST["id"]
         currentUser = request.user
-        selectedItem = Item.objects.get(itemID=itemId)
-        if not selectedItem:
+        selectedItem = Item.objects.get(itemID=itemId) #Get the item
+        if not selectedItem: #Check if item exists
             messages.success(request, "Item Not Found")
             return redirect('shop')
         user_details = get_object_or_404(UserDetail, pk=currentUser.id)
-        if user_details.total_coins < selectedItem.item_cost:
+        if user_details.total_coins < selectedItem.item_cost: #See if the user can afford the item
             messages.success(request, "Insufficient Funds")
             return redirect('shop')
-        try:
+        try: #Try and buy the item
             userItem = UserItem(user=currentUser, item=selectedItem)
             userItem.save()
             UserDetail.objects.filter(user=currentUser).update(total_coins = user_details.total_coins - selectedItem.item_cost)
             messages.success(request, "Item Successfully Purchased")
-        except:
+        except: #Catch if user has already purchased the item
             messages.success(request, "Item Already Purchased")
         return redirect('shop')
     user = request.user
-    if user.is_authenticated:
+    if user.is_authenticated: #If user is logged in add user details to context
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # Ellie Andrews 
         all_items = Item.objects.all()
@@ -52,11 +52,11 @@ def shop(request):
         return render(request, 'shop.html')
     
 def wardrobe(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated: #Check if user is logged in
         messages.success(request, "Please login first")
         return redirect('login')
 
-    if request.user.is_superuser:
+    if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
 
     user = request.user
