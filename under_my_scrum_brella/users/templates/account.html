@@ -1,31 +1,39 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+  <!--
+  ###########################################################################
+  #   Author: Jack Bundy
+  #   Contributors: Ellie Andrews, Ollie Barnes
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+  -->
 
+<!-- The below code is written by Ollie Barnes -->
 <!-- display error message if required - hidden by default -->
 <div id="error_box_email" class="alert alert-warning alert-dismissible fade" role="alert">
     <strong id="error_msg_email"> <!-- error msg input here via javascript --> </strong>
     <span id="error_fix_msg_email"> <!-- error description input here via javascript --> </span>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+<!-- end of code written by Ollie Barnes -->
 
-<!-- signup container -->
-<!-- Made by Jack -->
+<!--Page styled by Ellie Andrews-->
 <section class="vh-100">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-10" >
             <div>
-                <h1 class="display-1">{{ user_details.user.username }}</h1>
+                <h1>{{ viewed_user.user.username }}</h1>
             </div>
             <div class="col-md-6" >
                 <div class="card shadow-2-strong" style="border-radius: 1rem" >
+
                     <div class="card-body p-5 text-center">
 
-
-
                     <div class="text-center">
-                        <ul class="list-group list-group-flush">
-                            {% if user_details.user.id == user.id %}
+                        <ul class="list-group list-group-flush" >
+                            {% if viewed_user.user.id == user_details.user.id %}
                             <!-- If they are looking at their own page allow for email/pass change-->
 
                             <li class="list-group-item">
@@ -79,8 +87,10 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user.email }}" name="new_email" >
+
+                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user_details.user.email }}" name="new_email" >
                                                 <input type="email" value="{{user.email}}" id="old_email" hidden>
+
                                             <div class="input-group-append">
                                                 <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
                                                 <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
@@ -96,19 +106,19 @@
                             <li class="list-group-item">
                                 <form action="../friends/" method=POST>
                                 {% csrf_token %}
-                                <input type="text" id="friend_username" value="{{user_details.user.username}}" name="friend_username" hidden>
-                                <button name="add" class="latge-btn" style="margin-left: 10px;">Add Friend</button>
+                                <input type="text" id="friend_username" value="{{viewed_user.user.username}}" name="friend_username" hidden>
+                                <button name="add" class="btn btn-primary btn-block loginpage-btn">Add Friend</button>
                                 </form>
                             </li>
-                            <li class="list-group-item">{{user_details.user.email}}</li>
+
                             {% endif %}
                             <li class="list-group-item">
-                                Buddy : <bold>{{user_details.buddy_name}}</bold>
+                                <p style="color: #2c7774;">Buddy : {{viewed_user.buddy_name}}</p>
                                 <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
                                 <!-- TODO -->
                             </li>
-                            <li class="list-group-item">Coins : {{user_details.total_coins}}</li>
-                            <li class="list-group-item">XP : {{user_details.total_xp}}</li>
+                            <li class="list-group-item"><p style="color: #2c7774;">Coins : {{viewed_user.total_coins}}</p></li>
+                            <li class="list-group-item"><p style="color: #2c7774;">XP : {{viewed_user.total_xp}}</p></li>
                         </ul>
                     </div>
                     </div>
