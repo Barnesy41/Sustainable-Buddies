@@ -149,6 +149,10 @@ def account(request):
     # If they try to edit a pass/email:
     # ^^ Even if activated when from someone elses it would only change their own
     # Even though you should not be able to anyway
+    context = {
+        'user_details': user_details, 
+        'viewed_user': user_details, 
+    }
     if request.method == "POST":
         if "changePass" in request.POST:
             old_pass = request.POST["old_pass"]
@@ -170,19 +174,22 @@ def account(request):
         elif "changeMail" in request.POST:
             user_details.user.email = request.POST["new_email"]
             user_details.user.save()
-        
-        user_details = get_object_or_404(UserDetail, pk=request.user.id)
+            user_details = get_object_or_404(UserDetail, pk=request.user.id)
+        context = {
+            'user_details': user_details, 
+            'viewed_user': user_details, 
+        }
 
     # View of someone elses account
     elif request.method == "GET" and 'userId' in request.GET:
-        user_details = get_object_or_404(UserDetail, pk=request.GET["userId"])
+        viewed_user = get_object_or_404(UserDetail, pk=request.GET["userId"])
         # Overrides the default from above
+        context = {
+            'user_details': user_details, 
+            'viewed_user': viewed_user,
+        }
 
     # It is a regular page view of the account owner
-    context = {
-        'user_details': user_details, 
-        'current_user_id': request.user.id # Did not seem to be a more "elegant" way
-    }
     return render(request, 'account.html', context)
     
         

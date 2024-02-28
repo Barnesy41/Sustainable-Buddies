@@ -15,7 +15,7 @@
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-10" >
             <div>
-                <h1>{{ user_details.user.username }}</h1>
+                <h1>{{ viewed_user.user.username }}</h1>
             </div>
             <div class="col-md-6" >
                 <div class="card shadow-2-strong" style="border-radius: 1rem" >
@@ -24,7 +24,7 @@
 
                     <div class="text-center">
                         <ul class="list-group list-group-flush" >
-                            {% if user_details.user.id == user.id %}
+                            {% if viewed_user.user.id == user_details.user.id %}
                             <!-- If they are looking at their own page allow for email/pass change-->
 
                             <li class="list-group-item">
@@ -76,7 +76,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user.email }}" name="new_email" required >
+                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user_details.user.email }}" name="new_email" required >
                                             <div class="input-group-append">
                                                 <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
                                                 <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
@@ -92,19 +92,19 @@
                             <li class="list-group-item">
                                 <form action="../friends/" method=POST>
                                 {% csrf_token %}
-                                <input type="text" id="friend_username" value="{{user_details.user.username}}" name="friend_username" hidden>
+                                <input type="text" id="friend_username" value="{{viewed_user.user.username}}" name="friend_username" hidden>
                                 <button name="add" class="btn btn-primary btn-block loginpage-btn">Add Friend</button>
                                 </form>
                             </li>
 
                             {% endif %}
                             <li class="list-group-item">
-                                <p style="color: #2c7774;">Buddy : {{user_details.buddy_name}}</p>
+                                <p style="color: #2c7774;">Buddy : {{viewed_user.buddy_name}}</p>
                                 <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
                                 <!-- TODO -->
                             </li>
-                            <li class="list-group-item"><p style="color: #2c7774;">Coins : {{user_details.total_coins}}</p></li>
-                            <li class="list-group-item"><p style="color: #2c7774;">XP : {{user_details.total_xp}}</p></li>
+                            <li class="list-group-item"><p style="color: #2c7774;">Coins : {{viewed_user.total_coins}}</p></li>
+                            <li class="list-group-item"><p style="color: #2c7774;">XP : {{viewed_user.total_xp}}</p></li>
                         </ul>
                     </div>
                     </div>
