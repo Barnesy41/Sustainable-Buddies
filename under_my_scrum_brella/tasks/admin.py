@@ -9,4 +9,4 @@ from django.contrib import admin
 from .models import Task, UserTask
 
 admin.site.register(Task)
-admin.site.register(UserTask)   #Written by Ollie Barnes
+admin.site.register(UserTask)

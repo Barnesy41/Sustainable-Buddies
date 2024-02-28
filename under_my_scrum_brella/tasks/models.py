@@ -19,7 +19,12 @@ class Task(models.Model):
     def __str__(self):
         return self.TaskName
 
-# The below was written by Ollie Barnes #
+################################################################
+#   This model connects the User model to the Task model,
+#   allowing admins to assign tasks to individual users
+#
+#   Author: Ollie Barnes
+################################################################
 class UserTask(models.Model):
     completion_status = models.IntegerField(default=0)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
