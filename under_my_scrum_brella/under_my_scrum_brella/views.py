@@ -13,10 +13,10 @@ from users.models import UserDetail
 from items.models import UserItem, Item
 
 def home(request):
-    if request.user.is_superuser:
+    if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
     user = request.user
-    if user.is_authenticated:
+    if user.is_authenticated: #If user is logged in add user details to context
         user_details = get_object_or_404(UserDetail, pk=user.id)
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
@@ -29,14 +29,15 @@ def home(request):
         return render(request, 'home.html')
     
 def my_pet(request):
-    if request.user.is_superuser:
+    if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
     user = request.user
-    if user.is_authenticated:
+    if user.is_authenticated: #If user is logged in add user details to context
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # Oliver Fitzgerald
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
+        # gives all of the worn items to the mypet
         context = {
             'user_details': user_details,
             'index_array':index_array,
@@ -46,17 +47,18 @@ def my_pet(request):
         return render(request, 'mypet.html')
 
 def games(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated: #Check if user is logged in
         messages.success(request, "Please login first")
         return redirect('login')
-    if request.user.is_superuser:
+    if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
     user = request.user
-    if user.is_authenticated:
+    if user.is_authenticated: #If user is logged in add user details to context
         user_details = get_object_or_404(UserDetail, pk=user.id)
         # Oliver Fitzgerald
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
+        # gives buddies worn items
         context = {
             'user_details': user_details,
             'index_array':index_array,
@@ -66,10 +68,10 @@ def games(request):
         return render(request, 'games.html')
 
 def noughtsCrosses(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated: #Check if user is logged in
         messages.success(request, "Please login first")
         return redirect('login')
-    if request.user.is_superuser:
+    if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
 
     gameCost = -1
