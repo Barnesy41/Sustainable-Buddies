@@ -70,7 +70,8 @@
 
 <h1>Noughts and Crosses</h1>
 
-<!--Code written by Ellie Andrews, Ollie Barnes - minor CSS changes-->
+<!-- Code written by Ellie Andrews, Ollie Barnes - minor CSS changes -->
+<!-- This code displays when on larger devices, ensuring items fit correctly on the page -->
 <div class="desktop-responsive-container" style="justify-content: center; display: flex; align-items: center;">
     <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" style="height:300px;width:auto;">
     <div class="speech-bubble-container">
@@ -80,14 +81,15 @@
 </div>
 
 
+<!-- This code displays on smaller devices, ensuring items fit correctly on the page on mobile -->
 <div class="mobile-responsive-container" style="justify-content: center; display: flex; align-items: center;">
     <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" style="height:auto;width:30vw;">
     <div class="speech-bubble-container">
         <img src="{% static 'assets/speech bubble.png' %}" class = "speech-bubble">
-        <div class="text-on-speech-bubble" id="speech-text" style="font-size: 3vw">Let's play a game!</div>
+        <div class="text-on-speech-bubble" id="speech-text-2" style="font-size: 3vw">Let's play a game!</div>
     </div>
 </div>
-<!--End of Ellie Andrews code-->
+<!--End of Ellie Andrews code, end of Ollie Barnes alterations-->
 
 <div class="grid">
     <div class="row">
@@ -180,6 +182,9 @@
         //Ellie Andrews code
         var speechText = document.getElementById("speech-text");
         speechText.innerHTML = "A draw!";
+
+        var speechText2 = document.getElementById("speech-text-2");
+        speechText2.innerHTML = "A draw!";
         //End of Ellie Andrews code
     }
 
@@ -276,6 +281,9 @@
             //Ellie Andrews code
             var speechText = document.getElementById("speech-text");
             speechText.innerHTML = "Aww you win!";
+
+            var speechText2 = document.getElementById("speech-text-2");
+            speechText2.innerHTML = "Aww you win!";
             //End of Ellie Andrews code
         } 
         else { //If the computer wins
@@ -283,6 +291,9 @@
             //Ellie Andrews code
             var speechText = document.getElementById("speech-text");
             speechText.innerHTML = "Yay I win!";
+
+            var speechText2 = document.getElementById("speech-text-2");
+            speechText2.innerHTML = "Yay I win!";
             //End of Ellie Andrews code
         }
         winBanner.style.display = "block";
