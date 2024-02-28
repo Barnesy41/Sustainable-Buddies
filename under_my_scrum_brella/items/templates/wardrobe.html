@@ -111,6 +111,8 @@
         toggleImage(itemNum, itemID, buttonID);
     }
 
+    // toggleImage adds an item to the buddy in the centre of the screen when a button is pressed 
+    // this will also store in the itemList array the current items for when the user saves the items 
     function toggleImage(itemNum, itemID, buttonID) {
 
         const image = document.getElementById(itemID);
@@ -142,6 +144,7 @@
         //displayBuddyWithItems(itemList)
     }
 
+    // hard coded function for displaying buddy with certain items - phased out 
     function displayBuddyWithItems(integers) {
         const imageContainer = document.getElementById('imageContainer');
 
@@ -179,6 +182,7 @@
         }
     }
 
+    // function that clears the buddys items in the array and on screen 
     function clearBuddyWithItems() {
         itemList.length = 0;
         for (let i = 0; i < allImages.length; i++) {
@@ -190,7 +194,7 @@
         console.log(itemList);
     }
 
-    // Assuming you have an array of image paths corresponding to wardrobe items
+    // paths to item images
     const wardrobeItems = [
             "{% static 'items/binhatitem.png' %}",
             "{% static 'items/glassesitem.png' %}",
@@ -200,7 +204,7 @@
         ];
 
 
-        // Function to display images on the page
+        // Function to display Buddy with items, data from is_worn in the UserItem model 
         function displayImages() {
             const item_array = JSON.parse('{{ item_array|escapejs }}');
             const index_test = JSON.parse('{{ index_array|escapejs }}');
