@@ -29,6 +29,9 @@ def home(request):
         return render(request, 'home.html')
     
 def my_pet(request):
+    if not request.user.is_authenticated: #Check if user is logged in
+        messages.success(request, "Please login first")
+        return redirect('login')
     if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
     user = request.user
