@@ -32,6 +32,7 @@ urlpatterns = [
     path('games/noughtsAndCrosses/', views.noughtsCrosses ,name='noughtsAndCrosses'),
     path('games/', views.games, name='games'),
     path('items/', include('items.urls')),
+    path('privacy/', views.privacy, name='privacy')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
