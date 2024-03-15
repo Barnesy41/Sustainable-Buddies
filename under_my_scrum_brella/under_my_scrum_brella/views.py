@@ -95,3 +95,6 @@ def updateCoins(user, coinsToAdd):
         user_details = get_object_or_404(UserDetail, pk=user.id)
         user_details.total_coins = user_details.total_coins + coinsToAdd
         user_details.save()
+
+def privacy(request):
+    return render(request, 'privacy.html')

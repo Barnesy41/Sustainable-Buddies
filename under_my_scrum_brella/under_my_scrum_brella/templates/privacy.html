@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+  <!--
+  ###########################################################################
+  #   Author: Ellie Andrews
+  #   Contributors:
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+  -->
+  <br>
+  <h1>Privacy Policy and GDPR compliance</h1>
+  <h2>What data do we store?</h2>
+  <div style="justify-content: center; display: flex;">
+    <ul>
+        <li class="privacy_li">Username</li>
+        <li class="privacy_li">Hashed password</li>
+        <li class="privacy_li">Email address</li>
+      </ul>
+  </div>
+  <h2>What do we use stored data for?</h2>
+  <p>We store usernames and hashed passwords of users who create accounts with us for the purposes of logging in.
+    We store user’s email addresses, these will be used for account recovery if the user can no longer access their account and contacts an administrator.</p>
+  <h2>Want your data deleted?</h2>
+  <p>Please get in contact with a system administrator to have your data removed.</p>
+  <p>You can contact one of the following for concerns regarding privacy:</p>
+  <div style="justify-content: center; display: flex;">
+    <ul>
+        <li class="privacy_li">Ellie - ea523@exeter.ac.uk</li>
+        <li class="privacy_li">Ollie F - of285@exeter.ac.uk</li>
+        <li class="privacy_li">Ollie B - ojb213@exeter.ac.uk</li>
+        <li class="privacy_li">Silas - st864@exeter.ac.uk</li>
+        <li class="privacy_li">Luke - lc954@exeter.ac.uk</li>
+        <li class="privacy_li">Jack - jeb261@exeter.ac.uk</li>
+      </ul>
+  </div>
+  <!--add specific details for the users game keeper if logged in, for now I will put our details for now to remove it.-->
+  {% endblock content %}

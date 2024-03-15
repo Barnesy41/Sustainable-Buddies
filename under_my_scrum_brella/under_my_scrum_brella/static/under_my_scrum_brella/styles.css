@@ -45,6 +45,12 @@ p {
     padding-right: 10%;
 }
 
+.privacy_li{
+    color: #fff;
+    font-weight: bold;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 nav ul {
     list-style-type: none;
     margin: 0;

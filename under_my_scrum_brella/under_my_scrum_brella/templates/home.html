@@ -73,6 +73,12 @@ window.onload = displayImages;
 <div style="justify-content: center; display: flex;">
     <img src="{% static 'assets/leafflowervine.png' %}" style="width:50%; height:auto;">
 </div>
+<p>Curious about how we handle data?</p>
+<div style="justify-content: center; display: flex;">
+    <a href="{% url 'privacy' %}" class="login-btn">Privacy Policy</a>
+</div>
+<br>
+<br>
 
 
 <!--This section is displayed when the user is not logged in-->
@@ -134,6 +140,10 @@ window.onload = displayImages;
     </h2>
     <div style="justify-content: center; display: flex;">
         <img src="{% static 'assets/leafvine.png' %}" style="width:50%; height:auto;">
+    </div>
+    <p>Curious about how we handle data?</p>
+    <div style="justify-content: center; display: flex;">
+        <a href="{% url 'privacy' %}" class="login-btn">Privacy Policy</a>
     </div>
     <br>
     <br>
