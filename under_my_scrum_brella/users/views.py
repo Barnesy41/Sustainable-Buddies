@@ -231,3 +231,11 @@ def leaderboard(request):
     context['user_details'] = user_details
     
     return render(request, 'leaderboard.html', context)
+
+#Ellie Andrews
+def social(request):
+    if not request.user.is_authenticated: #Check if user is logged in
+        messages.success(request, "Please login first")
+        return redirect('login')
+    else:
+        return render(request, 'social.html')
