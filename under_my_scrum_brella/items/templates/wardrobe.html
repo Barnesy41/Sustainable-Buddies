@@ -76,6 +76,7 @@
         font-size: 16px;
         border-width: 3px;
         margin: 10px;
+        display:block;
     }
 
     .wardrobe-button:hover {
@@ -105,10 +106,13 @@
     let itemList = [];
     const allImages = ['item-1-image','item-2-image','item-3-image','item-4-image','item-5-image']
     const allButtons = ['item-1','item-2','item-3','item-4','item-5']
+    const owned_items_array = JSON.parse('{{ user_items|escapejs }}');
+
 
     function setItem(itemNum, itemID, buttonID) {
         latestValue = itemNum;
         toggleImage(itemNum, itemID, buttonID);
+        saveItems()
     }
 
     // toggleImage adds an item to the buddy in the centre of the screen when a button is pressed 
@@ -227,6 +231,43 @@
         // currently do not want to run this 
         //window.onload = displayImages;
 
+        function printItemsToConsole() {
+            console.log("items owned by the user:",owned_items_array);
+            console.log("all item buttons: ", allButtons);
+            
+            for (var j = 0; j < 5; j++) {
+                console.log("item 1:",allButtons[0])
+                var value_hide = allButtons[j];
+                console.log("hiding value: ",value_hide);
+
+                var itemElement_hide = document.getElementById(value_hide); 
+            
+                if (itemElement_hide) {
+                    itemElement_hide.style.display = 'none';
+                } 
+                else {
+                    console.log("Not found.");                    
+                }
+            }
+            
+            for (var i = 0; i < owned_items_array.length; i++) {
+                var value = owned_items_array[i];
+                console.log("dispaying item: "+value);
+
+                var itemElement = document.getElementById('item-' + value ); 
+            
+                if (itemElement) {
+                    //CHANGE TO BLOCK
+                    itemElement.style.display = 'block';
+                } 
+                else {
+                    console.log("Not found.");                    
+                }
+            }
+    }
+        window.onload = printItemsToConsole
+        
+
 </script>
 
 <body>
@@ -251,6 +292,9 @@
 
 </div>
 <p>Click items to add or remove them from your Buddy. Hover over a button to see the name of the item</p>
+
+
+<!--development area for testing the dynamic buttons-->
 <div class="full-width-container">
     
     <button id="item-1" title="Bin Hat" class="wardrobe-button" onclick="setItem(0, 'item-1-image', 'item-1')">
@@ -272,18 +316,15 @@
 <button id="Clear Items" title="Clear Items" class="wardrobe-button" onclick="clearBuddyWithItems()">
     Clear </button>
  
-<button id="Save changes" title="Save changes" class="wardrobe-button" onclick="saveItems()">
-    Save Changes </button>
-
 
 <form method="post" action="{% url 'wardrobe' %}">
     {% csrf_token %}
     
     <!-- Example: Passing an array of integers [1, 2, 3] -->
     <input id="input-value" type="hidden" name="selected_indices" value="0">
-    <button type="submit" class="wardrobe-button">Confirm</button>
+    <button type="submit" class="wardrobe-button">Save Changes</button>
 </form>
-
+</div>
 
 <!-- test to display the buddy with items 
 <div class="centered-container">

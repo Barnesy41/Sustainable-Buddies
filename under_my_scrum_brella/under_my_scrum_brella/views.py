@@ -58,7 +58,7 @@ def games(request):
     user = request.user
     if user.is_authenticated: #If user is logged in add user details to context
         user_details = get_object_or_404(UserDetail, pk=user.id)
-        # Oliver Fitzgerald
+        # Oliver Fitzgerald-
         worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
         index_array = [user_item.item.item_index for user_item in worn_user_items]
         # gives buddies worn items

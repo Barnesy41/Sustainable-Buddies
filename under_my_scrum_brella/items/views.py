@@ -83,16 +83,20 @@ def wardrobe(request):
         index_array = [user_item.item.item_index for user_item in worn_user_items]
         # below sets the new items - no new items without a post 
         item_array = []
-        # below removed for now as this will be used to dynamically load items later on  
-        #all_items = []
-        #user_items = UserItem.objects.filter(user=user)
+
+        # below is to load the items owned by the user 
+        user_owned_items = UserItem.objects.filter(user=user)
+        user_items = [user_item.item.item_index for user_item in user_owned_items]
+        
         #for user_item in user_items:
-            #all_items.append(user_item.item)
+            #user_items.append(user_item.item)
+
         context = {
             'user_details': user_details,
             'all_items': all_items,
             'item_array':item_array,
             'index_array':index_array,
+            'user_items':user_items,
             }
         return render(request, 'wardrobe.html', context)
     else:
