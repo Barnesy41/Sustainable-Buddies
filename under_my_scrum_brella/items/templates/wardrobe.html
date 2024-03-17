@@ -252,9 +252,9 @@
             
             for (var i = 0; i < owned_items_array.length; i++) {
                 var value = owned_items_array[i];
-                console.log("dispaying item: "+value);
+                console.log("dispaying item: "+value + 1);
 
-                var itemElement = document.getElementById('item-' + value ); 
+                var itemElement = document.getElementById('item-' + (value + 1)); 
             
                 if (itemElement) {
                     //CHANGE TO BLOCK
