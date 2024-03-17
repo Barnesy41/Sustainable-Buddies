@@ -1,0 +1,19 @@
+  <!--
+  ###########################################################################
+  #   Author: Ellie Andrews
+  #   Contributors:
+  #
+  #   The author has written all code in this file unless stated otherwise.
+  ###########################################################################
+  -->
+
+  {% extends 'index.html' %}
+  {% load static %}
+  {% block content %}
+  <h1>Social Features</h1>
+  <p>Looking for a way to engage with other sustainable users? Try adding some friends or see where you rank on the leaderboard!</p>
+  <div style="justify-content: center; display: flex;">
+    <a href="{% url 'friends' %}" class="login-btn">Friends</a>
+    <a href="{% url 'leaderboard' %}" class="login-btn">Leaderboard</a>
+    </div>
+  {% endblock content %}
