@@ -104,8 +104,12 @@
 <script>
     let latestValue = 0;
     let itemList = [];
-    const allImages = ['item-1-image','item-2-image','item-3-image','item-4-image','item-5-image']
-    const allButtons = ['item-1','item-2','item-3','item-4','item-5']
+    const allImages = ['item-1-image','item-2-image','item-3-image','item-4-image','item-5-image',
+    'item-6-image','item-7-image','item-8-image','item-9-image','item-10-image']
+    const allButtons = ['item-1','item-2','item-3','item-4','item-5',
+    'item-6','item-7','item-8','item-9','item-10']
+    // for testing remove items 6-10 if they are not availble in the shop yet 
+    
     const owned_items_array = JSON.parse('{{ user_items|escapejs }}');
 
 
@@ -174,6 +178,21 @@
                 case 5:
                     image.src = "{% static 'items/waterbottleitem.png' %}";
                     break;
+                case 6:
+                    image.src = "{% static 'items/partyhatitem.png' %}";
+                    break;
+                case 7:
+                    image.src = "{% static 'items/picnicbasketitem.png' %}";
+                    break;
+                case 8:
+                    image.src = "{% static 'items/teddybearitem.png' %}";
+                    break;
+                case 9:
+                    image.src = "{% static 'items/dressitem.png' %}";
+                    break;
+                case 10:
+                    image.src = "{% static 'items/suititem.png' %}";
+                    break;
 
                 default:
                     break;
@@ -204,7 +223,12 @@
             "{% static 'items/glassesitem.png' %}",
             "{% static 'items/goldmedalitem.png' %}",
             "{% static 'items/rubiishpickeritem.png' %}",
-            "{% static 'items/waterbottleitem.png' %}"
+            "{% static 'items/waterbottleitem.png' %}",
+            "{% static 'items/partyhatitem.png' %}",
+            "{% static 'items/picnicbasketitem.png' %}",
+            "{% static 'items/teddybearitem.png' %}",
+            "{% static 'items/dressitem.png' %}",
+            "{% static 'items/suititem.png' %}",
         ];
 
 
@@ -231,12 +255,11 @@
         // currently do not want to run this 
         //window.onload = displayImages;
 
-        function printItemsToConsole() {
+        function loadOwnedItemButtons() {
             console.log("items owned by the user:",owned_items_array);
             console.log("all item buttons: ", allButtons);
             
-            for (var j = 0; j < 5; j++) {
-                console.log("item 1:",allButtons[0])
+            for (var j = 0; j < allButtons.length; j++) {
                 var value_hide = allButtons[j];
                 console.log("hiding value: ",value_hide);
 
@@ -252,12 +275,11 @@
             
             for (var i = 0; i < owned_items_array.length; i++) {
                 var value = owned_items_array[i];
-                console.log("dispaying item: "+value + 1);
+                console.log("dispaying item: "+(value + 1));
 
                 var itemElement = document.getElementById('item-' + (value + 1)); 
             
                 if (itemElement) {
-                    //CHANGE TO BLOCK
                     itemElement.style.display = 'block';
                 } 
                 else {
@@ -265,7 +287,7 @@
                 }
             }
     }
-        window.onload = printItemsToConsole
+        window.onload = loadOwnedItemButtons
         
 
 </script>
@@ -286,6 +308,16 @@
             <img id="item-3-image" src="{% static 'items/goldmedalitem.png' %}" class="item-image">
             <img id="item-4-image" src="{% static 'items/rubiishpickeritem.png' %}" class="item-image">
             <img id="item-5-image" src="{% static 'items/waterbottleitem.png' %}" class="item-image">
+            <img id="item-6-image" src="{% static 'items/partyhatitem.png' %}" class="item-image">
+            <img id="item-7-image" src="{% static 'items/picnicbasketitem.png' %}" class="item-image">
+            <img id="item-8-image" src="{% static 'items/teddybearitem.png' %}" class="item-image">
+            <img id="item-9-image" src="{% static 'items/dressitem.png' %}" class="item-image">
+            <img id="item-10-image" src="{% static 'items/suititem.png' %}" class="item-image">
+            <!--
+                todo 
+                order of loading
+                suit, dress, bin, party, basket, bottle, teddy, picker,glasses, medal 
+            -->
 
         </div>
     </div>
@@ -312,6 +344,20 @@
     <button id="item-5" title="Water Bottle" class="wardrobe-button" onclick="setItem(4, 'item-5-image','item-5')">
         <img src="{% static 'items/waterbottleitem.png' %}" width="90" height="90"></button>
 
+    <button id="item-6" title="Party Hat" class="wardrobe-button" onclick="setItem(5, 'item-6-image','item-6')">
+        <img src="{% static 'items/partyhatitem.png' %}" width="90" height="90"></button>
+    
+    <button id="item-7" title="Picnic Basket" class="wardrobe-button" onclick="setItem(6, 'item-7-image','item-7')">
+        <img src="{% static 'items/picnicbasketitem.png' %}" width="90" height="90"></button>
+
+    <button id="item-8" title="Teddy Bear" class="wardrobe-button" onclick="setItem(8, 'item-8-image','item-8')">
+        <img src="{% static 'items/teddybearitem.png' %}" width="90" height="90"></button>
+
+    <button id="item-9" title="Dress" class="wardrobe-button" onclick="setItem(9, 'item-9-image','item-9')">
+        <img src="{% static 'items/dressitem.png' %}" width="90" height="90"></button>
+
+    <button id="item-10" title="Suit" class="wardrobe-button" onclick="setItem(10, 'item-10-image','item-10')">
+        <img src="{% static 'items/suititem.png' %}" width="90" height="90"></button>
 
 <button id="Clear Items" title="Clear Items" class="wardrobe-button" onclick="clearBuddyWithItems()">
     Clear </button>
