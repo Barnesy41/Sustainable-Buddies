@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Silas Turner
-#   Contributors: Ollie Barnes, Ellie Andrews, Jack Bundy
+#   Contributors: Ollie Barnes, Ellie Andrews, Jack Bundy, Luke Clarke
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.utils import timezone
 from .models import UserDetail, Friend
 from .models import UserDetail
 
@@ -239,3 +240,37 @@ def social(request):
         return redirect('login')
     else:
         return render(request, 'social.html')
+
+#Luke Clarke - used to update happiness and ensure it does not exceed 1
+def updateHappiness(user, happinessToAdd):
+    if user.is_authenticated:
+        user_details = get_object_or_404(UserDetail, pk=user.id)
+        newHappiness = user_details.buddy_happiness + happinessToAdd
+
+        if newHappiness >= 1:
+            user_details.buddy_happiness = 1
+        elif newHappiness <= 0:
+            user_details.buddy_happiness = 0
+        else:
+            user_details.buddy_happiness = newHappiness
+
+        user_details.save()
+
+#Luke Clarke - checks whether happiness should decay
+def decayHappiness(request):
+    secondsToDecay = 1 #how many seconds until happiness decays
+    decayValue = 0.10 #how much happiness decays by
+
+    currentUser = request.user
+
+    if currentUser.is_authenticated:
+        user_details = get_object_or_404(UserDetail, pk=currentUser.id)
+        
+        current_time = timezone.now()
+        time_elapsed = (current_time - user_details.last_happiness_decay_time).total_seconds()
+
+        #decays happiness after set time has passed
+        if (time_elapsed > secondsToDecay):
+            updateHappiness(currentUser, -decayValue)
+            user_details.last_happiness_decay_time = current_time
+            
