@@ -201,7 +201,6 @@ def account(request):
     
         
 # The leaderboard function below was written by Ollie Barnes & Ellie Andrews
-#TODO: ensure admins arent included in the list of users?
 def leaderboard(request):
     #Redirect the user to the login page if they are not signed in
     currentUser = request.user

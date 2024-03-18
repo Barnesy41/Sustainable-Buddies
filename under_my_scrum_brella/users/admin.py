@@ -21,7 +21,7 @@ class GroupTaskAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         # Call the parent class's save_model method to save the object
         super().save_model(request, obj, form, change)
-
+        
         # retrieve all required objects
         group = obj.group
         task = obj.task
@@ -30,9 +30,9 @@ class GroupTaskAdmin(admin.ModelAdmin):
         # Iterate over each user in the group, assigning the group task to each of them
         for group_user in group_users:
             user = group_user.user_id
-            user_task_exists = UserTask.objects.filter(user_id=user, task_id=task).exists()
             
             # If a UserTask entry doesn't exist, create it. Otherwise, retrieve it
+            user_task_exists = UserTask.objects.filter(user_id=user, task_id=task).exists()
             usertask_obj = None
             if not user_task_exists:
                 usertask_obj = UserTask.objects.create(user_id=user, task_id=task)
