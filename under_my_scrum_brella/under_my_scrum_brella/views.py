@@ -80,13 +80,18 @@ def noughtsCrosses(request):
     gameCost = -1
     user = request.user
     user_details = get_object_or_404(UserDetail, pk=user.id)
+
+    worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
+    index_array = [user_item.item.item_index for user_item in worn_user_items]
     
     if user_details.total_coins + gameCost < 0:
         messages.success(request, "Insufficient Funds")
         return redirect('games')
     updateCoins(user, gameCost)
     user_details_updated = get_object_or_404(UserDetail, pk=user.id)
-    context = {'user_details': user_details_updated}
+    context = {'user_details': user_details_updated,
+               'index_array':index_array,
+               }
     return render(request, 'Games/noughtsAndCrosses.html', context)
 
 #luke - used to add/subtract coins
