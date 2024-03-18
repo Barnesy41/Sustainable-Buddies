@@ -14,6 +14,10 @@ class UserDetail(models.Model):
     buddy_type = models.CharField(max_length=400)
     total_coins = models.IntegerField(default=0)
     total_xp = models.IntegerField(default=0)
+    #Luke - tracks happiness and when it needs to decay
+    buddy_happiness = models.FloatField(default=0.75)
+    last_happiness_decay_time = models.DateTimeField(auto_now_add=True)
+
 
 class Friend(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='first_user')

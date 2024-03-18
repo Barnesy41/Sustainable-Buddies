@@ -18,6 +18,9 @@ from django.contrib import messages
 #   and provide tasks.html with the required information from the database
 ###########################################################################
 def task_list(request):
+    #How much happiness increases upon task completion
+    taskHappiness = 0.1
+
     #Redirect the user if not authenticated
     current_user = request.user
     if not current_user.is_authenticated:
@@ -37,12 +40,17 @@ def task_list(request):
         task_object.completion_status = 1
         task_object.save()
         
-        #Add coins & XP to the user's account
+        #Add coins, XP and happiness to the user's account
         user = UserDetail.objects.get(user=current_user)    
         task_object = Task.objects.get(id=task_id)
 
         user.total_coins = user.total_coins + task_object.CoinReward
         user.total_xp = user.total_xp + task_object.XpReward
+
+        #Luke Clarke - Sets buddy happiness (between 0 and 1)
+        newHappiness = max(0, min(1, user.buddy_happiness + taskHappiness))
+        user.buddy_happiness = newHappiness
+
         user.save()
         
         return redirect('tasks')
