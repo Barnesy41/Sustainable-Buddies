@@ -7,7 +7,9 @@
 
 from django.contrib import admin
 
-from .models import UserDetail, Friend
+from .models import UserDetail, Friend, Group, GroupUser
 
 admin.site.register(UserDetail)
 admin.site.register(Friend)
+admin.site.register(Group)
+admin.site.register(GroupUser)
