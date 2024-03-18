@@ -96,5 +96,20 @@ def updateCoins(user, coinsToAdd):
         user_details.total_coins = user_details.total_coins + coinsToAdd
         user_details.save()
 
+#luke - used to update happiness and ensure it does not exceed 1
+def updateHappiness(user, happinessToAdd):
+    if user.is_authenticated:
+        user_details = get_object_or_404(UserDetail, pk=user.id)
+        newHappiness = user_details.buddy_happiness + happinessToAdd
+
+        if newHappiness >= 1:
+            user_details.buddy_happiness = 1
+        elif newHappiness <= 0:
+            user_details.buddy_happiness = 0
+        else:
+            user_details.buddy_happiness = newHappiness
+
+        user_details.save()
+
 def privacy(request):
     return render(request, 'privacy.html')

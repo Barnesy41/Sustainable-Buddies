@@ -59,14 +59,14 @@
     }
 
     /* Happiness bar by Luke Clarke */
-    .happiness-container {
+    #happiness-container {
         background-color: whitesmoke; 
         width: 80%;
         padding: 3px; 
         border-radius: 15px; 
     }
 
-    .happiness-bar {
+    #happiness-bar {
         background-color: #6bbdb8; 
         padding: 1%; 
         border-radius: 15px; 
@@ -117,9 +117,20 @@ window.onload = displayImages;
 
 <!--Happiness bar by Luke Clarke-->
 <h2>Happiness:</h2>
-<div class="happiness-container">
-    <div class="happiness-bar" style="width: 80%"></div>
+<div id="happiness-container">
+    <div id="happiness-bar"></div>
 </div>
+
+<script>
+    //Bar gets updated each time page is loaded
+    window.onload = function updateHappinessBar() {
+        var buddyHappiness = parseFloat("{{ user_details.buddy_happiness }}")*100; //stored as percentage
+
+        var happinessBar = document.getElementById("happiness-bar");
+        happinessBar.style.width = buddyHappiness + "%";
+
+    };
+</script>
 <!--End of Luke code-->
 
 
