@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Silas Turner
-#   Contributors: Ollie Barnes, Ellie Andrews, Jack Bundy, Luke Clarke
+#   Contributors: Ollie Barnes, Ellie Andrews, Jack Bundy, Luke Clarke, Oliver Fitzgerald
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import UserDetail, Friend
 from tasks.models import Task, UserTask
+from items.models import UserItem, Item
 
 import random
 
@@ -156,9 +157,17 @@ def account(request):
     # If they try to edit a pass/email:
     # ^^ Even if activated when from someone elses it would only change their own
     # Even though you should not be able to anyway
+
+    # Oliver Fitzgerald
+    # adds the items worn by the user to the context
+    user=request.user
+    worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
+    index_array = [user_item.item.item_index for user_item in worn_user_items]
+
     context = {
         'user_details': user_details, 
         'viewed_user': user_details, 
+        'index_array':index_array,
     }
     if request.method == "POST":
         if "changePass" in request.POST:
@@ -185,15 +194,24 @@ def account(request):
         context = {
             'user_details': user_details, 
             'viewed_user': user_details, 
+            'index_array':index_array,
         }
 
     # View of someone elses account
     elif request.method == "GET" and 'userId' in request.GET:
         viewed_user = get_object_or_404(UserDetail, pk=request.GET["userId"])
+
+        # Oliver Fitzgerald 
+        # gets worn items of viewed user 
+        v_user = get_object_or_404(User, pk=request.GET["userId"])
+        worn_user_items = UserItem.objects.filter(user=v_user, is_worn=True)
+        index_array = [user_item.item.item_index for user_item in worn_user_items]
+
         # Overrides the default from above
         context = {
             'user_details': user_details, 
             'viewed_user': viewed_user,
+            'index_array':index_array,
         }
 
     # It is a regular page view of the account owner
