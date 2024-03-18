@@ -6,7 +6,7 @@
 ###########################################################################
 
 from django.db import models
-from users.models import UserDetail
+from users.models import Group
 from users.models import User
 
 class Task(models.Model):
@@ -19,6 +19,7 @@ class Task(models.Model):
     def __str__(self):
         return self.TaskName
 
+
 ################################################################
 #   This model connects the User model to the Task model,
 #   allowing admins to assign tasks to individual users
@@ -29,3 +30,14 @@ class UserTask(models.Model):
     completion_status = models.IntegerField(default=0)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+################################################################
+#   This model connects the Group model to the Task model,
+#   allowing admins to assign tasks to a group of users
+#
+#   Author: Ollie Barnes
+################################################################
+class GroupTask(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
