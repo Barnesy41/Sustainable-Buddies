@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Silas Turner
-#   Contributors:
+#   Contributors: Ollie Barnes
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -23,3 +23,24 @@ class Friend(models.Model):
     friends = models.BooleanField(default=False)
     class Meta:
         unique_together = ["user1", "user2"]
+
+
+################################################################
+#   This model is used to create groups of which users can later
+#   join/be assigned to
+#
+#   Author: Ollie Barnes
+################################################################
+class Group(models.Model):
+    group_name = models.CharField(max_length=100)
+
+
+################################################################
+#   This model connects the Group model to the User model,
+#   allowing a User to be assigned to Group(s)
+#
+#   Author: Ollie Barnes
+################################################################
+class GroupUser(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
