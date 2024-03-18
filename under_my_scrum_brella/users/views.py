@@ -11,7 +11,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import UserDetail, Friend
-from .models import UserDetail
+from tasks.models import Task, UserTask
+
+import random
 
 
 # Create your views here.
@@ -48,7 +50,8 @@ def signup_user(request):
             userdetail = UserDetail(user=new_user, buddy_name=new_buddy_name, buddy_type=new_buddy_type)
             userdetail.save()
             
-            set_default_tasks(new_user)
+            # Assign a set of tasks to the user by default
+            assign_default_tasks(new_user)
             
         except: #If fails then user already exists
             messages.success(request, "Username taken try again")
@@ -279,3 +282,72 @@ def decayHappiness(request):
             updateHappiness(currentUser, -decayValue)
             user_details.last_happiness_decay_time = current_time
             
+
+###########################################################################
+#   This function ensures that the user is assigned a set of default tasks
+#   upon account creation. If there are no tasks to assign, a set of
+#   pre-designed tasks will be created and assigned
+#
+#   :param user_obj: the user id to assign the default tasks to
+#   Author: Ollie Barnes
+###########################################################################
+def assign_default_tasks(user):
+    #If there are no tasks in the database, create some to assign
+    num_tasks_in_db = Task.objects.count()
+    if num_tasks_in_db == 0:
+        create_default_tasks()
+    
+    # Retrieve the ids of the tasks to assign
+    default_task_objs = get_default_tasks()
+
+    # Assign each task to the user
+    for task in default_task_objs:
+        UserTask.objects.create(completion_status=0, task_id=task, user_id=user)
+
+
+###########################################################################
+#   This function gets a set of tasks to assign a new user by randomly
+#   selecting up to 3 tasks that exist in the database. It returns the set
+#   of task objects.
+#
+#   :return default_task_objs: the set of default task objects 
+#   Author: Ollie Barnes
+###########################################################################
+def get_default_tasks():
+    num_tasks_in_db = Task.objects.count()
+    all_task_objs = list(Task.objects.all())
+    
+    MAX_NUM_DEFAULT_TASKS = 3
+    default_task_objs = []
+    
+    # Only loop while there are tasks available and less than the maximum number to set
+    while len(default_task_objs) < MAX_NUM_DEFAULT_TASKS and len(default_task_objs) < num_tasks_in_db:
+        # Select a random task, and remove as an option to select again
+        task_obj = random.choice(all_task_objs)
+        all_task_objs.remove(task_obj)
+        
+        default_task_objs.append(task_obj)        
+    
+
+    return default_task_objs
+
+
+###########################################################################
+#   This function creates a pre-determined set of 3 tasks
+#
+#   Author: Ollie Barnes
+###########################################################################
+def create_default_tasks():
+    # Create a ist containing default task details in the form:
+    # [[task name, task description, difficulty level, coin reward, xp reward], ...]
+    default_tasks = [   
+                        ["Recycle a plastic bottle!","Make sure to put it in the correct bin!", "Easy", 50, 100],
+                        ["Buy a coffee in a reusable cup!", "Lots of coffee shops will offer a discount too!", "Medium", 100, 150],
+                        ["Walk to campus", "Reduce your emissions by traveling on foot!", "Easy", 50, 200]
+                    ]
+    
+    for task in default_tasks:
+        Task.objects.create(TaskName=task[0], Description=task[1], DifficultyLevel=task[2], CoinReward=task[3], XpReward=task[4])
+
+    
+
