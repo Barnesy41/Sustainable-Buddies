@@ -15,7 +15,7 @@ class UserDetail(models.Model):
     total_coins = models.IntegerField(default=0)
     total_xp = models.IntegerField(default=0)
     #Luke - tracks happiness and when it needs to decay
-    buddy_happiness = models.FloatField(default=1)
+    buddy_happiness = models.FloatField(default=0.75)
     last_happiness_decay_time = models.DateTimeField(auto_now_add=True)
 
 

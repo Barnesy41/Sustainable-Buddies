@@ -52,7 +52,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'users.middleware.DecayHappinessMiddleware', #Luke - Links custom middleware for happiness
 ]
 
 ROOT_URLCONF = 'under_my_scrum_brella.urls'

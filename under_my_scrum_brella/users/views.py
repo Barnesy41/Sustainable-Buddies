@@ -258,8 +258,8 @@ def updateHappiness(user, happinessToAdd):
 
 #Luke Clarke - checks whether happiness should decay
 def decayHappiness(request):
-    secondsToDecay = 1 #how many seconds until happiness decays
-    decayValue = 0.10 #how much happiness decays by
+    secondsToDecay = 3600 #how many seconds until happiness decays
+    decayPerIncrement = 0.05 #how much happiness decays by
 
     currentUser = request.user
 
@@ -268,6 +268,9 @@ def decayHappiness(request):
         
         current_time = timezone.now()
         time_elapsed = (current_time - user_details.last_happiness_decay_time).total_seconds()
+
+        time_segments_elapsed = time_elapsed/secondsToDecay
+        decayValue = time_segments_elapsed * decayPerIncrement
 
         #decays happiness after set time has passed
         if (time_elapsed > secondsToDecay):
