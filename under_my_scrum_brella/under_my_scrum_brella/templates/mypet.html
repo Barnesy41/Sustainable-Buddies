@@ -4,7 +4,7 @@
  <!--
   ###########################################################################
   #   Author: Oliver Fitzgerald
-  #   Contributors: 
+  #   Contributors: Luke Clarke
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
@@ -58,6 +58,20 @@
         gap: 20px;
     }
 
+    /* Happiness bar by Luke Clarke */
+    .happiness-container {
+        background-color: whitesmoke; 
+        width: 80%;
+        padding: 3px; 
+        border-radius: 15px; 
+    }
+
+    .happiness-bar {
+        background-color: #6bbdb8; 
+        padding: 1%; 
+        border-radius: 15px; 
+    }
+    /* End of Luke code */
 </style>
 
 <script>        
@@ -100,7 +114,14 @@ window.onload = displayImages;
         </div>
     </div>
 </div>
-<br>
+
+<!--Happiness bar by Luke Clarke-->
+<h2>Happiness:</h2>
+<div class="happiness-container">
+    <div class="happiness-bar" style="width: 80%"></div>
+</div>
+<!--End of Luke code-->
+
 
 <div class="full-width-container">
 <div class="buttons">
