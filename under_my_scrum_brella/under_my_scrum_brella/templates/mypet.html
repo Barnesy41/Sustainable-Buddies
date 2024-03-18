@@ -100,12 +100,20 @@
         container.appendChild(img);
     });
 }
-window.onload = displayImages;
+//Bar gets updated each time page is loaded
+function updateHappinessBar() {
+        var buddyHappiness = parseFloat("{{ user_details.buddy_happiness }}")*100; //stored as percentage
+
+        var happinessBar = document.getElementById("happiness-bar");
+        happinessBar.style.width = buddyHappiness + "%";
+    };
+
+window.onload = displayImages,updateHappinessBar;
 </script>
 
 <body>
 <div>
-    <h1 class="pet-title">{{ user.username }}'s Buddy</h1>
+    <h1 class="pet-title">{{user_details.buddy_name}}'s Buddy Page:</h1>
 </div>
 
 <div class="centered-container" style="height: 40vh;">
@@ -121,15 +129,6 @@ window.onload = displayImages;
     <div id="happiness-bar"></div>
 </div>
 
-<script>
-    //Bar gets updated each time page is loaded
-    window.onload = function updateHappinessBar() {
-        var buddyHappiness = parseFloat("{{ user_details.buddy_happiness }}")*100; //stored as percentage
-
-        var happinessBar = document.getElementById("happiness-bar");
-        happinessBar.style.width = buddyHappiness + "%";
-    };
-</script>
 <!--End of Luke code-->
 
 
