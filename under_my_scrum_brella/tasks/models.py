@@ -30,9 +30,6 @@ class UserTask(models.Model):
     completion_status = models.IntegerField(default=0)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    
-    class Meta:
-        unique_together = ['user_id', 'task_id']
 
 
 ################################################################
