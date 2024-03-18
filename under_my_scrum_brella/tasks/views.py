@@ -12,6 +12,8 @@ from users.models import UserDetail
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
+from math import sqrt
+
 
 ###########################################################################
 #   This function is used to render the tasks.html page, 
@@ -70,13 +72,20 @@ def scan(request):
         return redirect('login')
 
     if request.method == "POST": 
-        task_hash = request.POST["QR-val"]
         print(request.POST)
+        task_hash = request.POST["QR-val"]
+        task_lat = request.POST["Geo-lat"]
+        task_long = request.POST["Geo-long"]
 
         # Find the task, see if can be completed, add task to user, complete task
         task_object = Task.objects.get(QrData=task_hash)
         
-        return redirect('tasks')
+        if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
+            print("Inside range")
+
+        print(task_object)
+        
+        # return redirect('tasks')
 
 
     context = {}
