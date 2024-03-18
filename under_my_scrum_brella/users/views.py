@@ -47,6 +47,9 @@ def signup_user(request):
             new_user.save()
             userdetail = UserDetail(user=new_user, buddy_name=new_buddy_name, buddy_type=new_buddy_type)
             userdetail.save()
+            
+            set_default_tasks(new_user)
+            
         except: #If fails then user already exists
             messages.success(request, "Username taken try again")
             return redirect('signup')
@@ -195,7 +198,6 @@ def account(request):
     
         
 # The leaderboard function below was written by Ollie Barnes & Ellie Andrews
-#TODO: ensure admins arent included in the list of users?
 def leaderboard(request):
     #Redirect the user to the login page if they are not signed in
     currentUser = request.user

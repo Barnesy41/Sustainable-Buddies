@@ -1,6 +1,6 @@
   ###########################################################################
   #   Author: Silas Turner 
-  #   Contributors: Oliver Fitzgerald
+  #   Contributors: Oliver Fitzgerald, Ollie Barnes
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
@@ -18,6 +18,9 @@ class Item(models.Model):
     item_location = models.CharField(max_length=255)
     # index used for displaying item 
     item_index = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.item_name
 
 # Oliver Fitzgerald 
 class UserItem(models.Model):
