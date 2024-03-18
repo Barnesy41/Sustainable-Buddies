@@ -1,0 +1,141 @@
+<!--
+###########################################################################
+#   Author: Jack Bundy 
+#   Contributors: Ollie Barnes
+#
+#   The author has written all code in this file unless stated otherwise.
+###########################################################################
+-->
+
+
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<!-- The below code is written by Ollie Barnes -->
+<!-- display error message if required - hidden by default -->
+<div id="error_box_GeoLoc" class="alert alert-warning alert-dismissible fade" role="alert">
+    <strong id="error_msg_GeoLoc"> <!-- error msg input here via javascript --> </strong>
+    <span id="error_fix_msg_GeoLoc"> <!-- error description input here via javascript --> </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<!-- end of code written by Ollie Barnes -->
+
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<noscript>JS is required for the QR scanner on this page.</noscript>
+
+
+<!-- Styling taken from accounts -->
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-10" >
+            <div class="card shadow-2-strong" style="border-radius: 1rem" >
+
+                <div id="reader" width="600px">
+                    <div class="alert alert-secondary alert-dismissible " role="alert">
+                        <strong> Awaiting geolocation </strong>
+                        <span> Geolocation is required to start QR scanning </span>
+                    </div>
+                </div>
+
+                <form method="POST" id="QR-form">
+                    {% csrf_token %}
+                    <input type="hidden" id="QR-val" name="QR-val" required>
+                    <input type="hidden" id="Geo-lat" name="Geo-lat" required>
+                    <input type="hidden" id="Geo-long" name="Geo-long" required>
+                    <input type="hidden" id="Geo-acc" name="Geo-acc">
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+let html5QrcodeScanner = new Html5QrcodeScanner(
+  "reader",
+  { fps: 10, qrbox: {width: 300, height: 300} },
+  /* verbose= */ false);
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    if ("geolocation" in navigator) {
+        const getLocation = new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        getLocation.then(
+            (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+                console.log(latitude, longitude, accuracy);
+
+                if (accuracy > 5000) {
+                    displayError("Location accuracy is poor", `Try again later? Current accuracy is {accuracy}`, "GeoLoc");
+                } else {
+                    document.getElementById("Geo-lat").value = latitude;
+                    document.getElementById("Geo-long").value = longitude;
+                    document.getElementById("Geo-acc").value = accuracy;
+
+
+                    // Start QR scanner
+                    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                }
+            },
+            (error) => {
+                displayError("Geolocation is required to submit a task", "Please allow geolocation access to submit tasks", "GeoLoc");
+            });
+
+    } else {
+        displayError("Geolocation is not supported", "Please use a browser with Geolocation support to scan codes!", "GeoLoc")
+    }
+});
+
+
+function onScanSuccess(decodedText, decodedResult) {
+    // handle the scanned code as you like, for example:
+    console.log(`Code matched = ${decodedText}`, decodedResult);
+    
+    // If any of loc are truthy. (It sometimes takes a while for location to be done)
+    document.getElementById("QR-val").value = decodedText;
+    document.getElementById("QR-form").submit();
+    console.log("Submit");
+}
+
+function onScanFailure(error) {
+    // Not important errors most of the time 
+    // They happen from just bad reads
+    // So no popup
+    console.warn(`Code scan error = ${error}`);
+}
+
+
+/**
+    This function is called to display a user-friendly error message to the user.
+    It displays the error in a yellow rectangular box at the top of the screen.
+    The main error message is displayed in a bold text.
+    The extra fix directions are displayed in a non-bold text.
+
+    @param errorMsg The main error message to display
+    @param errorFixMsg Directions as to how the user can fix the given error
+    @param name The name of the given error box
+
+    Author: Ollie Barnes
+**/
+function displayError(errorMsg, errorFixMsg, name) {
+    // Display the main error message
+    errorMsgField = document.getElementById("error_msg_"+ name);
+    errorMsgField.innerText = errorMsg;
+
+    //Display a fix for the error message
+    errorFixMsgField = document.getElementById("error_fix_msg_" + name);
+    errorFixMsgField.innerText = errorFixMsg;
+
+    //Show the alert box
+    document.getElementById("error_box_" + name).classList.add("show");
+}
+</script>
+
+{% endblock content %}

@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Ollie Barnes
-#   Contributors: Luke Clarke, Silas Turner
+#   Contributors: Luke Clarke, Silas Turner, Jack Bundy
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -62,3 +62,22 @@ def task_list(request):
     context['user_details'] = user_details
     
     return render(request, 'tasks.html', context)
+
+# QR done by Jack Bundy
+def scan(request): 
+    if not request.user.is_authenticated:
+        messages.success(request, "Please login first")
+        return redirect('login')
+
+    if request.method == "POST": 
+        task_hash = request.POST["QR-val"]
+        print(request.POST)
+
+        # Find the task, see if can be completed, add task to user, complete task
+        task_object = Task.objects.get(QrData=task_hash)
+        
+        return redirect('tasks')
+
+
+    context = {}
+    return render(request, 'scan.html', context)

@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Luke Clarke
-#   Contributors: Ollie Barnes
+#   Contributors: Ollie Barnes, Jack Bundy
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -15,6 +15,10 @@ class Task(models.Model):
     DifficultyLevel = models.CharField(max_length=10)
     CoinReward = models.IntegerField(default=0)
     XpReward = models.IntegerField(default=0)
+    QrData = models.CharField(max_length=256, default="") # Should be a hash of some kind. If empty then not a QR task
+    GeoLat = models.CharField(max_length=32, default="50.737489464168995") # 50.737489464168995, -3.5344444340166734 : Location of exeter uni
+    GeoLong = models.CharField(max_length=32, default="-3.5344444340166734")
+    GeoRange = models.IntegerField(default=500) # Range in meters
 
     def __str__(self):
         return self.TaskName
