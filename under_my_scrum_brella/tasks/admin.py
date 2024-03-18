@@ -10,4 +10,3 @@ from .models import Task, UserTask, GroupTask
 
 admin.site.register(Task)
 admin.site.register(UserTask)
-admin.site.register(GroupTask)
