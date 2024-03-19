@@ -86,9 +86,6 @@ def wardrobe(request):
         # below is to load the items owned by the user 
         user_owned_items = UserItem.objects.filter(user=user)
         user_items = [user_item.item.item_index for user_item in user_owned_items]
-        
-        #for user_item in user_items:
-            #user_items.append(user_item.item)
 
         context = {
             'user_details': user_details,
