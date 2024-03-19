@@ -12,7 +12,8 @@ from users.models import UserDetail
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
-from math import sqrt
+# from math import sqrt
+from math import radians, sin, cos, sqrt, atan2
 
 
 
@@ -22,10 +23,12 @@ taskHappiness = 0.1
 
 
 
-######
-# Function to complete tasks. Usese a global var taskHappiness for managing happiness
-######
 def complete_task(user_id, task_id):
+    """
+    Function to complet tasks and provide rewards. 
+    Uses a global variable `taskHappiness` to update buddy happiness
+    """
+
     #Update the completion status of the user's recently completed task from 0 (incomplete) to 1 (complete)
     task_object = UserTask.objects.get(task_id=task_id, user_id=user_id)
     task_object.completion_status = 1
@@ -43,6 +46,30 @@ def complete_task(user_id, task_id):
     user.buddy_happiness = newHappiness
 
     user.save()
+
+def calc_coord_dist(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """
+    Calculates the distance between coordinates using the Haversine formula. 
+    (Pythag does not work)
+    Output in Km
+    """
+    # Convert latitude and longitude from degrees to radians
+    lat1, lon1 = radians(lat1), radians(lon1)
+    lat2, lon2 = radians(lat2), radians(lon2)
+
+    # Rough radius of the Earth in kilometers
+    R = 6371.0
+
+    # differences between latitudes and longitudes
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    # the Haversine formula
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distance = R * c
+
+    return distance
 
 
 ###########################################################################
@@ -107,7 +134,8 @@ def scan(request):
             return render(request, 'scan.html', context)
             
         
-        if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
+        # if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
+        if calc_coord_dist(task_object.GeoLat, task_object.GeoLong, task_lat, task_long):
             try:
                 complete_task(request.user.id, task_object.pk)
                 return redirect('tasks')
