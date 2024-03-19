@@ -73,7 +73,9 @@ function updateGeo() {
 
                 if (accuracy > 1250) {
                     displayError("Location accuracy is poor", `Try again later? Current accuracy is ${accuracy}`, "GeoLoc");
-                    updateGeo();
+                    setTimeout(() => {
+                        window.location.reload(1);
+                    }, 5000);
                 } else {
                     document.getElementById("Geo-lat").value = latitude;
                     document.getElementById("Geo-long").value = longitude;
