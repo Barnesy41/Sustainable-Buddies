@@ -58,8 +58,7 @@ let html5QrcodeScanner = new Html5QrcodeScanner(
   { fps: 10, qrbox: {width: 300, height: 300} },
   /* verbose= */ false);
 
-
-document.addEventListener("DOMContentLoaded", function() {
+function updateGeo() {
     if ("geolocation" in navigator) {
         const getLocation = new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -70,10 +69,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 const accuracy = position.coords.accuracy;
-                console.log(latitude, longitude, accuracy);
+                console.log(latitude, longitude, accuracy)
 
                 if (accuracy > 5000) {
-                    displayError("Location accuracy is poor", `Try again later? Current accuracy is {accuracy}`, "GeoLoc");
+                    displayError("Location accuracy is poor", `Try again later? Current accuracy is ${accuracy}`, "GeoLoc");
+                    updateGeo();
                 } else {
                     document.getElementById("Geo-lat").value = latitude;
                     document.getElementById("Geo-long").value = longitude;
@@ -91,7 +91,9 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
         displayError("Geolocation is not supported", "Please use a browser with Geolocation support to scan codes!", "GeoLoc")
     }
-});
+}
+
+document.addEventListener("DOMContentLoaded", updateGeo);
 
 
 function onScanSuccess(decodedText, decodedResult) {

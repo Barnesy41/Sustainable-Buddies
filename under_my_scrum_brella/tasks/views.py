@@ -74,18 +74,19 @@ def scan(request):
     if request.method == "POST": 
         print(request.POST)
         task_hash = request.POST["QR-val"]
-        task_lat = request.POST["Geo-lat"]
-        task_long = request.POST["Geo-long"]
+        task_lat = float(request.POST["Geo-lat"])
+        task_long = float(request.POST["Geo-long"])
 
         # Find the task, see if can be completed, add task to user, complete task
         task_object = Task.objects.get(QrData=task_hash)
         
         if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
             print("Inside range")
+            print(sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2))
+        else:
+            messages.success(request, "You are not close enough to the task to complete it!")
 
-        print(task_object)
-        
-        # return redirect('tasks')
+        return redirect('tasks')
 
 
     context = {}
