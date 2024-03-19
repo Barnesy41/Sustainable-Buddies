@@ -137,7 +137,7 @@ def scan(request):
             
         
         # if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
-        if calc_coord_dist(task_object.GeoLat, task_object.GeoLong, task_lat, task_long):
+        if calc_coord_dist(task_object.GeoLat, task_object.GeoLong, task_lat, task_long) <= task_object.GeoRange:
             try:
                 complete_task(request.user.id, task_object.pk)
                 return redirect('tasks')
