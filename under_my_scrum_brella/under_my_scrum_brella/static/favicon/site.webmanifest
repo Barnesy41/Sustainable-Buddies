@@ -1,0 +1,21 @@
+{"name":"Sustainable Buddies",
+"short_name":"Sus Buds",
+"description": "a web app focused around sustainability by gamifying completing sustainable tasks.",
+"icons":[   
+    {
+        "src":"/android-chrome-192x192.png",
+        "sizes":"192x192",
+        "type":"image/png"
+    },
+    {
+        "src":"/android-chrome-512x512.png",
+        "sizes":"512x512",
+        "type":"image/png"
+    }
+    ],
+    "start_url": "/home.html",
+"theme_color":"#6bbdb8",
+"background_color":"#83d6d1",
+"display":"standalone"
+        
+}
