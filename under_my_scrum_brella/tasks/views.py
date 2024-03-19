@@ -119,6 +119,9 @@ def scan(request):
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
         return redirect('login')
+    
+    if request.user.is_superuser:
+        return render(request, 'admin/qr_gen.html')
 
     if request.method == "POST": 
 
