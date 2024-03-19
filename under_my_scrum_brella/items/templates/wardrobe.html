@@ -146,7 +146,7 @@
 
 
     // Call the function to display images based on the array
-    function saveItems(divID)
+    function saveItems()
     {
         document.getElementById('input-value').value = itemList.join(',');
         //displayBuddyWithItems(itemList)
@@ -286,7 +286,27 @@
                     console.log("Not found.");                    
                 }
             }
+            loadWornItems()
     }
+
+    function loadWornItems()
+    {
+        const index_array = JSON.parse('{{ index_array|escapejs }}');
+        console.log("items that should be worn "+index_array);
+        index_array.forEach((item) => {
+            var image_value = "item-"+(item+1)+"-image";
+            var item_to_show = document.getElementById(image_value);
+            item_to_show.style.display = "block";
+            var button_value = "item-"+(item+1);
+            var button_to_show = document.getElementById(button_value);
+            button_to_show.style.borderColor = "#ffbf00"
+            itemList = index_array;
+            console.log(itemList);
+            saveItems()
+        })
+        
+    }
+
         window.onload = loadOwnedItemButtons
         
 
