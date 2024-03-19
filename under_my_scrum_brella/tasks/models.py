@@ -19,7 +19,7 @@ class Task(models.Model):
     QrData = models.CharField(max_length=256, null=True, unique=True) # Should be a hash of some kind. If empty then not a QR task
     GeoLat = models.FloatField(default=50.737489464168995) # 50.737489464168995, -3.5344444340166734 : Location of exeter uni
     GeoLong = models.FloatField(default=-3.5344444340166734)
-    GeoRange = models.IntegerField(default=500) # Range in km
+    GeoRange = models.IntegerField(default=5) # Range in km
 
     def __str__(self):
         return self.TaskName
