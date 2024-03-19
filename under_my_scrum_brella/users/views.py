@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 from .models import UserDetail, Friend
 from tasks.models import Task, UserTask
 from items.models import UserItem, Item
@@ -45,6 +47,14 @@ def signup_user(request):
         email = request.POST['email']
         new_buddy_name = request.POST['buddyName']
         new_buddy_type = request.POST['buddyType']
+        
+        # Validate the password
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            messages.success(request, "Password does not meet minimum requirements: a capital, a symbol, a lowercase letter, a number, a minimum of 6 characters.")
+            return redirect('signup')
+            
         try: #Try and create a new user
             new_user = User.objects.create_user(username, email, password)
             new_user.save()
@@ -174,6 +184,13 @@ def account(request):
             old_pass = request.POST["old_pass"]
             new_pass = request.POST["new_pass"]
             repeat_pass = request.POST["new_pass_repeat"]
+            
+            # Validate the password
+            try:
+                validate_password(new_pass)
+            except ValidationError as e:
+                messages.success(request, "Password does not meet minimum requirements: a capital, a symbol, a lowercase letter, a number, a minimum of 6 characters.")
+                return redirect('account')
 
             if authenticate(request, username=user_details.user.username, password=old_pass) is not None:
                 if new_pass == repeat_pass:

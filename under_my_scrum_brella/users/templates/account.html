@@ -178,31 +178,6 @@ window.onload = displayImages;
 </section>
 
 <script>
-let timer;
-
-function checkPassMatch() {
-    pass = document.getElementById("new_pass").value;
-    pass_repeat = document.getElementById("new_pass_repeat").value;
-    
-    if (pass !== pass_repeat && pass && pass_repeat) {
-        document.getElementById("passMatchAlert").removeAttribute("hidden");
-    } else {
-        document.getElementById("passMatchAlert").setAttribute("hidden", true);
-    };
-}
-
-document.getElementById("new_pass").addEventListener("keyup", () => {
-    clearTimeout(timer);
-    timer=setTimeout(checkPassMatch, 500); 
-    // Stops it from appearing as soon as you type
-    // It resets the timer with every keyup
-});
-document.getElementById("new_pass_repeat").addEventListener("keyup", () => {
-    clearTimeout(timer);
-    timer=setTimeout(checkPassMatch, 500);
-});
-
-
 document.getElementById("changePass").addEventListener("submit", function (event) {
     var old_pass = document.getElementById("old_pass").value;
     var pass = document.getElementById("new_pass").value;
@@ -213,16 +188,11 @@ document.getElementById("changePass").addEventListener("submit", function (event
         displayError("Current password not input!", "Please enter your current password below.","pwd");
         event.preventDefault(); // Stop form from being submitted
     }
-    else if (!pass && !pass_repeat ) {
-        displayError("No new password entered!", "Please enter your new password in the new password fields below.", "pwd");
-        event.preventDefault();
-    } else if (pass != pass_repeat) {
-        displayError("Confirmed password does not match!", "Please ensure your new password matches your confirmed password.", "pwd");
-        event.preventDefault();
-    } else if (pass === old_pass) {
+    else if (pass === old_pass) {
         displayError("New password cannot be the same as old password!", "Please enter a unique password in the new password field.", "pwd");
         event.preventDefault();
     }
+    validatePassword(event, pass, pass_repeat);
 });
 
 
@@ -255,6 +225,43 @@ function isValidEmail(email) {
     var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
+
+
+/**
+    This function performs basic password validation, and throws a display error and prevents the 
+    password field being submit if the password is found to now be valid.
+**/
+function validatePassword(event, password, confirmedPassword) {
+    if (!password) {
+        displayError("No password input!", "Please input a password in the input field below.", "pwd");
+        event.preventDefault();
+    }
+    if (password != confirmedPassword) {
+        displayError("Passwords don't match!", "Please ensure that your password & confirmed password are the same.", "pwd");
+        event.preventDefault();
+    }
+    if (password.length < 6){
+        displayError("Passwords too short!", "Please ensure that your password has at least 6 characters.", "pwd");
+        event.preventDefault();
+    }
+    if (!/[A-Z]/.test(password)) {
+        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one uppercase letter.", "pwd");
+        event.preventDefault();
+    }
+    if (!/[a-z]/.test(password)) {
+        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one lowercase letter.", "pwd");
+        event.preventDefault();
+    }
+    if (!/[0-9]/.test(password)) {
+        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one number.", "pwd");
+        event.preventDefault();
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one symbol (!@#$%^&*(),.?\":{}|<>)", "pwd");
+        event.preventDefault();
+    }
+}
+
 
 /**
     This function is called to display a user-friendly error message to the user.
