@@ -1,6 +1,6 @@
  ###########################################################################
   #   Author: Silas Turner 
-  #   Contributors: Oliver Fitzgerald, Luke Clarke
+  #   Contributors: Oliver Fitzgerald, Luke Clarke, Ellie Andrews
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################

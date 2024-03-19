@@ -147,7 +147,6 @@ window.onload = displayImages;
                                 <form action="../friends/" method=POST>
                                 {% csrf_token %}
                                 <input type="text" id="friend_username" value="{{viewed_user.user.username}}" name="friend_username" hidden>
-                                <button name="add" class="btn btn-primary btn-block loginpage-btn">Add Friend</button>
                                 </form>
                             </li>
 
