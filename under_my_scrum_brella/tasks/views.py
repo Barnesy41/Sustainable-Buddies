@@ -12,7 +12,6 @@ from users.models import UserDetail
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
-# from math import sqrt
 from math import radians, sin, cos, sqrt, atan2
 
 
@@ -98,12 +97,6 @@ def task_list(request):
             complete_task(current_user, task_id)
             return redirect('tasks')
     
-    # Written by Luke Clarke
-    #Get the list of all tasks
-    tasks = Task.objects.all()
-    context = {'tasks': tasks}
-    #Written by Luke Clarke End
-    
     #Get all tasks assigned to the given user
     assigned_tasks = UserTask.objects.filter(user_id=current_user)
     context['assigned_tasks'] = assigned_tasks
@@ -139,7 +132,6 @@ def scan(request):
             return render(request, 'scan.html', context)
             
         
-        # if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
         if calc_coord_dist(task_object.GeoLat, task_object.GeoLong, task_lat, task_long) <= task_object.GeoRange:
             try:
                 complete_task(request.user.id, task_object.pk)
