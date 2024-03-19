@@ -63,8 +63,7 @@ def task_list(request):
     #If authenticated, render the tasks.html web page with the required data
     if request.method == 'POST':
         task_id = request.POST["task_id"]
-        if Task.objects.get(id=task_id).QrData: # QrData is not empty
-            print("in here")
+        if Task.objects.get(id=task_id).QrData is not None: 
             return redirect('scan')
         else: # A regular task
             complete_task(current_user, task_id)
