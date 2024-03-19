@@ -25,7 +25,7 @@ taskHappiness = 0.1
 
 def complete_task(user_id, task_id):
     """
-    Function to complet tasks and provide rewards. 
+    Function to complete tasks and provide rewards. 
     Uses a global variable `taskHappiness` to update buddy happiness
     """
 

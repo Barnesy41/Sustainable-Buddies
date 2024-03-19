@@ -12,6 +12,9 @@ from django.contrib import messages
 from users.models import UserDetail
 from items.models import UserItem, Item
 
+# Global for how much happiness increases upon task completion
+gameHappiness = 0.05
+
 def home(request):
     if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
@@ -77,7 +80,7 @@ def noughtsCrosses(request):
     if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
 
-    gameCost = -1
+    gameCost = -10
     user = request.user
     user_details = get_object_or_404(UserDetail, pk=user.id)
 
@@ -92,6 +95,7 @@ def noughtsCrosses(request):
     context = {'user_details': user_details_updated,
                'index_array':index_array,
                }
+    completeGame(user)
     return render(request, 'Games/noughtsAndCrosses.html', context)
 
 #luke - used to add/subtract coins
@@ -103,3 +107,10 @@ def updateCoins(user, coinsToAdd):
 
 def privacy(request):
     return render(request, 'privacy.html')
+
+#Ellie Andrews - adds buddy happiness for playing games with buddy
+def completeGame(user_id):
+    user = UserDetail.objects.get(user=user_id)
+    newHappiness = max(0, min(1, user.buddy_happiness + gameHappiness))
+    user.buddy_happiness = newHappiness
+    user.save()
