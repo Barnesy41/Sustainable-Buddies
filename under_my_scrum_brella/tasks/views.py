@@ -31,21 +31,22 @@ def complete_task(user_id, task_id):
 
     #Update the completion status of the user's recently completed task from 0 (incomplete) to 1 (complete)
     task_object = UserTask.objects.get(task_id=task_id, user_id=user_id)
-    task_object.completion_status = 1
-    task_object.save()
+    if task_object.completion_status != 1:
+        task_object.completion_status = 1
+        task_object.save()
         
-    #Add coins, XP and happiness to the user's account
-    user = UserDetail.objects.get(user=user_id)    
-    task_object = Task.objects.get(id=task_id)
+        #Add coins, XP and happiness to the user's account
+        user = UserDetail.objects.get(user=user_id)    
+        task_object = Task.objects.get(id=task_id)
 
-    user.total_coins = user.total_coins + task_object.CoinReward
-    user.total_xp = user.total_xp + task_object.XpReward
+        user.total_coins = user.total_coins + task_object.CoinReward
+        user.total_xp = user.total_xp + task_object.XpReward
 
-    #Luke Clarke - Sets buddy happiness (between 0 and 1)
-    newHappiness = max(0, min(1, user.buddy_happiness + taskHappiness))
-    user.buddy_happiness = newHappiness
+        #Luke Clarke - Sets buddy happiness (between 0 and 1)
+        newHappiness = max(0, min(1, user.buddy_happiness + taskHappiness))
+        user.buddy_happiness = newHappiness
 
-    user.save()
+        user.save()
 
 def calc_coord_dist(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
