@@ -351,9 +351,11 @@ def get_default_tasks():
 
 
 ###########################################################################
-#   This function creates a pre-determined set of 3 tasks
+#   This function creates a pre-determined set of tasks
 #
 #   Author: Ollie Barnes
+#
+#   Contributor: Ellie Andrews
 ###########################################################################
 def create_default_tasks():
     # Create a ist containing default task details in the form:
@@ -364,8 +366,17 @@ def create_default_tasks():
                         ["Walk to campus", "Reduce your emissions by traveling on foot!", "Easy", 50, 200]
                     ]
     
+    default_qr_code_tasks = [
+        ["Cycle to campus!", "Scan the QR code on the bike rack to complete the task!", "Medium", 100, 200, "bikerack", 50.737489464168995, -3.5344444340166734, 5],
+        ["Recycle some rubbish!", "Scan the QR code on the recycling bin to complete the task!", "Easy", 50, 150, "recyclingbin", 50.737489464168995, -3.5344444340166734, 5],
+        ["Read some articles on sustainability!", "Scan the QR code in the library to complete the task!", "Medium", 150, 100, "library", 50.737489464168995, -3.5344444340166734, 5],
+    ]
+    
     for task in default_tasks:
         Task.objects.create(TaskName=task[0], Description=task[1], DifficultyLevel=task[2], CoinReward=task[3], XpReward=task[4])
+
+    for task in default_qr_code_tasks:
+        Task.objects.create(TaskName=task[0], Description=task[1], DifficultyLevel=task[2], CoinReward=task[3], XpReward=task[4], QrData=task[5], GeoLat=task[6], GeoLong=task[7], GeoRange=task[8])
 
     
 
