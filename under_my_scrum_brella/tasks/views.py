@@ -48,6 +48,7 @@ def complete_task(user_id, task_id):
 
         user.save()
 
+# Made by Jack
 def calc_coord_dist(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
     Calculates the distance between coordinates using the Haversine formula. 
@@ -113,7 +114,7 @@ def task_list(request):
     
     return render(request, 'tasks.html', context)
 
-# QR done by Jack Bundy
+# Make by Jack Bundy
 def scan(request): 
     if not request.user.is_authenticated:
         messages.success(request, "Please login first")
