@@ -4,11 +4,51 @@
   <!--
   ###########################################################################
   #   Author: Jack Bundy
-  #   Contributors: Ellie Andrews, Ollie Barnes
+  #   Contributors: Ellie Andrews, Ollie Barnes, Oliver Fitzgerald
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
   -->
+<style>
+  .absolute-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Maintain image aspect ratio while covering the container */
+}
+</style>
+
+  <script>        
+    // Function to display Buddy with items 
+    function displayImages() {
+        const wardrobeItems = [
+            "{% static 'items/binhatitem.png' %}",
+            "{% static 'items/glassesitem.png' %}",
+            "{% static 'items/goldmedalitem.png' %}",
+            "{% static 'items/rubiishpickeritem.png' %}",
+            "{% static 'items/waterbottleitem.png' %}",
+            "{% static 'items/partyhatitem.png' %}",
+            "{% static 'items/picnicbasketitem.png' %}",
+            "{% static 'items/teddybearitem.png' %}",
+            "{% static 'items/dressitem.png' %}",
+            "{% static 'items/suititem.png' %}",
+        ];
+        const index_array = JSON.parse('{{ index_array|escapejs }}');
+        console.log("items that should be worn "+index_array);
+        const container = document.getElementById('buddy-container');
+        index_array.forEach((item, index) => {
+        const img = document.createElement('img');
+        img.src = wardrobeItems[item];
+        img.alt = `Wardrobe Item ${index + 1}`;
+        img.classList.add('absolute-image');
+        container.appendChild(img);
+    });
+}
+window.onload = displayImages;
+</script>
 
 <!-- The below code is written by Ollie Barnes -->
 <!-- display error message if required - hidden by default -->
@@ -114,8 +154,18 @@
                             {% endif %}
                             <li class="list-group-item">
                                 <p style="color: #2c7774;">Buddy : {{viewed_user.buddy_name}}</p>
-                                <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
-                                <!-- TODO -->
+                                <div class="d-flex justify-content-center">
+                                    <!--Oliver Fitzgerald - div below-->
+                                    <!-- Displays the buddy of the user you are viewing  -->
+                                    <div class="outer-buddy-containter">
+                                        <div class="centered-container" style="height: 150px; ">
+                                            <div id="buddy-container">
+                                            <img src="{% static 'under_my_scrum_brella/'%}{{viewed_user.buddy_type}}.png" class="absolute-image">
+                                    </div></div></div>
+
+                                    <!--<img src="{% static 'under_my_scrum_brella/'%}{{viewed_user.buddy_type}}.png" class="responsive-image">-->
+                                    
+                                </div>
                             </li>
                             <li class="list-group-item"><p style="color: #2c7774;">Coins : {{viewed_user.total_coins}}</p></li>
                             <li class="list-group-item"><p style="color: #2c7774;">XP : {{viewed_user.total_xp}}</p></li>

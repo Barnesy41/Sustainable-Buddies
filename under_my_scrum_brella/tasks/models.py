@@ -49,3 +49,6 @@ class UserTask(models.Model):
 class GroupTask(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ['group', 'task']
