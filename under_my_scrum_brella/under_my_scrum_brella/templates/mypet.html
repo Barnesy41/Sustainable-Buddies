@@ -100,7 +100,9 @@
         container.appendChild(img);
     });
 }
+
 //Bar gets updated each time page is loaded
+//function written by Luke Clarke 
 function updateHappinessBar() {
         var buddyHappiness = parseFloat("{{ user_details.buddy_happiness }}")*100; //stored as percentage
 
@@ -108,7 +110,10 @@ function updateHappinessBar() {
         happinessBar.style.width = buddyHappiness + "%";
     };
 
-window.onload = displayImages,updateHappinessBar;
+    window.onload = function() {
+        displayImages();
+        updateHappinessBar();
+    };
 </script>
 
 <body>
