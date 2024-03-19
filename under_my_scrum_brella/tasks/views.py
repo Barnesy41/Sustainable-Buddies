@@ -98,13 +98,20 @@ def scan(request):
         task_long = float(request.POST["Geo-long"])
 
         # Find the task, see if can be completed, add task to user, complete task
-        task_object = Task.objects.get(QrData=task_hash)
+        try:
+            task_object = Task.objects.get(QrData=task_hash)
+        except Task.DoesNotExist:
+            messages.success(request, "Task was not in the database!")
+            user_details = get_object_or_404(UserDetail, pk=request.user.id)
+            context = {'user_details' : user_details}
+            return render(request, 'scan.html', context)
+            
         
         if sqrt((task_object.GeoLat-task_lat)**2 + (task_object.GeoLong-task_long)**2) <= task_object.GeoRange:
             try:
                 complete_task(request.user.id, task_object.pk)
                 return redirect('tasks')
-            except ObjectDoenNotExist:
+            except UserTask.DoesNotExist:
                 messages.success(request, "You have not been given this task to complete!")
         else:
             messages.success(request, "You are not close enough to the task to complete it!")
