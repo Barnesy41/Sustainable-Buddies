@@ -71,7 +71,7 @@ function updateGeo() {
                 const accuracy = position.coords.accuracy;
                 console.log(latitude, longitude, accuracy)
 
-                if (accuracy > 5000) {
+                if (accuracy > 1250) {
                     displayError("Location accuracy is poor", `Try again later? Current accuracy is ${accuracy}`, "GeoLoc");
                     updateGeo();
                 } else {
