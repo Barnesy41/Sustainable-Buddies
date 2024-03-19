@@ -44,6 +44,13 @@ button.html5-qrcode-element {
     font-weight: bold;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+#reader {
+    background-color: rgb(226, 227, 229) !important;
+    /* background-color: white !important; */
+    border-radius: 1rem;
+    color: black !important;
+}
 </style>
 
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
@@ -54,26 +61,24 @@ button.html5-qrcode-element {
 <section class="vh-100">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-10" >
-            <div class="card shadow-2-strong" style="border-radius: 1rem" >
-
+            <div >
                 <div id="reader" width="600px">
                     <div class="alert alert-secondary alert-dismissible " role="alert">
                         <strong> Awaiting geolocation </strong>
                         <span> Geolocation is required to start QR scanning </span>
                     </div>
-
-                <form method="POST" id="QR-form">
-                    {% csrf_token %}
-                    <input type="hidden" id="QR-val" name="QR-val" required>
-                    <input type="hidden" id="Geo-lat" name="Geo-lat" required>
-                    <input type="hidden" id="Geo-long" name="Geo-long" required>
-                    <input type="hidden" id="Geo-acc" name="Geo-acc">
-                </form>
-                <br>
             </div>
         </div>
     </div>
 </section>
+
+<form method="POST" id="QR-form">
+    {% csrf_token %}
+    <input type="hidden" id="QR-val" name="QR-val" required>
+    <input type="hidden" id="Geo-lat" name="Geo-lat" required>
+    <input type="hidden" id="Geo-long" name="Geo-long" required>
+    <input type="hidden" id="Geo-acc" name="Geo-acc">
+</form>
 
 
 <script>
