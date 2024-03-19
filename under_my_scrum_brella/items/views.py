@@ -12,7 +12,6 @@ from users.models import UserDetail
 from .models import Item, UserItem
 from django.contrib import messages
 
-# Create your views here.
 def shop(request):
     if not request.user.is_authenticated: #Check if user is logged in
         messages.success(request, "Please login first")
