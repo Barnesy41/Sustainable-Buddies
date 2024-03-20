@@ -184,8 +184,10 @@ window.onload = displayImages;
         //Players can only place if there is no letter already in box
         //And if the game is in progress
         if (box.innerText == "" && status == "playing") {
-            box.innerText = player; //Places the icon
-
+            if (player != "")
+            {
+                box.innerText = player; //Places the icon (only when allowed)
+            
             //Checks whether to continue the game
             checkWin();
 
@@ -194,13 +196,15 @@ window.onload = displayImages;
 
                 //Switches to the next player
                 if (player == "O" && status == "playing") {
-                    player = "X";
+                    player = "";
                     setTimeout(computerTurn, 1000); //Computer waits a second before making turn
                 }
                 else if (player == "X" && status == "playing") {
                     player = "O";
                 }
             }
+
+        }
 
         }
     }
@@ -303,6 +307,7 @@ window.onload = displayImages;
 
     function computerTurn() {
         let isSet = false;
+        player = "X";
 
         //Keeps choosing boxes until it finds unoccupied one
         while(!isSet) {
