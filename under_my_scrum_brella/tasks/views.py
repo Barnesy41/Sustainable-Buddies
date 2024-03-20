@@ -78,6 +78,7 @@ def calc_coord_dist(lat1: float, lon1: float, lat2: float, lon2: float) -> float
 #   and provide tasks.html with the required information from the database
 ###########################################################################
 def task_list(request):
+    context = {}
     #Redirect the user if not authenticated
     current_user = request.user
     if not current_user.is_authenticated:
