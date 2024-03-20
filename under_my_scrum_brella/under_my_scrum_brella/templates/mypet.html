@@ -104,7 +104,10 @@
 //Bar gets updated each time page is loaded
 //function written by Luke Clarke 
 function updateHappinessBar() {
+        console.log("Updating ");
+        console.log("{{ user_details.buddy_happiness }}");
         var buddyHappiness = parseFloat("{{ user_details.buddy_happiness }}")*100; //stored as percentage
+        console.log(buddyHappiness);
 
         var happinessBar = document.getElementById("happiness-bar");
         happinessBar.style.width = buddyHappiness + "%";

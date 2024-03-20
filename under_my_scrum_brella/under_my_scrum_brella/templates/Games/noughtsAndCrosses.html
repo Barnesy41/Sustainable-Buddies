@@ -152,7 +152,6 @@ window.onload = displayImages;
 
 <script>
     //TODO: Randomly choose which player starts first
-    //TODO: Wait a second before computer takes turn
     //TODO: Refine checking for diagonals
     //TODO: Add option to restart game
     //TODO: Make computer not random
@@ -184,13 +183,13 @@ window.onload = displayImages;
                 //Switches to the next player
                 if (player == "O" && status == "playing") {
                     player = "X";
-                    computerTurn();
+                    setTimeout(computerTurn, 1000); //Computer waits a second before making turn
                 }
                 else if (player == "X" && status == "playing") {
                     player = "O";
                 }
             }
-            
+
         }
     }
 
