@@ -86,6 +86,7 @@
    </div>
 </div>
 
+<!--Shows items relevant information about selected item-->
 <script>
    function openPopup(id) {
       const data = document.querySelector("#i" + id);
@@ -95,7 +96,6 @@
       document.getElementById("itemDescription").innerText = data.dataset.itemDescription;
       document.getElementById("itemPrice").innerText = data.dataset.itemCost;
       document.getElementById("idInput").value = id;
-      //also may need code for if the item is already purchased
    }
 
    function closePopup() {
