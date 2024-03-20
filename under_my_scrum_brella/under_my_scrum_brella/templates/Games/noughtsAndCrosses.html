@@ -36,6 +36,12 @@
     h2 {
         margin-top: 25px;
     }
+    
+    #winButton {
+    display: flex;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+}
 </style>
 
 <!-- the below style tag was written by Ollie Barnes -->
@@ -146,13 +152,16 @@ window.onload = displayImages;
 </div>
 
 <h2 id="winBanner">Congratulations! Game has been won!</h2>
+<div id="winButton" style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
+    <a href="{% url 'noughtsAndCrosses' %}" class="login-btn">Play Again</a>
+</div>
+
 <br>
 <br>
 <br>
 
 <script>
     //TODO: Randomly choose which player starts first
-    //TODO: Refine checking for diagonals
     //TODO: Add option to restart game
     //TODO: Make computer not random
 
@@ -164,6 +173,9 @@ window.onload = displayImages;
         //Hides the congratulations message
         var winBanner = document.getElementById("winBanner");
         winBanner.style.display = "none";
+
+        var winButton = document.getElementById("winButton");
+        winButton.style.display = "none";
 
         status = "playing";
     }
@@ -310,6 +322,8 @@ window.onload = displayImages;
         status = "end";
 
         var winBanner = document.getElementById("winBanner");
+        var winButton = document.getElementById("winButton");
+
         //If the user wins
         if (player == "O") {
             winBanner.innerHTML = "Congratulations! Game has been won!";
@@ -332,6 +346,7 @@ window.onload = displayImages;
             //End of Ellie Andrews code
         }
         winBanner.style.display = "block";
+        winButton.style.display = "flex";
     }
 
     startGame();

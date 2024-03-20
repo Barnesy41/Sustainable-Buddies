@@ -132,8 +132,6 @@ def updateHappiness(user, happinessToAdd):
             user_details.buddy_happiness = 0
         else:
             user_details.buddy_happiness = newHappiness
-
-        print("happiness here: " + str(user_details.buddy_happiness))
         
         return user_details
 
@@ -150,18 +148,12 @@ def decayHappiness(request):
         current_time = timezone.now()
         time_elapsed = (current_time - user_details.last_happiness_decay_time).total_seconds()
 
-        print("user authenticated")
-
         #decays happiness after set time has passed
         if (time_elapsed > secondsToDecay):
             time_segments_elapsed = int(time_elapsed//secondsToDecay)
             decayValue = time_segments_elapsed * decayPerIncrement
 
-            print(time_elapsed)
-            print(time_segments_elapsed)
-            print("decay by: " + str(decayValue))
             user_details = updateHappiness(currentUser, -decayValue)
             user_details.last_happiness_decay_time = current_time
-            print("happiness: " + str(user_details.buddy_happiness))
             user_details.save()
             
