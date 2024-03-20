@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Silas Turner
-#   Contributors: Ollie Barnes, Ellie Andrews, Jack Bundy, Luke Clarke, Oliver Fitzgerald
+#   Contributors: Ollie Barnes, Ellie Andrews, Jack Bundy, Luke Clarke
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -10,13 +10,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.core.exceptions import ValidationError
-from django.contrib.auth.password_validation import validate_password
 from .models import UserDetail, Friend
-from tasks.models import Task, UserTask
-from items.models import UserItem, Item
-
-import random
+from .models import UserDetail
 
 
 # Create your views here.
@@ -47,23 +42,11 @@ def signup_user(request):
         email = request.POST['email']
         new_buddy_name = request.POST['buddyName']
         new_buddy_type = request.POST['buddyType']
-        
-        # Validate the password
-        try:
-            validate_password(password)
-        except ValidationError as e:
-            messages.success(request, "Password does not meet minimum requirements: a capital, a symbol, a lowercase letter, a number, a minimum of 6 characters.")
-            return redirect('signup')
-            
         try: #Try and create a new user
             new_user = User.objects.create_user(username, email, password)
             new_user.save()
             userdetail = UserDetail(user=new_user, buddy_name=new_buddy_name, buddy_type=new_buddy_type)
             userdetail.save()
-            
-            # Assign a set of tasks to the user by default
-            assign_default_tasks(new_user)
-            
         except: #If fails then user already exists
             messages.success(request, "Username taken try again")
             return redirect('signup')
@@ -167,30 +150,15 @@ def account(request):
     # If they try to edit a pass/email:
     # ^^ Even if activated when from someone elses it would only change their own
     # Even though you should not be able to anyway
-
-    # Oliver Fitzgerald
-    # adds the items worn by the user to the context
-    user=request.user
-    worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
-    index_array = [user_item.item.item_index for user_item in worn_user_items]
-
     context = {
         'user_details': user_details, 
         'viewed_user': user_details, 
-        'index_array':index_array,
     }
     if request.method == "POST":
         if "changePass" in request.POST:
             old_pass = request.POST["old_pass"]
             new_pass = request.POST["new_pass"]
             repeat_pass = request.POST["new_pass_repeat"]
-            
-            # Validate the password
-            try:
-                validate_password(new_pass)
-            except ValidationError as e:
-                messages.success(request, "Password does not meet minimum requirements: a capital, a symbol, a lowercase letter, a number, a minimum of 6 characters.")
-                return redirect('account')
 
             if authenticate(request, username=user_details.user.username, password=old_pass) is not None:
                 if new_pass == repeat_pass:
@@ -211,24 +179,15 @@ def account(request):
         context = {
             'user_details': user_details, 
             'viewed_user': user_details, 
-            'index_array':index_array,
         }
 
     # View of someone elses account
     elif request.method == "GET" and 'userId' in request.GET:
         viewed_user = get_object_or_404(UserDetail, pk=request.GET["userId"])
-
-        # Oliver Fitzgerald 
-        # gets worn items of viewed user 
-        v_user = get_object_or_404(User, pk=request.GET["userId"])
-        worn_user_items = UserItem.objects.filter(user=v_user, is_worn=True)
-        index_array = [user_item.item.item_index for user_item in worn_user_items]
-
         # Overrides the default from above
         context = {
             'user_details': user_details, 
             'viewed_user': viewed_user,
-            'index_array':index_array,
         }
 
     # It is a regular page view of the account owner
@@ -236,6 +195,7 @@ def account(request):
     
         
 # The leaderboard function below was written by Ollie Barnes & Ellie Andrews
+#TODO: ensure admins arent included in the list of users?
 def leaderboard(request):
     #Redirect the user to the login page if they are not signed in
     currentUser = request.user
@@ -317,83 +277,3 @@ def decayHappiness(request):
             updateHappiness(currentUser, -decayValue)
             user_details.last_happiness_decay_time = current_time
             
-
-###########################################################################
-#   This function ensures that the user is assigned a set of default tasks
-#   upon account creation. If there are no tasks to assign, a set of
-#   pre-designed tasks will be created and assigned
-#
-#   :param user_obj: the user id to assign the default tasks to
-#   Author: Ollie Barnes
-###########################################################################
-def assign_default_tasks(user):
-    #If there are no tasks in the database, create some to assign
-    num_tasks_in_db = Task.objects.count()
-    if num_tasks_in_db == 0:
-        create_default_tasks()
-    
-    # Retrieve the ids of the tasks to assign
-    default_task_objs = get_default_tasks()
-
-    # Assign each task to the user
-    for task in default_task_objs:
-        UserTask.objects.create(completion_status=0, task_id=task, user_id=user)
-
-
-###########################################################################
-#   This function gets a set of tasks to assign a new user by randomly
-#   selecting up to 3 tasks that exist in the database. It returns the set
-#   of task objects.
-#
-#   :return default_task_objs: the set of default task objects 
-#   Author: Ollie Barnes
-###########################################################################
-def get_default_tasks():
-    num_tasks_in_db = Task.objects.count()
-    all_task_objs = list(Task.objects.all())
-    
-    MAX_NUM_DEFAULT_TASKS = 3
-    default_task_objs = []
-    
-    # Only loop while there are tasks available and less than the maximum number to set
-    while len(default_task_objs) < MAX_NUM_DEFAULT_TASKS and len(default_task_objs) < num_tasks_in_db:
-        # Select a random task, and remove as an option to select again
-        task_obj = random.choice(all_task_objs)
-        all_task_objs.remove(task_obj)
-        
-        default_task_objs.append(task_obj)        
-    
-
-    return default_task_objs
-
-
-###########################################################################
-#   This function creates a pre-determined set of tasks
-#
-#   Author: Ollie Barnes
-#
-#   Contributor: Ellie Andrews
-###########################################################################
-def create_default_tasks():
-    # Create a ist containing default task details in the form:
-    # [[task name, task description, difficulty level, coin reward, xp reward], ...]
-    default_tasks = [   
-                        ["Recycle a plastic bottle!","Make sure to put it in the correct bin!", "Easy", 50, 100],
-                        ["Buy a coffee in a reusable cup!", "Lots of coffee shops will offer a discount too!", "Medium", 100, 150],
-                        ["Walk to campus", "Reduce your emissions by traveling on foot!", "Easy", 50, 200]
-                    ]
-    
-    default_qr_code_tasks = [
-        ["Cycle to campus!", "Scan the QR code on the bike rack to complete the task!", "Medium", 100, 200, "bikerack", 50.737489464168995, -3.5344444340166734, 5],
-        ["Recycle some rubbish!", "Scan the QR code on the recycling bin to complete the task!", "Easy", 50, 150, "recyclingbin", 50.737489464168995, -3.5344444340166734, 5],
-        ["Read some articles on sustainability!", "Scan the QR code in the library to complete the task!", "Medium", 150, 100, "library", 50.737489464168995, -3.5344444340166734, 5],
-    ]
-    
-    for task in default_tasks:
-        Task.objects.create(TaskName=task[0], Description=task[1], DifficultyLevel=task[2], CoinReward=task[3], XpReward=task[4])
-
-    for task in default_qr_code_tasks:
-        Task.objects.create(TaskName=task[0], Description=task[1], DifficultyLevel=task[2], CoinReward=task[3], XpReward=task[4], QrData=task[5], GeoLat=task[6], GeoLong=task[7], GeoRange=task[8])
-
-    
-

@@ -67,49 +67,13 @@
  </style>
 <!-- end of Ollie Barnes styling -->
 
-<script>        
-    // Function to display Buddy with items 
-    function displayImages() {
-        const wardrobeItems = [
-            "{% static 'items/binhatitem.png' %}",
-            "{% static 'items/glassesitem.png' %}",
-            "{% static 'items/goldmedalitem.png' %}",
-            "{% static 'items/rubiishpickeritem.png' %}",
-            "{% static 'items/waterbottleitem.png' %}",
-            "{% static 'items/partyhatitem.png' %}",
-            "{% static 'items/picnicbasketitem.png' %}",
-            "{% static 'items/teddybearitem.png' %}",
-            "{% static 'items/dressitem.png' %}",
-            "{% static 'items/suititem.png' %}",
-        ];
-        const index_array = JSON.parse('{{ index_array|escapejs }}');
-        console.log("items that should be worn "+index_array);
-        const container = document.getElementById('buddy-container');
-        index_array.forEach((item, index) => {
-        const img = document.createElement('img');
-        img.src = wardrobeItems[item];
-        img.alt = `Wardrobe Item ${index + 1}`;
-        img.classList.add('absolute-image');
-        img.style.height = '300px';
-        img.style.width = '300px';
-        container.appendChild(img);
-    });
-}
-window.onload = displayImages;
-</script>
 
 <h1>Noughts and Crosses</h1>
 
 <!-- Code written by Ellie Andrews, Ollie Barnes - minor CSS changes -->
 <!-- This code displays when on larger devices, ensuring items fit correctly on the page -->
 <div class="desktop-responsive-container" style="justify-content: center; display: flex; align-items: center;">
-    <div style="height:300px;width:300px;">
-        <div class="outer-buddy-containter">
-            <div class="centered-container" style="height: 300px;">
-                <div id="buddy-container">
-                    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="absolute-image">
-    </div></div></div></div>
-
+    <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" style="height:300px;width:auto;">
     <div class="speech-bubble-container">
         <img src="{% static 'assets/speech bubble.png' %}" class = "speech-bubble">
         <div class="text-on-speech-bubble" id="speech-text">Let's play a game!</div>
