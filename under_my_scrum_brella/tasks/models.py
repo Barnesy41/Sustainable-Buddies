@@ -1,6 +1,6 @@
 ###########################################################################
 #   Author: Luke Clarke
-#   Contributors: Ollie Barnes, Jack Bundy
+#   Contributors: Ollie Barnes
 #
 #   The author has written all code in this file unless stated otherwise.
 ###########################################################################
@@ -15,11 +15,6 @@ class Task(models.Model):
     DifficultyLevel = models.CharField(max_length=10)
     CoinReward = models.IntegerField(default=0)
     XpReward = models.IntegerField(default=0)
-
-    QrData = models.CharField(max_length=256, null=True, unique=True, blank=True) # Should be a hash of some kind. If empty then not a QR task
-    GeoLat = models.FloatField(default=50.737489464168995) # 50.737489464168995, -3.5344444340166734 : Location of exeter uni
-    GeoLong = models.FloatField(default=-3.5344444340166734)
-    GeoRange = models.IntegerField(default=5) # Range in km
 
     def __str__(self):
         return self.TaskName
@@ -46,6 +41,3 @@ class UserTask(models.Model):
 class GroupTask(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    
-    class Meta:
-        unique_together = ['group', 'task']

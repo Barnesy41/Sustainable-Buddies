@@ -128,23 +128,30 @@
             displayError("No username input!", "Please input a username in the input field below");
             event.preventDefault(); // Stop form from being submitted
         }
-        if (!email) {
+        else if (!email) {
             displayError("No email input!", "Please input an email in the input field below.");
             event.preventDefault();
         }
-        if (!isValidEmail(email)) {
+        else if (!isValidEmail(email)) {
             displayError("Invalid email!", "Please input a valid email in the input field below. e.g. john@emailProvider.com");
             event.preventDefault();
         }
-        if (!buddyName) {
+        else if (!password) {
+            displayError("No password input!", "Please input a password in the input field below.");
+            event.preventDefault();
+        }
+        else if (password != confirmedPassword) {
+            displayError("Passwords don't match!", "Please ensure that your password & confirmed password are the same.");
+            event.preventDefault();
+        }
+        else if (!buddyName) {
             displayError("No buddy name input!", "Please give your sustainable buddy a name in the input field below.");
             event.preventDefault();
         }
-        if (!buddyType) {
+        else if (!buddyType) {
             displayError("No buddy type selected!", "Please select a buddy type from the drop-down list below.");
             event.preventDefault();
         }
-        validatePassword(password, confirmedPassword);
 
     });
 
@@ -156,42 +163,6 @@
     function isValidEmail(email) {
         var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
-    }
-
-    
-    /**
-        This function performs basic password validation, and throws a display error and prevents the 
-        password field being submit if the password is found to now be valid.
-    **/
-    function validatePassword(password, confirmedPassword) {
-        if (!password) {
-            displayError("No password input!", "Please input a password in the input field below.");
-            event.preventDefault();
-        }
-        if (password != confirmedPassword) {
-            displayError("Passwords don't match!", "Please ensure that your password & confirmed password are the same.");
-            event.preventDefault();
-        }
-        if (password.length < 6){
-            displayError("Passwords too short!", "Please ensure that your password has at least 6 characters.");
-            event.preventDefault();
-        }
-        if (!/[A-Z]/.test(password)) {
-            displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one uppercase letter.");
-            event.preventDefault();
-        }
-        if (!/[a-z]/.test(password)) {
-            displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one lowercase letter.");
-            event.preventDefault();
-        }
-        if (!/[0-9]/.test(password)) {
-            displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one number.");
-            event.preventDefault();
-        }
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one symbol (!@#$%^&*(),.?\":{}|<>)");
-            event.preventDefault();
-        }
     }
 
     
@@ -213,12 +184,8 @@
         errorFixMsgField = document.getElementById("error_fix_msg");
         errorFixMsgField.innerText = errorFixMsg;
 
-        //Show the error box
-        errorBox = document.getElementById("error_box")
-        errorBox.classList.add("show");
-
-        // Force the user to focus on the error message
-        errorBox.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
+        //Show the alert box
+        document.getElementById("error_box").classList.add("show");
     }
 </script>
 {% endblock content %}

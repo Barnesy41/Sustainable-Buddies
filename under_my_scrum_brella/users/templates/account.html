@@ -4,51 +4,11 @@
   <!--
   ###########################################################################
   #   Author: Jack Bundy
-  #   Contributors: Ellie Andrews, Ollie Barnes, Oliver Fitzgerald
+  #   Contributors: Ellie Andrews, Ollie Barnes
   #
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
   -->
-<style>
-  .absolute-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* Maintain image aspect ratio while covering the container */
-}
-</style>
-
-  <script>        
-    // Function to display Buddy with items 
-    function displayImages() {
-        const wardrobeItems = [
-            "{% static 'items/binhatitem.png' %}",
-            "{% static 'items/glassesitem.png' %}",
-            "{% static 'items/goldmedalitem.png' %}",
-            "{% static 'items/rubiishpickeritem.png' %}",
-            "{% static 'items/waterbottleitem.png' %}",
-            "{% static 'items/partyhatitem.png' %}",
-            "{% static 'items/picnicbasketitem.png' %}",
-            "{% static 'items/teddybearitem.png' %}",
-            "{% static 'items/dressitem.png' %}",
-            "{% static 'items/suititem.png' %}",
-        ];
-        const index_array = JSON.parse('{{ index_array|escapejs }}');
-        console.log("items that should be worn "+index_array);
-        const container = document.getElementById('buddy-container');
-        index_array.forEach((item, index) => {
-        const img = document.createElement('img');
-        img.src = wardrobeItems[item];
-        img.alt = `Wardrobe Item ${index + 1}`;
-        img.classList.add('absolute-image');
-        container.appendChild(img);
-    });
-}
-window.onload = displayImages;
-</script>
 
 <!-- The below code is written by Ollie Barnes -->
 <!-- display error message if required - hidden by default -->
@@ -147,24 +107,15 @@ window.onload = displayImages;
                                 <form action="../friends/" method=POST>
                                 {% csrf_token %}
                                 <input type="text" id="friend_username" value="{{viewed_user.user.username}}" name="friend_username" hidden>
+                                <button name="add" class="btn btn-primary btn-block loginpage-btn">Add Friend</button>
                                 </form>
                             </li>
 
                             {% endif %}
                             <li class="list-group-item">
                                 <p style="color: #2c7774;">Buddy : {{viewed_user.buddy_name}}</p>
-                                <div class="d-flex justify-content-center">
-                                    <!--Oliver Fitzgerald - div below-->
-                                    <!-- Displays the buddy of the user you are viewing  -->
-                                    <div class="outer-buddy-containter">
-                                        <div class="centered-container" style="height: 150px; ">
-                                            <div id="buddy-container">
-                                            <img src="{% static 'under_my_scrum_brella/'%}{{viewed_user.buddy_type}}.png" class="absolute-image">
-                                    </div></div></div>
-
-                                    <!--<img src="{% static 'under_my_scrum_brella/'%}{{viewed_user.buddy_type}}.png" class="responsive-image">-->
-                                    
-                                </div>
+                                <div class="d-flex justify-content-center"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="responsive-image"></div>
+                                <!-- TODO -->
                             </li>
                             <li class="list-group-item"><p style="color: #2c7774;">Coins : {{viewed_user.total_coins}}</p></li>
                             <li class="list-group-item"><p style="color: #2c7774;">XP : {{viewed_user.total_xp}}</p></li>
@@ -178,6 +129,31 @@ window.onload = displayImages;
 </section>
 
 <script>
+let timer;
+
+function checkPassMatch() {
+    pass = document.getElementById("new_pass").value;
+    pass_repeat = document.getElementById("new_pass_repeat").value;
+    
+    if (pass !== pass_repeat && pass && pass_repeat) {
+        document.getElementById("passMatchAlert").removeAttribute("hidden");
+    } else {
+        document.getElementById("passMatchAlert").setAttribute("hidden", true);
+    };
+}
+
+document.getElementById("new_pass").addEventListener("keyup", () => {
+    clearTimeout(timer);
+    timer=setTimeout(checkPassMatch, 500); 
+    // Stops it from appearing as soon as you type
+    // It resets the timer with every keyup
+});
+document.getElementById("new_pass_repeat").addEventListener("keyup", () => {
+    clearTimeout(timer);
+    timer=setTimeout(checkPassMatch, 500);
+});
+
+
 document.getElementById("changePass").addEventListener("submit", function (event) {
     var old_pass = document.getElementById("old_pass").value;
     var pass = document.getElementById("new_pass").value;
@@ -188,11 +164,16 @@ document.getElementById("changePass").addEventListener("submit", function (event
         displayError("Current password not input!", "Please enter your current password below.","pwd");
         event.preventDefault(); // Stop form from being submitted
     }
-    else if (pass === old_pass) {
+    else if (!pass && !pass_repeat ) {
+        displayError("No new password entered!", "Please enter your new password in the new password fields below.", "pwd");
+        event.preventDefault();
+    } else if (pass != pass_repeat) {
+        displayError("Confirmed password does not match!", "Please ensure your new password matches your confirmed password.", "pwd");
+        event.preventDefault();
+    } else if (pass === old_pass) {
         displayError("New password cannot be the same as old password!", "Please enter a unique password in the new password field.", "pwd");
         event.preventDefault();
     }
-    validatePassword(event, pass, pass_repeat);
 });
 
 
@@ -225,43 +206,6 @@ function isValidEmail(email) {
     var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
-
-
-/**
-    This function performs basic password validation, and throws a display error and prevents the 
-    password field being submit if the password is found to now be valid.
-**/
-function validatePassword(event, password, confirmedPassword) {
-    if (!password) {
-        displayError("No password input!", "Please input a password in the input field below.", "pwd");
-        event.preventDefault();
-    }
-    if (password != confirmedPassword) {
-        displayError("Passwords don't match!", "Please ensure that your password & confirmed password are the same.", "pwd");
-        event.preventDefault();
-    }
-    if (password.length < 6){
-        displayError("Passwords too short!", "Please ensure that your password has at least 6 characters.", "pwd");
-        event.preventDefault();
-    }
-    if (!/[A-Z]/.test(password)) {
-        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one uppercase letter.", "pwd");
-        event.preventDefault();
-    }
-    if (!/[a-z]/.test(password)) {
-        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one lowercase letter.", "pwd");
-        event.preventDefault();
-    }
-    if (!/[0-9]/.test(password)) {
-        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one number.", "pwd");
-        event.preventDefault();
-    }
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-        displayError("Password does not meet minimum requirements!", "Please ensure that your password contains at least one symbol (!@#$%^&*(),.?\":{}|<>)", "pwd");
-        event.preventDefault();
-    }
-}
-
 
 /**
     This function is called to display a user-friendly error message to the user.
