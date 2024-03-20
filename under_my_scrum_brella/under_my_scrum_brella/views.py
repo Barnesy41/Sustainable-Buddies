@@ -15,6 +15,8 @@ from items.models import UserItem
 # Global for how much happiness increases upon task completion
 gameHappiness = 0.05
 
+GAME_COST = 10
+
 def home(request):
     if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
@@ -68,6 +70,7 @@ def games(request):
         context = {
             'user_details': user_details,
             'index_array':index_array,
+            'game_cost': GAME_COST,
             }
         return render(request, 'games.html', context)
     else:
@@ -79,18 +82,17 @@ def noughtsCrosses(request):
         return redirect('login')
     if request.user.is_superuser: #Check if user is superuser
         return redirect('/admin/')
-
-    gameCost = -10
+ 
     user = request.user
     user_details = get_object_or_404(UserDetail, pk=user.id)
 
     worn_user_items = UserItem.objects.filter(user=user, is_worn=True)
     index_array = [user_item.item.item_index for user_item in worn_user_items]
     
-    if user_details.total_coins + gameCost < 0:
+    if user_details.total_coins - GAME_COST < 0:
         messages.success(request, "Insufficient Funds")
         return redirect('games')
-    updateCoins(user, gameCost)
+    updateCoins(user, -GAME_COST)
     user_details_updated = get_object_or_404(UserDetail, pk=user.id)
     context = {'user_details': user_details_updated,
                'index_array':index_array,
@@ -98,7 +100,7 @@ def noughtsCrosses(request):
     completeGame(user)
     return render(request, 'Games/noughtsAndCrosses.html', context)
 
-#luke - used to add/subtract coins
+#Luke - used to add/subtract coins
 def updateCoins(user, coinsToAdd):
     if user.is_authenticated:
         user_details = get_object_or_404(UserDetail, pk=user.id)
