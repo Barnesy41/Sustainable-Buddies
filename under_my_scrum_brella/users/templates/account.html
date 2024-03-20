@@ -95,11 +95,11 @@ window.onload = displayImages;
 
                                                         {% csrf_token %}
                                                         <div class="form-group">
-                                                            <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass">
+                                                            <input type="password"class="form-control" id="old_pass" placeholder="Enter the old password" name="old_pass" novalidate>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" >
-                                                            <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" >
+                                                            <input type="password" class="form-control"id="new_pass" placeholder="New password" name="new_pass" novalidate>
+                                                            <input type="password" class="form-control"id="new_pass_repeat" placeholder="New password again" name="new_pass_repeat" novalidate>
                                                         </div>
                                                         <div id="error_box_pwd" class="alert alert-warning alert-dismissible fade" role="alert">
                                                             <strong id="error_msg_pwd"> <!-- error msg input here via javascript --> </strong>
@@ -111,7 +111,6 @@ window.onload = displayImages;
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     <button name="changePass" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
-                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -128,11 +127,10 @@ window.onload = displayImages;
                                         <div class="col">
                                             <div class="input-group">
 
-                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user_details.user.email }}" name="new_email" >
+                                                <input type="email"class="form-control" id="new_email" placeholder="{{ user_details.user.email }}" name="new_email" novalidate>
                                                 <input type="email" value="{{user.email}}" id="old_email" hidden>
 
                                             <div class="input-group-append">
-                                                <!-- <button class="btn btn-secondary" type="button" id="togglePassword">Show</button> -->
                                                 <button name="changeMail" type="submit" class="btn btn-primary btn-block loginpage-btn">Change</button>
                                             </div>
                                             </div>
@@ -161,8 +159,6 @@ window.onload = displayImages;
                                             <div id="buddy-container">
                                             <img src="{% static 'under_my_scrum_brella/'%}{{viewed_user.buddy_type}}.png" class="absolute-image">
                                     </div></div></div>
-
-                                    <!--<img src="{% static 'under_my_scrum_brella/'%}{{viewed_user.buddy_type}}.png" class="responsive-image">-->
                                     
                                 </div>
                             </li>
@@ -222,7 +218,7 @@ document.getElementById("changeMail").addEventListener("submit", ()=> {
     Author: Ollie Barnes
 **/
 function isValidEmail(email) {
-    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@.]+$/;
     return regex.test(email);
 }
 

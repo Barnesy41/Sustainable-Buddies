@@ -154,7 +154,7 @@
         @return true if the email is valid, false otherwise
     **/
     function isValidEmail(email) {
-        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var regex = /^[^\s@]+@[^\s@]+\.[^\s@.]+$/;
         return regex.test(email);
     }
 
