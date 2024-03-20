@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 
 from users.models import UserDetail
-from items.models import UserItem, Item
+from items.models import UserItem
 
 # Global for how much happiness increases upon task completion
 gameHappiness = 0.05
