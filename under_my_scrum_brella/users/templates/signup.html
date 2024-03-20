@@ -144,6 +144,14 @@
             displayError("No buddy type selected!", "Please select a buddy type from the drop-down list below.");
             event.preventDefault();
         }
+        if(username.length > 17) {
+            displayError("Username is too long!", "Please enter a username that is a maximum of 17 characters long");
+            event.preventDefault();
+        }
+        if(buddyName.length > 17) {
+            displayError("Buddy name is too long!", "Please enter a buddy name that is a maximum of 17 characters long");
+            event.preventDefault();
+        }
         validatePassword(password, confirmedPassword);
 
     });

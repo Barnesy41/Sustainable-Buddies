@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 
 class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    buddy_name = models.CharField(max_length=400)
-    buddy_type = models.CharField(max_length=400)
+    buddy_name = models.CharField(max_length=17)
+    buddy_type = models.CharField(max_length=50)
     total_coins = models.IntegerField(default=0)
     total_xp = models.IntegerField(default=0)
     #Luke - tracks happiness and when it needs to decay
@@ -36,7 +36,7 @@ class Friend(models.Model):
 #   Author: Ollie Barnes
 ################################################################
 class Group(models.Model):
-    group_name = models.CharField(max_length=100)
+    group_name = models.CharField(max_length=50)
     
     def __str__(self):
         return self.group_name
