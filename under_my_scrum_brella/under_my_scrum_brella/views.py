@@ -106,8 +106,17 @@ def updateCoins(user, coinsToAdd):
         user_details.total_coins = user_details.total_coins + coinsToAdd
         user_details.save()
 
+#Ellie Andrews - loads privacy page
 def privacy(request):
-    return render(request, 'privacy.html')
+    user = request.user
+    if user.is_authenticated: #If user is logged in add user details to context
+        user_details = get_object_or_404(UserDetail, pk=user.id)
+        context = {
+            'user_details': user_details
+            }
+        return render(request, 'privacy.html', context)
+    else:
+        return render(request, 'privacy.html')
 
 #Ellie Andrews - adds buddy happiness for playing games with buddy
 def completeGame(user_id):

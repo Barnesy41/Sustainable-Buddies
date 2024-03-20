@@ -275,11 +275,16 @@ def leaderboard(request):
 
 #Ellie Andrews
 def social(request):
-    if not request.user.is_authenticated: #Check if user is logged in
+    user = request.user
+    if user.is_authenticated: #If user is logged in add user details to context
+        user_details = get_object_or_404(UserDetail, pk=user.id)
+        context = {
+            'user_details': user_details
+            }
+        return render(request, 'social.html', context)
+    else:
         messages.success(request, "Please login first")
         return redirect('login')
-    else:
-        return render(request, 'social.html')
 
 #Luke Clarke - used to update happiness and ensure it does not exceed 1
 def updateHappiness(user, happinessToAdd):
