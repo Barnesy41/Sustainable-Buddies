@@ -27,3 +27,16 @@ We have 4 apps:
 - Item: shop, wardrobe
 - Task: tasks 
 Each app contains the relevant models to store data 
+
+
+# How should you use this project?
+Our project is set up for three types of users:
+- Players
+- Game keepers
+- Developers
+
+Players are the primary consumer of Sustainable Buddies, they are the users who create an account, choose a buddy, complete sustainable tasks and interact with their buddy.
+
+Game keepers are the consumer responsible for distributing a version of Sustainable Buddies to their own set of players. They will have the ability to manage players' accounts and create and set tasks. They can access these features through an admin panel.
+
+Developers are able to build, extend and redeploy the app for future and alternative uses via this GitHub repository.

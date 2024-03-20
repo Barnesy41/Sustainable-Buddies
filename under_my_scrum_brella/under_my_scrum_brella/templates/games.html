@@ -23,17 +23,13 @@
         <img src="{% static 'under_my_scrum_brella/' %}{{user_details.buddy_type}}.png" class="absolute-image">
 </div></div></div>
 
-<div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
-    <a href="{% url 'noughtsAndCrosses' %}" class="login-btn">Noughts and Crosses</a>
+<div>
+    <h2 style="font-size: 18px;">Cost: {{ game_cost }} EcoCoins</h2>
+    <h2 style="font-size: 18px;">Do you want to play?</h2>
 </div>
 
 <div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
-    <a href="{% url 'games' %}" class="login-btn">Pong</a>
-</div>
-
-<div style="justify-content: center; display: flex;" class="buttons" id="login-buttons">
-    <a href="{% url 'games' %}" class="login-btn">21</a>
-</div>
+    <a href="{% url 'noughtsAndCrosses' %}" class="login-btn">Play
 
 <script>        
     // Function to display buddy with items on the page
