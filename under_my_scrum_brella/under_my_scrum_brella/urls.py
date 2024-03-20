@@ -36,4 +36,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-# urlpatterns += staticfiles_urlpatterns() # Does the same thing?
