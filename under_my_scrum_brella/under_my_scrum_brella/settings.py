@@ -26,7 +26,7 @@ print("BASE_DIR:", BASE_DIR)
 SECRET_KEY = 'django-insecure-(n%n9a%sv@lqb3k)!imob5x-3r(drx3xep91)4tedn6s*f9+$r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['34.91.11.112', '.localhost', '127.0.0.1', '[::1]', 'scrumbrella.duckdns.org']
 
