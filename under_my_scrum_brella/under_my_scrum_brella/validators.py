@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 import re
 
 def validate_password(password):
-    ''' This function checks that a given password is valid. 
+    ''' 
+        This function checks that a given password is valid. 
         :param password: the password to validate
     '''
     
