@@ -10,7 +10,7 @@ from users.models import Group
 from users.models import User
 
 class Task(models.Model):
-    TaskName = models.CharField(max_length=200)
+    TaskName = models.CharField(max_length=50)
     Description = models.CharField(max_length=400)
     DifficultyLevel = models.CharField(max_length=10)
     CoinReward = models.IntegerField(default=0)

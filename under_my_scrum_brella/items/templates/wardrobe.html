@@ -10,7 +10,7 @@
   #   The author has written all code in this file unless stated otherwise.
   ###########################################################################
   -->
-  <!-- TODO: add css to style sheet -->
+ 
 
 <style>
     body {
@@ -35,7 +35,6 @@
         position: relative;
         /* border: 2px solid #333; */
         box-sizing: border-box;
-        /* Include border in total width and height */
     }
 
     .absolute-image {
@@ -52,17 +51,13 @@
         width: 100%;
         /* border: 2px solid #333;  */
         box-sizing: border-box;
-        /* Include border in total width and height */
         padding: 20px;
-
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        /* Center the buttons horizontally */
         align-items: center;
-        /* Center the buttons vertically */
         gap: 20px;
-        /* Add some spacing between buttons */
+
     }
 
     .wardrobe-button {
@@ -107,12 +102,11 @@
     const allImages = ['item-1-image','item-2-image','item-3-image','item-4-image','item-5-image',
     'item-6-image','item-7-image','item-8-image','item-9-image','item-10-image']
     const allButtons = ['item-1','item-2','item-3','item-4','item-5',
-    'item-6','item-7','item-8','item-9','item-10']
-    // for testing remove items 6-10 if they are not availble in the shop yet 
+    'item-6','item-7','item-8','item-9','item-10'] 
     
     const owned_items_array = JSON.parse('{{ user_items|escapejs }}');
 
-
+    // sets item by toggling the image and saving the items ready for the user to save changes 
     function setItem(itemNum, itemID, buttonID) {
         latestValue = itemNum;
         toggleImage(itemNum, itemID, buttonID);
@@ -121,16 +115,18 @@
 
     // toggleImage adds an item to the buddy in the centre of the screen when a button is pressed 
     // this will also store in the itemList array the current items for when the user saves the items 
+    // toggle the highlights on the buttons as well 
     function toggleImage(itemNum, itemID, buttonID) {
-
         const image = document.getElementById(itemID);
         var buttonToChange = document.getElementById(buttonID);
 
+        // if the item is not displayed then it is then displayed and the button is highlighted 
         if (image.style.display === 'none' || image.style.display === '') {
             image.style.display = 'block';
             itemList.push(itemNum);
             buttonToChange.style.borderColor = "#ffbf00";
         } else {
+            // if button is displayed then it is hidden and the button is unhighlighted 
             image.style.display = 'none';
             const index = itemList.indexOf(itemNum);
             if (index !== -1) {
@@ -149,63 +145,10 @@
     function saveItems()
     {
         document.getElementById('input-value').value = itemList.join(',');
-        //displayBuddyWithItems(itemList)
-    }
-
-    // hard coded function for displaying buddy with certain items - phased out 
-    function displayBuddyWithItems(integers) {
-        const imageContainer = document.getElementById('imageContainer');
-
-        // Loop through the array of integers
-        for (const integer of integers) {
-            // Create an image element
-            const image = document.createElement('img');
-
-            // Set the source of the image based on the integer
-            switch (integer) {
-                case 1:
-                    image.src = "{% static 'items/binhatitem.png' %}";
-                    break;
-                case 2:
-                    image.src = "{% static 'items/glassesitem.png' %}";
-                    break;
-                case 3:
-                    image.src = "{% static 'items/goldmedalitem.png' %}";
-                    break;
-                case 4:
-                    image.src = "{% static 'items/rubiishpickeritem.png' %}";
-                    break;
-                case 5:
-                    image.src = "{% static 'items/waterbottleitem.png' %}";
-                    break;
-                case 6:
-                    image.src = "{% static 'items/partyhatitem.png' %}";
-                    break;
-                case 7:
-                    image.src = "{% static 'items/picnicbasketitem.png' %}";
-                    break;
-                case 8:
-                    image.src = "{% static 'items/teddybearitem.png' %}";
-                    break;
-                case 9:
-                    image.src = "{% static 'items/dressitem.png' %}";
-                    break;
-                case 10:
-                    image.src = "{% static 'items/suititem.png' %}";
-                    break;
-
-                default:
-                    break;
-            }
-
-            image.classList.add('absolute-image');
-
-            // Append the image to the container
-            imageContainer.appendChild(image);
-        }
     }
 
     // function that clears the buddys items in the array and on screen 
+    // also clears the worn items by changing the input to empty 
     function clearBuddyWithItems() {
         itemList.length = 0;
         for (let i = 0; i < allImages.length; i++) {
@@ -218,7 +161,7 @@
         document.getElementById('input-value').value = '';
     }
 
-    // paths to item images
+    // paths to item images - this format cannot be stored in the db unfortunetely 
     const wardrobeItems = [
             "{% static 'items/binhatitem.png' %}",
             "{% static 'items/glassesitem.png' %}",
@@ -235,15 +178,17 @@
 
         // Function to display Buddy with items, data from is_worn in the UserItem model 
         function displayImages() {
+            // gets the arrays of items owned and 
             const item_array = JSON.parse('{{ item_array|escapejs }}');
-            const index_test = JSON.parse('{{ index_array|escapejs }}');
-            console.log("items that should be worn "+index_test);
+            const index_item_array = JSON.parse('{{ index_array|escapejs }}');
+            // prints to console for development 
+            console.log("items that should be worn "+index_item_array);
             console.log("new item " + item_array);
-            
             
             const container = document.getElementById('wardrobe-container');
 
-            index_test.forEach((item, index) => {
+            // sets the items 
+            index_item_array.forEach((item, index) => {
                 const img = document.createElement('img');
                 img.src = wardrobeItems[item];
                 img.alt = `Wardrobe Item ${index + 1}`;
@@ -252,14 +197,12 @@
             });
         }
 
-        // Call the displayImages function when the page loads
-        // currently do not want to run this 
-        //window.onload = displayImages;
-
+        // dynamically displays all of the items that account owns so that they can equip them to their buddy
         function loadOwnedItemButtons() {
             console.log("items owned by the user:",owned_items_array);
             console.log("all item buttons: ", allButtons);
             
+            // hides all of the buttons initially 
             for (var j = 0; j < allButtons.length; j++) {
                 var value_hide = allButtons[j];
                 console.log("hiding value: ",value_hide);
@@ -274,6 +217,7 @@
                 }
             }
             
+            // loops through the owned items and displays the buttons to the screen 
             for (var i = 0; i < owned_items_array.length; i++) {
                 var value = owned_items_array[i];
                 console.log("dispaying item: "+(value + 1));
@@ -287,9 +231,12 @@
                     console.log("Not found.");                    
                 }
             }
+            // calls function to show worn items on the centre buddy
             loadWornItems()
     }
 
+    // displays the items currently worn by the buddy on the screen
+    // sets the status of the buttons to highlighted for worn items 
     function loadWornItems()
     {
         const index_array = JSON.parse('{{ index_array|escapejs }}');
@@ -303,11 +250,12 @@
             button_to_show.style.borderColor = "#ffbf00"
             itemList = index_array;
             console.log(itemList);
+            // sets the array of worn items intially 
             saveItems()
         })
-        
-    }
 
+    }
+        // runs the load functions after the information has been retrieved from the database via the view 
         window.onload = loadOwnedItemButtons
         
 
@@ -334,11 +282,6 @@
             <img id="item-8-image" src="{% static 'items/teddybearitem.png' %}" class="item-image">
             <img id="item-9-image" src="{% static 'items/dressitem.png' %}" class="item-image">
             <img id="item-10-image" src="{% static 'items/suititem.png' %}" class="item-image">
-            <!--
-                todo 
-                order of loading
-                suit, dress, bin, party, basket, bottle, teddy, picker,glasses, medal 
-            -->
 
         </div>
     </div>
@@ -347,7 +290,7 @@
 <p>Click items to add or remove them from your Buddy. Hover over a button to see the name of the item</p>
 
 
-<!--development area for testing the dynamic buttons-->
+<!--dynamic buttons for items-->
 <div class="full-width-container">
     
     <button id="item-1" title="Bin Hat" class="wardrobe-button" onclick="setItem(0, 'item-1-image', 'item-1')">
@@ -387,18 +330,11 @@
 <form method="post" action="{% url 'wardrobe' %}">
     {% csrf_token %}
     
-    <!-- Example: Passing an array of integers [1, 2, 3] -->
+    <!-- will pass the value to the view - this is the array of items to be worn, the view will update the db -->
     <input id="input-value" type="hidden" name="selected_indices" value="">
     <button type="submit" class="wardrobe-button">Save Changes</button>
 </form>
 </div>
-
-<!-- test to display the buddy with items 
-<div class="centered-container">
-    <div id="imageContainer">
-        <div id="wardrobe-container"><img src="{% static 'under_my_scrum_brella/'%}{{user_details.buddy_type}}.png" class="absolute-image"></div>
-</div>
--->
 
 </body>
 
