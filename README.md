@@ -44,4 +44,5 @@ Developers are able to build, extend and redeploy the app for future and alterna
 
 # Coursework Results
 This coursework achieved 80% in sprint 1, the main feedback being an improvement in the compliance with GDPR
+
 Awaiting results for sprint 2
