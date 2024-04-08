@@ -40,3 +40,8 @@ Players are the primary consumer of Sustainable Buddies, they are the users who 
 Game keepers are the consumer responsible for distributing a version of Sustainable Buddies to their own set of players. They will have the ability to manage players' accounts and create and set tasks. They can access these features through an admin panel.
 
 Developers are able to build, extend and redeploy the app for future and alternative uses via this GitHub repository.
+
+
+# Coursework Results
+This coursework achieved 80% in sprint 1, the main feedback being an improvement in the compliance with GDPR
+Awaiting results for sprint 2
